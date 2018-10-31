@@ -25,11 +25,11 @@ Factory.delete_all
 Production.delete_all
 Material.delete_all
 
-# fuel = Material.create(name: 'fuel', weigth: 1)
+fuel = Material.create(name: 'fuel', weigth: 1, is_output: true)
 
-fuel_factory = Factory.new(name: 'Gas alpha', altitude: 5, type: Factory.types[:fuel], parent_object: sun_p3, time: 50)
-matery_factory = Factory.new(name: 'Einstein', altitude: 5, type: 'matery', parent_object: sun_p2)
-construction_factory = Factory.new(name: 'Wrench', altitude: 30, type: :construction, parent_object: sun_p1)
+fuel_factory = Factory.new(name: 'Gas alpha', altitude: 5, parent_object: sun_p3, step_progress: 51)
+matery_factory = Factory.new(name: 'Einstein', altitude: 5, parent_object: sun_p2)
+construction_factory = Factory.new(name: 'Wrench', altitude: 30, parent_object: sun_p1)
 
 fuel_factory.productions.create(type: :output, amount: 1, time: 10, material: fuel)
 SolarSystem.delete_all

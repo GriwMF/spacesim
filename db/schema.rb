@@ -18,7 +18,6 @@ ActiveRecord::Schema.define(version: 2018_10_30_055128) do
   create_table "celestial_objects", force: :cascade do |t|
     t.bigint "parent_object_id"
     t.string "name"
-    t.integer "type"
     t.integer "altitude"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -27,11 +26,10 @@ ActiveRecord::Schema.define(version: 2018_10_30_055128) do
 
   create_table "factories", force: :cascade do |t|
     t.string "name"
-    t.integer "type"
-    t.integer "time"
+    t.integer "step_progress", limit: 2
     t.integer "altitude"
-    t.bigint "celestial_object_id"
     t.integer "progress", limit: 2, default: 0, null: false
+    t.bigint "celestial_object_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["celestial_object_id"], name: "index_factories_on_celestial_object_id"
@@ -45,9 +43,9 @@ ActiveRecord::Schema.define(version: 2018_10_30_055128) do
   end
 
   create_table "productions", force: :cascade do |t|
-    t.integer "type"
     t.bigint "material_id"
     t.bigint "factory_id"
+    t.boolean "is_output", default: false, null: false
     t.integer "amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -82,7 +80,7 @@ ActiveRecord::Schema.define(version: 2018_10_30_055128) do
     t.bigint "material_id"
     t.string "object_type"
     t.bigint "object_id"
-    t.integer "amount"
+    t.integer "amount", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["material_id"], name: "index_stocks_on_material_id"
