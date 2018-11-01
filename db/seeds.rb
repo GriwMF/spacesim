@@ -26,8 +26,8 @@ Production.delete_all
 Material.delete_all
 
 
-fuel_factory = Factory.new(name: 'Gas alpha', altitude: 5, parent_object: sun_p3, step_progress: 51)
-matery_factory = Factory.new(name: 'Einstein', altitude: 5, parent_object: sun_p2, step_progress: 10)
+fuel_factory = Factory.new(name: 'Gas alpha', altitude: 5, parent_object: sun_p3, speed: 51)
+matery_factory = Factory.new(name: 'Einstein', altitude: 5, parent_object: sun_p2, speed: 10)
 construction_factory = Factory.new(name: 'Wrench', altitude: 30, parent_object: sun_p1)
 
 fuel_factory.productions.create!(is_output: true, amount: 1, material: fuel)
@@ -37,7 +37,7 @@ fuel_factory.productions.create!(is_output: false, amount: 10, material: fuel)
 
 SolarSystem.delete_all
 hol = SolarSystem.create(name: 'Home of Light', celestial_object: sun, x: 0, y: 100, z: 50)
-cas = SolarSystem.create(name: 'Castor', x: -20, celestial_object: sun_castor, y: 10, z: 0)
+cas = SolarSystem.create(name: 'Castor', celestial_object: sun_castor, y: 10, z: 0, x: -20)
 eli = SolarSystem.create(name: 'Elite alpha', celestial_object: sun_century, x: 70, y: 10, z: -10)
 
 

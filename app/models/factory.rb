@@ -9,7 +9,7 @@ class Factory < ApplicationRecord
   def step
     input.with_lock do
       take_input_materials
-      self.progress += step_progress
+      self.progress += speed
       if progress > 100
         self.progress = 0
         create_output_materials
