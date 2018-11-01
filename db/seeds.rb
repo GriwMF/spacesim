@@ -7,9 +7,9 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 Material.delete_all
-Material.create(name: 'fuel')
-Material.create(name: 'titan')
-Material.create(name: 'weapon components')
+fuel = Material.create!(name: 'fuel', weigth: 1)
+titan = Material.create!(name: 'titan', weigth: 100)
+Material.create!(name: 'weapon components', weigth: 80)
 
 CelestialObject.delete_all
 sun = CelestialObject.create!(name: 'Sun')
@@ -25,13 +25,16 @@ Factory.delete_all
 Production.delete_all
 Material.delete_all
 
-fuel = Material.create(name: 'fuel', weigth: 1, is_output: true)
 
 fuel_factory = Factory.new(name: 'Gas alpha', altitude: 5, parent_object: sun_p3, step_progress: 51)
-matery_factory = Factory.new(name: 'Einstein', altitude: 5, parent_object: sun_p2)
+matery_factory = Factory.new(name: 'Einstein', altitude: 5, parent_object: sun_p2, step_progress: 10)
 construction_factory = Factory.new(name: 'Wrench', altitude: 30, parent_object: sun_p1)
 
-fuel_factory.productions.create(type: :output, amount: 1, time: 10, material: fuel)
+fuel_factory.productions.create!(is_output: true, amount: 1, material: fuel)
+
+fuel_factory.productions.create!(is_output: true, amount: 1, material: titan)
+fuel_factory.productions.create!(is_output: false, amount: 10, material: fuel)
+
 SolarSystem.delete_all
 hol = SolarSystem.create(name: 'Home of Light', celestial_object: sun, x: 0, y: 100, z: 50)
 cas = SolarSystem.create(name: 'Castor', x: -20, celestial_object: sun_castor, y: 10, z: 0)
