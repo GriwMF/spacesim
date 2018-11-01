@@ -9,6 +9,7 @@ class CreateShips < ActiveRecord::Migration[5.2]
       t.integer :progress, default: 0, limit: 1, null: false
       t.integer :speed
       t.integer :progress, limit: 1
+      t.integer :storage
 
       t.timestamps
     end

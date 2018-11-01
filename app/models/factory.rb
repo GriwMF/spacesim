@@ -18,6 +18,25 @@ class Factory < ApplicationRecord
     end
   end
 
+  def prices
+    production.includes(:material).map do |p|
+      material = p.material
+      in_stock = stocks.find_by(material: material).amount
+
+      # correction:
+      # 0 in stock: +20%
+      # for 1 production: +19%
+      # for 40 and more: -20%
+      excess = [in_stock / p.amount, 40].min
+      correction_persent = -excess + 20
+      {
+          material: material,
+          price: material.base_price + (material.base_price / 100.0 * correction_persent),
+          for_sell: p.is_output
+      }
+    end
+  end
+
   private
 
   def take_input_materials
@@ -25,11 +44,11 @@ class Factory < ApplicationRecord
       required = production.amount
       in_stock = stocks.find_by(material_id: production.material_id)
 
-      if in_stock.amount >= required
-        in_stock.update!(amount: in_stock.amount - required)
-      else
+      if in_stock.amount < required
         raise ActiveRecord::Rollback, "Not enough material for #{production}"
       end
+
+      in_stock.update!(amount: in_stock.amount - required)
     end
   end
 

@@ -7,9 +7,10 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 Material.delete_all
-fuel = Material.create!(name: 'fuel', weigth: 1)
-titan = Material.create!(name: 'titan', weigth: 100)
-Material.create!(name: 'weapon components', weigth: 80)
+fuel = Material.create!(name: 'fuel', weigth: 1, base_price: 31)
+titan = Material.create!(name: 'titan', weigth: 100, base_price: 500)
+Material.create!(name: 'weapon components', weigth: 80, base_price: 2000)
+credit = Material.create!(name: 'credit', weigth: 0, base_price: 1)
 
 CelestialObject.delete_all
 sun = CelestialObject.create!(name: 'Sun')
@@ -31,7 +32,6 @@ matery_factory = Factory.new(name: 'Einstein', altitude: 5, parent_object: sun_p
 construction_factory = Factory.new(name: 'Wrench', altitude: 30, parent_object: sun_p1)
 
 fuel_factory.productions.create!(is_output: true, amount: 1, material: fuel)
-
 fuel_factory.productions.create!(is_output: true, amount: 1, material: titan)
 fuel_factory.productions.create!(is_output: false, amount: 10, material: fuel)
 
@@ -40,4 +40,7 @@ hol = SolarSystem.create(name: 'Home of Light', celestial_object: sun, x: 0, y: 
 cas = SolarSystem.create(name: 'Castor', celestial_object: sun_castor, y: 10, z: 0, x: -20)
 eli = SolarSystem.create(name: 'Elite alpha', celestial_object: sun_century, x: 70, y: 10, z: -10)
 
+Ship.delete_all
+ship = Ship.create!(x: 0, y: 100, z: 50, speed: 10)
+ship.stocks.create!(material: credit, amount: 200)
 
