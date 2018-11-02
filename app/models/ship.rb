@@ -18,9 +18,23 @@ class Ship < ApplicationRecord
   private
 
   def set_target
+    check_stocks
+    find_material_to_buy
+
   end
 
   def process_action
+
+  end
+
+  def check_stocks
+    stocks.each do |mat|
+      production = Production.includes(:factory).where(material: mat, is_output: false).max_by(&:price)
+      production && return production
+    end
+  end
+
+  def find_material_to_buy
 
   end
 end

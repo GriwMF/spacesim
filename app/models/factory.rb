@@ -18,23 +18,18 @@ class Factory < ApplicationRecord
     end
   end
 
-  def prices
-    production.includes(:material).map do |p|
-      material = p.material
-      in_stock = stocks.find_by(material: material).amount
+  def price(production)
+    material = production.material
+    in_stock = stocks.find_by(material: material).amount
 
-      # correction:
-      # 0 in stock: +20%
-      # for 1 production: +19%
-      # for 40 and more: -20%
-      excess = [in_stock / p.amount, 40].min
-      correction_persent = -excess + 20
-      {
-          material: material,
-          price: material.base_price + (material.base_price / 100.0 * correction_persent),
-          for_sell: p.is_output
-      }
-    end
+    # correction:
+    # 0 in stock: +20%
+    # for 1 production: +19%
+    # for 40 and more: -20%
+    excess = [in_stock / production.amount, 40].min
+    correction_persent = -excess + 20
+
+    material.base_price + (material.base_price / 100.0 * correction_persent)
   end
 
   private
