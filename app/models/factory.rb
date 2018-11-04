@@ -3,14 +3,16 @@ class Factory < ApplicationRecord
   has_many :productions
   has_many :stocks, as: :object
 
-  scope :input, -> { production.where(is_output: false) }
-  scope :output, -> { production.where(is_output: true) }
+
+  def credits
+    stocks.find_or_create_by!(material: Material.find_by(name: :credit))
+  end
 
   def step
-    input.with_lock do
+    transaction do
       take_input_materials
       self.progress += speed
-      if progress > 100
+      if progress >= 100
         self.progress = 0
         create_output_materials
       end
@@ -35,7 +37,8 @@ class Factory < ApplicationRecord
   private
 
   def take_input_materials
-    input.each do |production|
+    productions.input.each do |production|
+      production.lock!
       required = production.amount
       in_stock = stocks.find_by(material_id: production.material_id)
 
@@ -48,7 +51,7 @@ class Factory < ApplicationRecord
   end
 
   def create_output_materials
-    output.each do |production|
+    productions.output.each do |production|
       stock = stocks.where(material_id: production.material_id).first_or_initialize
       stock.amount = stock.amount + 1
       stock.save!
