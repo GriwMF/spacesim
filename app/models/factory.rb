@@ -1,12 +1,8 @@
 class Factory < ApplicationRecord
+  include HasGoods
+
   belongs_to :celestial_object
   has_many :productions
-  has_many :stocks, as: :object
-
-
-  def credits
-    stocks.find_or_create_by!(material: Material.find_by(name: :credit))
-  end
 
   def step
     transaction do

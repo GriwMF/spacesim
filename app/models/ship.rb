@@ -1,5 +1,6 @@
 class Ship < ApplicationRecord
-  has_many :stocks, as: :object
+  include HasGoods
+
   belongs_to :solar_system, optional: true
   belongs_to :celestial_object, optional: true
   belongs_to :target, optional: true, class_name: 'Production'
