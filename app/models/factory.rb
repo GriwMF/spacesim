@@ -38,9 +38,8 @@ class Factory < ApplicationRecord
 
   def take_input_materials
     productions.input.each do |production|
-      production.lock!
       required = production.amount
-      in_stock = stocks.find_by(material_id: production.material_id)
+      in_stock = stocks.find_by(material_id: production.material_id).lock!
 
       if in_stock.amount < required
         raise ActiveRecord::Rollback, "Not enough material for #{production}"
@@ -52,7 +51,7 @@ class Factory < ApplicationRecord
 
   def create_output_materials
     productions.output.each do |production|
-      stock = stocks.where(material_id: production.material_id).first_or_initialize
+      stock = stocks.where(material_id: production.material_id).first_or_initialize.lock!
       stock.amount = stock.amount + 1
       stock.save!
     end
