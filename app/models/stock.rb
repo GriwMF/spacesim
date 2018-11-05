@@ -17,6 +17,7 @@ class Stock < ApplicationRecord
       raise 'not enough credits' if @buyer_credits.amount < requested_amount * price
 
       process_sell(requested_amount, price)
+      log_sell(buyer, requested_amount, price)
     end
   end
 
@@ -33,5 +34,14 @@ class Stock < ApplicationRecord
     @credits.update!(amount: @credits.amount + requested_amount * price)
     @buyer_stock.update!(amount: @buyer_stock.amount + requested_amount)
     update!(amount: amount - requested_amount)
+  end
+
+  def log_sell(buyer, requested_amount, price)
+    History.create!(
+      object: object,
+      target: buyer,
+      action: 'sell',
+      params: { price: price, amount: requested_amount, material: material }
+    )
   end
 end

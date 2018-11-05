@@ -8,6 +8,7 @@ class Factory < ApplicationRecord
     transaction do
       take_input_materials
       self.progress += speed
+      History.create!(object: self, action: :progress, params: { progress: progress })
       if progress >= 100
         self.progress = 0
         create_output_materials
@@ -42,6 +43,7 @@ class Factory < ApplicationRecord
       end
 
       in_stock.update!(amount: in_stock.amount - required)
+      History.create!(object: self, target: production, action: :got_material)
     end
   end
 
@@ -50,6 +52,7 @@ class Factory < ApplicationRecord
       stock = stocks.where(material_id: production.material_id).first_or_initialize.lock!
       stock.amount = stock.amount + 1
       stock.save!
+      History.create!(object: self, target: production, action: :produced_material, params: { amount: stock.amount })
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_30_054247) do
+ActiveRecord::Schema.define(version: 2018_11_05_093305) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,19 @@ ActiveRecord::Schema.define(version: 2018_10_30_054247) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["celestial_object_id"], name: "index_factories_on_celestial_object_id"
+  end
+
+  create_table "histories", force: :cascade do |t|
+    t.string "object_type"
+    t.bigint "object_id"
+    t.string "target_type"
+    t.bigint "target_id"
+    t.text "action"
+    t.json "params"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["object_type", "object_id"], name: "index_histories_on_object_type_and_object_id"
+    t.index ["target_type", "target_id"], name: "index_histories_on_target_type_and_target_id"
   end
 
   create_table "materials", force: :cascade do |t|

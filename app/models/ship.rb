@@ -1,6 +1,5 @@
 class Ship < ApplicationRecord
   include HasGoods
-
   belongs_to :solar_system, optional: true
   belongs_to :celestial_object, optional: true
   belongs_to :target, optional: true, class_name: 'Production'
@@ -14,6 +13,7 @@ class Ship < ApplicationRecord
       self.target = nil
     else
       self.progress += speed
+      History.create!(object: self, target: target, action: :progress, params: { progress: progress })
     end
     save!
   end
@@ -26,6 +26,7 @@ class Ship < ApplicationRecord
 
   def set_target
     update!(target: check_stocks || find_material_to_buy)
+    History.create!(object: self, target: target, action: :change_target)
   end
 
   def process_action
