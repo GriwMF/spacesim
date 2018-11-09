@@ -6,7 +6,6 @@ class CreateShips < ActiveRecord::Migration[5.2]
       t.belongs_to :solar_system, foreign_key: true
       t.belongs_to :celestial_object, foreign_key: true
       t.belongs_to :production, foreign_key: true
-      t.integer :target, limit: 1
       t.integer :progress, default: 0, limit: 1, null: false
       t.integer :speed
       t.integer :storage
