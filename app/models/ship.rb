@@ -5,7 +5,15 @@ class Ship < ApplicationRecord
   belongs_to :celestial_object, optional: true
   belongs_to :production, optional: true # target for commerce
 
-  def step
+  # TODO: use to calculate distance, etc
+  belongs_to :target, optional: true, polymorphic: true
+
+  has_many :characters
+
+  enum action: [:trade, :explore]
+
+  def step # fly
+    return unless fly
     # return set_target unless target
     #
     # if progress >= 100
@@ -23,8 +31,32 @@ class Ship < ApplicationRecord
       update!(progress: progress + speed + bonus_speed, bonus_speed: 0)
       History.create!(object: self, action: :flying, params: { progress: progress })
     else
-      History.create!(object: self, action: :arrived)
+      update!(fly: false)
+      History.create!(object: self, action: :arrived, params: { target: target })
     end
+  end
+
+  def set_target
+    update!(action: Random.rand(2), fly: true, progress: 0)
+    update!(production: check_stocks || find_material_to_buy) if trade?
+    History.create!(object: self, action: :set_target, params: { production: production, action: action, by: characters.take })
+  end
+
+  def process_action
+    case
+    when trade?
+      trade_deal
+    when explore?
+      explore
+    else
+      raise 'Unknown target'
+    end
+
+    update!(action: nil, production: nil)
+  end
+
+  def arrived?
+    progress >= 100
   end
 
   private
@@ -38,8 +70,11 @@ class Ship < ApplicationRecord
     nil
   end
 
-  def arrived?
-    progress >= 100
+  def find_material_to_buy
+    # TODO: unstub
+
+    mat = Material.find_by(name: 'fuel')
+    Production.includes(:factory).where(material: mat, is_output: true).min_by(&:price)
   end
 
   def explore

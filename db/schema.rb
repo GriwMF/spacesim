@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_05_093305) do
+ActiveRecord::Schema.define(version: 2018_11_09_140047) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,19 @@ ActiveRecord::Schema.define(version: 2018_11_05_093305) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["parent_object_id"], name: "index_celestial_objects_on_parent_object_id"
+  end
+
+  create_table "characters", force: :cascade do |t|
+    t.string "name"
+    t.integer "position"
+    t.bigint "ship_id"
+    t.integer "action_time", default: 0, null: false
+    t.integer "hp", default: 100, null: false
+    t.integer "hunger", default: 0, null: false
+    t.integer "fatigue", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ship_id"], name: "index_characters_on_ship_id"
   end
 
   create_table "factories", force: :cascade do |t|
@@ -74,15 +87,19 @@ ActiveRecord::Schema.define(version: 2018_11_05_093305) do
     t.bigint "solar_system_id"
     t.bigint "celestial_object_id"
     t.bigint "production_id"
-    t.integer "target", limit: 2
+    t.bigint "target_id"
+    t.integer "action", limit: 2
     t.integer "progress", limit: 2, default: 0, null: false
+    t.integer "bonus_speed", default: 0, null: false
     t.integer "speed"
     t.integer "storage"
+    t.boolean "fly"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["celestial_object_id"], name: "index_ships_on_celestial_object_id"
     t.index ["production_id"], name: "index_ships_on_production_id"
     t.index ["solar_system_id"], name: "index_ships_on_solar_system_id"
+    t.index ["target_id"], name: "index_ships_on_target_id"
   end
 
   create_table "solar_systems", force: :cascade do |t|
@@ -108,6 +125,7 @@ ActiveRecord::Schema.define(version: 2018_11_05_093305) do
   end
 
   add_foreign_key "celestial_objects", "celestial_objects", column: "parent_object_id"
+  add_foreign_key "characters", "ships"
   add_foreign_key "factories", "celestial_objects"
   add_foreign_key "productions", "factories"
   add_foreign_key "productions", "materials"
