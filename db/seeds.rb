@@ -11,6 +11,8 @@ Material.delete_all
 Factory.delete_all
 SolarSystem.delete_all
 CelestialObject.delete_all
+Character.delete_all
+Ship.delete_all
 
 fuel = Material.create!(name: 'fuel', weigth: 1, base_price: 31)
 titan = Material.create!(name: 'titan', weigth: 100, base_price: 500)
@@ -42,7 +44,8 @@ hol = SolarSystem.create!(name: 'Home of Light', celestial_object: sun, x: 0, y:
 cas = SolarSystem.create!(name: 'Castor', celestial_object: sun_castor, y: 10, z: 0, x: -20)
 eli = SolarSystem.create!(name: 'Elite alpha', celestial_object: sun_century, x: 70, y: 10, z: -10)
 
-Ship.delete_all
+
 ship = Ship.create!(speed: 10)
 ship.stocks.create!(material: credit, amount: 200)
 
+captain1 = Character.create!(name: Faker.name, ship: ship)

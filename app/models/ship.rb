@@ -20,7 +20,7 @@ class Ship < ApplicationRecord
     #
     # save!
     if progress < 100
-      update!(progress: progress + speed)
+      update!(progress: progress + speed + bonus_speed, bonus_speed: 0)
       History.create!(object: self, action: :flying, params: { progress: progress })
     else
       History.create!(object: self, action: :arrived)

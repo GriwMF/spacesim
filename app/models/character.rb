@@ -5,11 +5,15 @@ class Character < ApplicationRecord
   enum action: [:trade, :explore]
 
   def step
+    # TODO: first should go emergency tasks
     return set_target unless target
 
     if ship.arrived?
       process_action
       ship.update!(production: nil)
+    else
+      # casual events
+      Actions::Base.new(self).do_action
     end
   end
 
