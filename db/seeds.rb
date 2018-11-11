@@ -32,7 +32,7 @@ castor_p1 = CelestialObject.create!(name: 'Calibre', altitude: 500, parent_objec
 
 fuel_factory = Factory.create!(name: 'Gas alpha', altitude: 5, celestial_object: sun_p3, speed: 51)
 matery_factory = Factory.create!(name: 'Einstein', altitude: 5, celestial_object: sun_p2, speed: 10)
-construction_factory = Factory.create!(name: 'Wrench', altitude: 30, celestial_object: sun_p1)
+construction_factory = Factory.create!(name: 'Wrench', altitude: 30, celestial_object: sun_p1, speed: 3)
 
 fuel_factory.productions.create!(is_output: true, amount: 1, material: fuel)
 matery_factory.productions.create!(is_output: true, amount: 1, material: titan)

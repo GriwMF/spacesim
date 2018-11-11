@@ -6,7 +6,7 @@ class Factory < ApplicationRecord
 
   def step
     transaction do
-      take_input_materials
+      take_materials_or_rollback
       self.progress += speed
       History.create!(object: self, action: :progress, params: { progress: progress })
       if progress >= 100
@@ -19,7 +19,7 @@ class Factory < ApplicationRecord
 
   def price(production)
     material = production.material
-    in_stock = stocks.find_by(material: material).amount
+    in_stock = stocks.find_by(material: material)&.amount || 0
 
     # correction:
     # 0 in stock: +20%
@@ -33,12 +33,12 @@ class Factory < ApplicationRecord
 
   private
 
-  def take_input_materials
+  def take_materials_or_rollback
     productions.input.each do |production|
       required = production.amount
-      in_stock = stocks.find_by(material_id: production.material_id).lock!
+      in_stock = stocks.find_by(material_id: production.material_id)&.lock!
 
-      if in_stock.amount < required
+      if !in_stock || in_stock.amount < required
         raise ActiveRecord::Rollback, "Not enough material for #{production}"
       end
 

@@ -73,15 +73,16 @@ ActiveRecord::Schema.define(version: 2018_11_05_093305) do
     t.string "name"
     t.bigint "solar_system_id"
     t.bigint "celestial_object_id"
-    t.bigint "target_id"
+    t.bigint "production_id"
+    t.integer "target", limit: 2
     t.integer "progress", limit: 2, default: 0, null: false
     t.integer "speed"
     t.integer "storage"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["celestial_object_id"], name: "index_ships_on_celestial_object_id"
+    t.index ["production_id"], name: "index_ships_on_production_id"
     t.index ["solar_system_id"], name: "index_ships_on_solar_system_id"
-    t.index ["target_id"], name: "index_ships_on_target_id"
   end
 
   create_table "solar_systems", force: :cascade do |t|
@@ -111,7 +112,7 @@ ActiveRecord::Schema.define(version: 2018_11_05_093305) do
   add_foreign_key "productions", "factories"
   add_foreign_key "productions", "materials"
   add_foreign_key "ships", "celestial_objects"
-  add_foreign_key "ships", "productions", column: "target_id"
+  add_foreign_key "ships", "productions"
   add_foreign_key "ships", "solar_systems"
   add_foreign_key "solar_systems", "celestial_objects"
   add_foreign_key "stocks", "materials"
