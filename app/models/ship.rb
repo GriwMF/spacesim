@@ -37,8 +37,16 @@ class Ship < ApplicationRecord
   end
 
   def set_target
-    update!(action: Random.rand(2), fly: true, progress: 0)
-    update!(production: check_stocks || find_material_to_buy) if trade?
+    self.action = Random.rand(2)
+    self.fly = true
+    self.progress = 0
+    if trade?
+      self.production = check_stocks || find_material_to_buy
+      self.target = production.target
+    else
+      self.target = CelestialObject.sample
+    end
+    save!
     History.create!(object: self, action: :set_target, params: { production: production, action: action, by: characters.take })
   end
 

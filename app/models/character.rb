@@ -19,6 +19,7 @@ class Character < ApplicationRecord
     # should be moved to ship so responsible personel like trader/scientists can process job
     if base.arrived?
       base.process_action
+      hire(target.characters) if rand(2).zero? && target.is_a?(Factory)
     else
       # casual events
       Actions::Base.new(self).do_action
@@ -26,7 +27,8 @@ class Character < ApplicationRecord
   end
 
   def self.generate_character
-    create!(name: Faker.name, skills: { skill: role.values.sample, value: Random.rand(10) })
+    obj = create!(name: Faker.name, skills: { skill: role.values.sample, value: Random.rand(10) })
+    History.create!(object: obj, action: :generate_character)
   end
 
   private
@@ -40,5 +42,9 @@ class Character < ApplicationRecord
   def clamp_attributes
     self.hunger = hunger.clamp(0, 100)
     self.fatigue = fatigue.clamp(0, 100)
+  end
+
+  def hire(characters)
+    characters.sample&.update!(base: base)
   end
 end
