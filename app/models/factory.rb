@@ -3,8 +3,11 @@ class Factory < ApplicationRecord
 
   belongs_to :celestial_object
   has_many :productions
+  has_many :characters, as: :base
 
   def step
+    characters.generate_character if Random.rand(100).zero?
+
     transaction do
       take_materials_or_rollback
       self.progress += speed

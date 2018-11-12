@@ -8,7 +8,7 @@ class Ship < ApplicationRecord
   # TODO: use to calculate distance, etc
   belongs_to :target, optional: true, polymorphic: true
 
-  has_many :characters
+  has_many :characters, as: :base
 
   enum action: [:trade, :explore]
 
