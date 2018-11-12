@@ -5,6 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+WorldDatum.delete_all
 Production.delete_all
 Stock.delete_all
 Material.delete_all
@@ -13,6 +14,8 @@ SolarSystem.delete_all
 CelestialObject.delete_all
 Character.delete_all
 Ship.delete_all
+
+WorldDatum.create!(key: :step)
 
 fuel = Material.create!(name: 'fuel', weigth: 1, base_price: 31)
 titan = Material.create!(name: 'titan', weigth: 100, base_price: 500)
@@ -48,4 +51,4 @@ eli = SolarSystem.create!(name: 'Elite alpha', celestial_object: sun_century, x:
 ship = Ship.create!(speed: 10)
 ship.stocks.create!(material: credit, amount: 200)
 
-captain1 = Character.create!(name: Faker.name, ship: ship)
+captain1 = Character.create!(name: Faker.name, base: ship)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_09_140047) do
+ActiveRecord::Schema.define(version: 2018_11_12_184602) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,15 +26,17 @@ ActiveRecord::Schema.define(version: 2018_11_09_140047) do
 
   create_table "characters", force: :cascade do |t|
     t.string "name"
-    t.integer "position"
-    t.bigint "ship_id"
+    t.integer "role", limit: 2
+    t.string "base_type"
+    t.bigint "base_id"
     t.integer "action_time", default: 0, null: false
     t.integer "hp", default: 100, null: false
     t.integer "hunger", default: 0, null: false
     t.integer "fatigue", default: 0, null: false
+    t.integer "skill", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["ship_id"], name: "index_characters_on_ship_id"
+    t.index ["base_type", "base_id"], name: "index_characters_on_base_type_and_base_id"
   end
 
   create_table "factories", force: :cascade do |t|
@@ -102,6 +104,16 @@ ActiveRecord::Schema.define(version: 2018_11_09_140047) do
     t.index ["target_id"], name: "index_ships_on_target_id"
   end
 
+  create_table "skills", force: :cascade do |t|
+    t.bigint "character_id"
+    t.integer "skill", null: false
+    t.integer "value", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["character_id"], name: "index_skills_on_character_id"
+    t.index ["skill", "character_id"], name: "index_skills_on_skill_and_character_id", unique: true
+  end
+
   create_table "solar_systems", force: :cascade do |t|
     t.string "name"
     t.integer "x"
@@ -124,14 +136,21 @@ ActiveRecord::Schema.define(version: 2018_11_09_140047) do
     t.index ["object_type", "object_id"], name: "index_stocks_on_object_type_and_object_id"
   end
 
+  create_table "world_data", force: :cascade do |t|
+    t.string "key"
+    t.integer "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "celestial_objects", "celestial_objects", column: "parent_object_id"
-  add_foreign_key "characters", "ships"
   add_foreign_key "factories", "celestial_objects"
   add_foreign_key "productions", "factories"
   add_foreign_key "productions", "materials"
   add_foreign_key "ships", "celestial_objects"
   add_foreign_key "ships", "productions"
   add_foreign_key "ships", "solar_systems"
+  add_foreign_key "skills", "characters"
   add_foreign_key "solar_systems", "celestial_objects"
   add_foreign_key "stocks", "materials"
 end
