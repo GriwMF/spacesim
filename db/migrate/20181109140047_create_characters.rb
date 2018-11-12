@@ -9,6 +9,8 @@ class CreateCharacters < ActiveRecord::Migration[5.2]
       t.integer :hunger, null: false, default: 0
       t.integer :fatigue, null: false, default: 0
       t.integer :skill, null: false, default: 0
+      t.integer :skip, null: false, default: 0
+      t.integer :skip_reason
 
       t.timestamps
     end
