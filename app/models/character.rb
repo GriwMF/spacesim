@@ -1,9 +1,6 @@
-# probably use STI here to have different roles like captain etc.
 class Character < ApplicationRecord
   belongs_to :base, polymorphic: true
   has_many :skills
-
-  accepts_nested_attributes_for :skills
 
   # has corresponding skills with same names
   enum role: [:captain, :pilot, :mechanic, :soldier]
@@ -12,6 +9,8 @@ class Character < ApplicationRecord
   before_save :clamp_attributes
 
   validates :skip, numericality: { greater_than_or_equal_to: 0 }
+
+  accepts_nested_attributes_for :skills
 
   def step
     return unless process_essential_events
@@ -22,7 +21,7 @@ class Character < ApplicationRecord
     # should be moved to ship so responsible personel like trader/scientists can process job
     if base.arrived?
       base.process_action
-      hire(target.characters) if rand(2).zero? && target.is_a?(Factory)
+      hire(target.characters.where.not(role: 'captain')) if rand(2).zero? && target.is_a?(Factory)
     else
       # casual events
       Actions::Base.new(self).do_action
@@ -37,18 +36,16 @@ class Character < ApplicationRecord
   private
 
   def process_essential_events
+    return suicide if hunger == 100
+
     continuing = true
 
     every(5) { self.hunger += 1 }
-    if skip_reason == 'sleeping'
-      self.fatigue -= 3
-    else
-      every(10) { self.fatigue += 1 }
-    end
+    every(10) { self.fatigue += 1 }
 
-    return suicide if hunger == 100
+    self.fatigue -= 3 if skip_reason == 'sleeping'
 
-    if skip != 0
+    unless skip.zero?
       self.skip -= 1
       continuing = false
     end
