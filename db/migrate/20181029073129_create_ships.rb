@@ -12,6 +12,7 @@ class CreateShips < ActiveRecord::Migration[5.2]
       t.integer :bonus_speed, default: 0, null: false
       t.integer :speed
       t.integer :storage
+      t.integer :energy
       t.boolean :fly
 
       t.timestamps
