@@ -13,6 +13,7 @@ class CreateShips < ActiveRecord::Migration[5.2]
       t.integer :speed
       t.integer :storage
       t.integer :energy
+      t.integer :o2
       t.boolean :fly
 
       t.timestamps

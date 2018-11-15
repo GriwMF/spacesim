@@ -67,6 +67,14 @@ class Ship < ApplicationRecord
     progress >= 100
   end
 
+  def consume(resource, amount)
+    decrement!(resource, amount) if send(:resource) >= amount
+  end
+
+  def generate(resource, amount)
+    increment!(resource, amount)
+  end
+
   private
 
   def check_stocks
