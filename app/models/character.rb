@@ -13,9 +13,10 @@ class Character < ApplicationRecord
   accepts_nested_attributes_for :skills
 
   def step
-    return unless process_essential_events
+    # TODO: here should go oxygen check as temporary stub for atmospheric
 
-    # TODO: first should go emergency tasks
+    return unless ability_to_move
+
     return base.set_target unless base.action
 
     # should be moved to ship so responsible personel like trader/scientists can process job
@@ -35,7 +36,7 @@ class Character < ApplicationRecord
 
   private
 
-  def process_essential_events
+  def ability_to_move
     return suicide if hunger == 100
 
     continuing = true

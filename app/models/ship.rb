@@ -9,24 +9,14 @@ class Ship < ApplicationRecord
   belongs_to :target, optional: true, polymorphic: true
 
   has_many :characters, as: :base
+  has_many :bays
 
   enum action: [:trade, :explore]
 
   def step # fly
+    bays.find_each(&:step)
     return unless fly
-    # return set_target unless target
-    #
-    # if progress >= 100
-    #   process_action
-    #   self.progress = 0
-    #   self.target = nil
-    # else
-    #   self.progress += speed
-    #   History.create!(object: self, action: :progress,
-    #                   params: { progress: progress, production: production, target: target })
-    # end
-    #
-    # save!
+
     if progress < 100
       update!(progress: progress + speed + bonus_speed, bonus_speed: 0)
       History.create!(object: self, action: :flying, params: { progress: progress })
