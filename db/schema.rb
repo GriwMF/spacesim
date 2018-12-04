@@ -37,15 +37,17 @@ ActiveRecord::Schema.define(version: 2018_11_13_145747) do
 
   create_table "characters", force: :cascade do |t|
     t.string "name"
-    t.integer "position"
-    t.bigint "ship_id"
+    t.integer "role", limit: 2
+    t.string "base_type"
+    t.bigint "base_id"
     t.integer "action_time", default: 0, null: false
     t.integer "hp", default: 100, null: false
     t.integer "hunger", default: 0, null: false
     t.integer "fatigue", default: 0, null: false
+    t.integer "skill", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["ship_id"], name: "index_characters_on_ship_id"
+    t.index ["base_type", "base_id"], name: "index_characters_on_base_type_and_base_id"
   end
 
   create_table "facilities_systems", force: :cascade do |t|
@@ -165,7 +167,6 @@ ActiveRecord::Schema.define(version: 2018_11_13_145747) do
 
   add_foreign_key "bays", "ships"
   add_foreign_key "celestial_objects", "celestial_objects", column: "parent_object_id"
-  add_foreign_key "characters", "ships"
   add_foreign_key "facilities_systems", "bays"
   add_foreign_key "factories", "celestial_objects"
   add_foreign_key "productions", "factories"
