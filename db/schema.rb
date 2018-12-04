@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_12_184602) do
+ActiveRecord::Schema.define(version: 2018_11_13_145747) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bays", force: :cascade do |t|
+    t.integer "temp"
+    t.integer "pressure"
+    t.integer "integrity"
+    t.integer "humidity"
+    t.bigint "ship_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ship_id"], name: "index_bays_on_ship_id"
+  end
 
   create_table "celestial_objects", force: :cascade do |t|
     t.bigint "parent_object_id"
@@ -26,17 +37,26 @@ ActiveRecord::Schema.define(version: 2018_11_12_184602) do
 
   create_table "characters", force: :cascade do |t|
     t.string "name"
-    t.integer "role", limit: 2
-    t.string "base_type"
-    t.bigint "base_id"
+    t.integer "position"
+    t.bigint "ship_id"
     t.integer "action_time", default: 0, null: false
     t.integer "hp", default: 100, null: false
     t.integer "hunger", default: 0, null: false
     t.integer "fatigue", default: 0, null: false
-    t.integer "skill", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["base_type", "base_id"], name: "index_characters_on_base_type_and_base_id"
+    t.index ["ship_id"], name: "index_characters_on_ship_id"
+  end
+
+  create_table "facilities_systems", force: :cascade do |t|
+    t.string "type"
+    t.integer "durability"
+    t.integer "max_production"
+    t.integer "consumption"
+    t.bigint "bay_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bay_id"], name: "index_facilities_systems_on_bay_id"
   end
 
   create_table "factories", force: :cascade do |t|
@@ -143,7 +163,10 @@ ActiveRecord::Schema.define(version: 2018_11_12_184602) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "bays", "ships"
   add_foreign_key "celestial_objects", "celestial_objects", column: "parent_object_id"
+  add_foreign_key "characters", "ships"
+  add_foreign_key "facilities_systems", "bays"
   add_foreign_key "factories", "celestial_objects"
   add_foreign_key "productions", "factories"
   add_foreign_key "productions", "materials"
