@@ -45,6 +45,8 @@ ActiveRecord::Schema.define(version: 2018_11_13_145747) do
     t.integer "hunger", default: 0, null: false
     t.integer "fatigue", default: 0, null: false
     t.integer "skill", default: 0, null: false
+    t.integer "skip", default: 0, null: false
+    t.integer "skip_reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["base_type", "base_id"], name: "index_characters_on_base_type_and_base_id"
@@ -117,6 +119,8 @@ ActiveRecord::Schema.define(version: 2018_11_13_145747) do
     t.integer "bonus_speed", default: 0, null: false
     t.integer "speed"
     t.integer "storage"
+    t.integer "energy"
+    t.integer "o2"
     t.boolean "fly"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
