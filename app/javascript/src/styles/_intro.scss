@@ -5,8 +5,15 @@
       width: 75%;
       float: right;
     }
+    .intro-img-left {
+      width: 75%;
+      float: left;
+    }
     .intro-text {
-      left: 0;
+
+      &.right {
+        right: 0;
+      };
       width: 60%;
       margin-top: 3rem;
       position: absolute;
