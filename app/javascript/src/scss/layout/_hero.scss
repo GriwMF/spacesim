@@ -1,6 +1,6 @@
 .hero {
 	text-align: center;
-    padding-top: 48px;
+    padding-top: 24px;
 	padding-bottom: 24px;
 }
 
@@ -86,7 +86,7 @@
 		position: relative;
 		text-align: left;
         padding-top: 56px;
-        padding-bottom: 12px;
+        padding-bottom: 64px;
 
 		&::before {
 			content: '';
@@ -106,7 +106,7 @@
 	}
 
     .hero-copy {
-        padding-top: 88px;
+        padding-top: 64px;
         padding-right: 48px;
         min-width: 448px;
         max-width: 588px;

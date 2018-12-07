@@ -1,0 +1,56 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   'true': 'foo'
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+ru:
+  title: Игровая симуляция космических будней
+  description: Ваш персонаж решает стать техником на торговом крейсере, и, трудясь не жалея себя, зарабатывает на свой первый корабль. Пройдя долгий путь до капитана звездолета, он погибает от взрыва, самой разумной причиной которого было то, что уборщику не понравился обед. Или все будет иначе?
+  learn_more: Подробнее
+  early_access: Ранний доступ
+  bold_features: Основные концепции
+  feature:
+    n1:
+      text: Команда
+      description: Для управления кораблем нужно много людей. Реальных персонажей, как и ваш. У всех свои амбиции, навыки и настроение. Попробуйте собрать команду мечты.
+    n2:
+      text: Симуляция корабля
+      description: Кислород, энергия, спальни экипажа, комната управления. Каждый отсек выполняет свою функцию, требует обслуживания и может быть поврежден.
+    n3:
+      text: Экономика в реальном времени
+      description: srtrs
+    n4:
+      text: Текстовый геймплей
+      description: Не переживайте - это только звучит скучно. На самом деле мы не хотим жертвовать глубиной ради оболочки. Да и не существует графики лучше той, которую может нарисовать наше воображение.
+    n5:
+      text: ZPG (zero player game)
+      description: Некоторые игроки портят игры. Читерство, гриферство, оскорбления. Хотя вы и сможете помогать и направлять персонажа, большую часть решений он примет на основе своих знание и предпочтений.
+    n6:
+      text: Открытый мир
+      description: srtrs

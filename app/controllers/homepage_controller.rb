@@ -1,5 +1,5 @@
 class HomepageController < ApplicationController
   def index
-    render params[:id]
+    I18n.locale = :ru
   end
 end
