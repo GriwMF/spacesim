@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_13_145747) do
+ActiveRecord::Schema.define(version: 2018_12_08_060406) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +88,19 @@ ActiveRecord::Schema.define(version: 2018_11_13_145747) do
     t.index ["target_type", "target_id"], name: "index_histories_on_target_type_and_target_id"
   end
 
+  create_table "mailkick_opt_outs", force: :cascade do |t|
+    t.string "email"
+    t.string "user_type"
+    t.bigint "user_id"
+    t.boolean "active", default: true, null: false
+    t.string "reason"
+    t.string "list"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_mailkick_opt_outs_on_email"
+    t.index ["user_type", "user_id"], name: "index_mailkick_opt_outs_on_user_type_and_user_id"
+  end
+
   create_table "materials", force: :cascade do |t|
     t.string "name"
     t.integer "weigth"
@@ -160,6 +173,14 @@ ActiveRecord::Schema.define(version: 2018_11_13_145747) do
     t.datetime "updated_at", null: false
     t.index ["material_id"], name: "index_stocks_on_material_id"
     t.index ["object_type", "object_id"], name: "index_stocks_on_object_type_and_object_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email", null: false
+    t.string "locale", default: "en", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   create_table "world_data", force: :cascade do |t|

@@ -1,6 +1,6 @@
-import jQuery from 'jquery'
+import $ from 'jquery'
 
-jQuery(document).ready(function () {
+$(document).ready(function () {
   const win = window
   const doc = document.documentElement
 

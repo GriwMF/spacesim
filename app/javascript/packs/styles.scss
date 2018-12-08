@@ -2,3 +2,21 @@
 //@import "~bootstrap/scss/bootstrap";
 
 @import 'src/scss/style.scss';
+
+html {
+  scroll-behavior: smooth;
+}
+
+.site-header-inner {
+  justify-content: left;
+}
+
+.errors {
+  color: red;
+}
+
+#locale {
+  float: left;
+  margin-left: 30px;
+  font-size: 18px;
+}
