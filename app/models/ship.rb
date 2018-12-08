@@ -7,6 +7,7 @@ class Ship < ApplicationRecord
 
   # TODO: use to calculate distance, etc
   belongs_to :target, optional: true, polymorphic: true
+  belongs_to :bay_state
 
   has_many :characters, as: :base
   has_many :bays

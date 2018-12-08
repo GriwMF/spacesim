@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_08_060406) do
+ActiveRecord::Schema.define(version: 2018_12_08_141048) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bay_states", force: :cascade do |t|
+    t.integer "temp"
+    t.integer "pressure"
+    t.integer "integrity"
+    t.integer "humidity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "bays", force: :cascade do |t|
     t.integer "temp"
@@ -23,6 +32,8 @@ ActiveRecord::Schema.define(version: 2018_12_08_060406) do
     t.bigint "ship_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "bay_state_id"
+    t.index ["bay_state_id"], name: "index_bays_on_bay_state_id"
     t.index ["ship_id"], name: "index_bays_on_ship_id"
   end
 
@@ -137,6 +148,8 @@ ActiveRecord::Schema.define(version: 2018_12_08_060406) do
     t.boolean "fly"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "bay_state_id"
+    t.index ["bay_state_id"], name: "index_ships_on_bay_state_id"
     t.index ["celestial_object_id"], name: "index_ships_on_celestial_object_id"
     t.index ["production_id"], name: "index_ships_on_production_id"
     t.index ["solar_system_id"], name: "index_ships_on_solar_system_id"
@@ -190,12 +203,14 @@ ActiveRecord::Schema.define(version: 2018_12_08_060406) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "bays", "bay_states"
   add_foreign_key "bays", "ships"
   add_foreign_key "celestial_objects", "celestial_objects", column: "parent_object_id"
   add_foreign_key "facilities_systems", "bays"
   add_foreign_key "factories", "celestial_objects"
   add_foreign_key "productions", "factories"
   add_foreign_key "productions", "materials"
+  add_foreign_key "ships", "bay_states"
   add_foreign_key "ships", "celestial_objects"
   add_foreign_key "ships", "productions"
   add_foreign_key "ships", "solar_systems"

@@ -1,5 +1,6 @@
 class Bay < ApplicationRecord
   belongs_to :ship
+  belongs_to :bay_state
   has_many :systems
 
   def step
