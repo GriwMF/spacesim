@@ -30,6 +30,8 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 ru:
+  header:
+    title: мультиплеерная космическая zpg игра-симулятор
   activerecord:
     errors:
       models:
