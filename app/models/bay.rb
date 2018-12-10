@@ -1,9 +1,11 @@
 class Bay < ApplicationRecord
-  MAX_PRESSURE = 1500
-
   belongs_to :ship
   belongs_to :bay_state
   has_many :systems
+
+  def consume(resource, amount)
+    decrement!(resource, amount) if send(:resource) >= amount
+  end
 
   def step
     # systems_step('generator')
@@ -17,7 +19,7 @@ class Bay < ApplicationRecord
   end
 
   def max_pressure
-    MAX_PRESSURE
+    150
   end
 
   private

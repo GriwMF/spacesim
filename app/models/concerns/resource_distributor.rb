@@ -2,53 +2,26 @@ module ResourceDistributor
   extend ActiveSupport::Concern
 
   def generate_o2(amount)
-    # we need to distribute pressure between all bays till MAX_PRESSURE reached starting from lowest
-    loop do
-      bay = bays.order(Arel.sql("#{Bay::MAX_PRESSURE} - pressure")).last
-      break if bay.pressure == Bay::MAX_PRESSURE
-      needed_pressure = Bay::MAX_PRESSURE - bay.pressure
-      generated = [needed_pressure, amount].min
-      bay.increment!(:pressure, generated)
-      amount -= generated
-      break if amount == 0
-    end
+    generate(amount, "#{Bay::MAX_PRESSURE} - pressure", :max_pressure, :pressure)
   end
 
   def generate_power(amount)
-    generate(Arel.sql('max_power - power'), amount, ->{ bay.pressure }, ->{})
-    bay = bays.order(Arel.sql('max_power - power')).last
-    bay.update!(power: bay.power + amount)
-
-    loop do
-      bay = bays.order(Arel.sql('max_power - power')).last
-      break if bay.max_power == bay.power
-      needed = bay.max_power - bay.power
-      generated = [needed, amount].min
-      bay.increment!(:power, generated)
-      amount -= generated
-      break if amount == 0
-    end
-  end
-
-  def consume_o2(resource, amount)
-    decrement!(resource, amount) if send(:resource) >= amount
-  end
-
-  def consume_power(resource, amount)
-    decrement!(resource, amount) if send(:resource) >= amount
+    generate(amount, 'max_power - power', :max_power, :power)
   end
 
   private
 
-  def generate(order, amount, max, min)
+  # we need to distribute pressure between all bays till MAX_PRESSURE reached starting from lowest
+  def generate(amount, order, max, min)
     loop do
-      bay = bays.order(Arel.sql('max_power - power')).last
-      break if bay.max_power == bay.power
-      needed = bay.max_power - bay.power
+      bay = bays.order(Arel.sql(order)).last
+      needed = bay.send(max) - bay.send(min)
+      break if needed.zero?
+
       generated = [needed, amount].min
-      bay.increment!(:power, generated)
+      bay.increment!(min, generated)
       amount -= generated
-      break if amount == 0
+      break if amount.zero?
     end
   end
 end
