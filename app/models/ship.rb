@@ -1,13 +1,14 @@
 class Ship < ApplicationRecord
   include HasGoods
+  include ResourceDistributor
 
   belongs_to :solar_system, optional: true
   belongs_to :celestial_object, optional: true
   belongs_to :production, optional: true # target for commerce
+  belongs_to :control_bay, class_name: 'Bay'
 
   # TODO: use to calculate distance, etc
   belongs_to :target, optional: true, polymorphic: true
-  belongs_to :bay_state
 
   has_many :characters, as: :base
   has_many :bays
@@ -56,14 +57,6 @@ class Ship < ApplicationRecord
 
   def arrived?
     progress >= 100
-  end
-
-  def consume(resource, amount)
-    decrement!(resource, amount) if send(:resource) >= amount
-  end
-
-  def generate(resource, amount)
-    increment!(resource, amount)
   end
 
   private

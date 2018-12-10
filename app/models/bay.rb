@@ -1,4 +1,6 @@
 class Bay < ApplicationRecord
+  MAX_PRESSURE = 1500
+
   belongs_to :ship
   belongs_to :bay_state
   has_many :systems
@@ -12,6 +14,10 @@ class Bay < ApplicationRecord
   def status
     sys_status = systems.map { |s| { s.type => s.status }}
     { integrity: integrity, sys_status: sys_status }
+  end
+
+  def max_pressure
+    MAX_PRESSURE
   end
 
   private
