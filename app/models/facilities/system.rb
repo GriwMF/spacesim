@@ -1,6 +1,6 @@
 module Facilities
   class System < ApplicationRecord
-    self.abstract_class = true
+    private_class_method :new
 
     belongs_to :bay
 

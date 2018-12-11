@@ -21,6 +21,14 @@ class Stock < ApplicationRecord
     end
   end
 
+  def consume(requested_amount)
+    History.create!(object: self, action: :consume, params: {
+      requested_amount: requested_amount,
+      done: requested_amount > amount
+    })
+    decrement!(:amount, requested_amount) if requested_amount > amount
+  end
+
   private
 
   def find_stocks_with_lock(buyer)

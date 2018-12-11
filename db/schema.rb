@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_10_164511) do
+ActiveRecord::Schema.define(version: 2018_12_11_155907) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,9 +23,10 @@ ActiveRecord::Schema.define(version: 2018_12_10_164511) do
     t.integer "pressure", default: 0
     t.integer "integrity", default: 100
     t.integer "humidity", default: 60
-    t.string "type"
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "control"
     t.index ["ship_id"], name: "index_bays_on_ship_id"
   end
 

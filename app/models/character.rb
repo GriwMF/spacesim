@@ -57,7 +57,7 @@ class Character < ApplicationRecord
       continuing = false
     end
 
-    continuing = false unless base.consume(:o2, 1) # TODO: add more logic on no oxygen
+    continuing = false unless base.control_bay.consume(:o2, 1) # TODO: add more logic on no oxygen and base handling
 
     save!
     continuing

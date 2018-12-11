@@ -8,4 +8,8 @@ module HasGoods
   def credits
     stocks.find_or_create_by!(material: Material.credit)
   end
+
+  def fuel
+    stocks.find_or_create_by!(material: Material.fuel)
+  end
 end

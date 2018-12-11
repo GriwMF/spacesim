@@ -13,6 +13,8 @@ Factory.delete_all
 SolarSystem.delete_all
 CelestialObject.delete_all
 Character.delete_all
+Facilities::System.delete_all
+Bay.delete_all
 Ship.delete_all
 
 WorldDatum.create!(key: :step)
@@ -48,7 +50,17 @@ cas = SolarSystem.create!(name: 'Castor', celestial_object: sun_castor, y: 10, z
 eli = SolarSystem.create!(name: 'Elite alpha', celestial_object: sun_century, x: 70, y: 10, z: -10)
 
 
-ship = Ship.create!(speed: 10)
+ship = Ship.create!
+
 ship.stocks.create!(material: credit, amount: 200)
+ship.stocks.create!(material: fuel, amount: 5)
+
+ship.bays.create!(name: 'control', max_power: 2, control: true)
+engine_bay = ship.bays.create!(name: 'engine', max_power: 20)
+tech_bay = ship.bays.create!(name: 'tech', max_power: 20)
+
+Facilities::Engine.create!(bay: engine_bay, max_production: 5, consumption: 1)
+Facilities::O2Gen.create!(bay: tech_bay, max_production: 5, consumption: 1)
+Facilities::Generator.create!(bay: tech_bay, max_production: 5, consumption: 1)
 
 captain1 = Character.create!(name: Faker.name, base: ship)

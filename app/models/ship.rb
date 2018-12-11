@@ -5,13 +5,12 @@ class Ship < ApplicationRecord
   belongs_to :solar_system, optional: true
   belongs_to :celestial_object, optional: true
   belongs_to :production, optional: true # target for commerce
-  belongs_to :control_bay, class_name: 'Bay'
 
   # TODO: use to calculate distance, etc
   belongs_to :target, optional: true, polymorphic: true
 
   has_many :characters, as: :base
-  has_many :bays
+  has_many :bays, dependent: :destroy
 
   enum action: [:trade, :explore]
 
@@ -20,7 +19,8 @@ class Ship < ApplicationRecord
     return unless fly
 
     if progress < 100
-      update!(progress: progress + speed + bonus_speed, bonus_speed: 0)
+      self.speed *= 2 if fuel.consume(1)
+      update!(progress: progress + speed, speed: 0)
       History.create!(object: self, action: :flying, params: { progress: progress })
     else
       update!(fly: false)

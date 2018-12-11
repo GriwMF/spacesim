@@ -1,7 +1,6 @@
 class Bay < ApplicationRecord
   belongs_to :ship
-  belongs_to :bay_state
-  has_many :systems
+  has_many :systems, class_name: "Facilities::System"
 
   def consume(resource, amount)
     decrement!(resource, amount) if send(:resource) >= amount
