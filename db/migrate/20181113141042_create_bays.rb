@@ -8,7 +8,7 @@ class CreateBays < ActiveRecord::Migration[5.2]
       t.integer :pressure, default: 0
       t.integer :integrity, default: 100
       t.integer :humidity, default: 60
-      t.string :type
+      t.string :name
 
       t.timestamps
     end
