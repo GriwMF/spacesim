@@ -14,6 +14,10 @@ class Ship < ApplicationRecord
 
   enum action: [:trade, :explore]
 
+  def control_bay
+    bays.find_by!(name: 'control')
+  end
+
   def step # fly
     bays.find_each(&:step)
     return unless fly
@@ -34,12 +38,12 @@ class Ship < ApplicationRecord
     self.progress = 0
     if trade?
       self.production = check_stocks || find_material_to_buy
-      self.target = production.target
+      self.target = production.factory
     else
       self.target = CelestialObject.sample
     end
     save!
-    History.create!(object: self, action: :set_target, params: { production: production, action: action, by: characters.take })
+    History.create!(object: self, action: :set_target, params: { production: production, target: target, action: action, by: characters.take })
   end
 
   def process_action

@@ -3,7 +3,7 @@ class Bay < ApplicationRecord
   has_many :systems, class_name: "Facilities::System"
 
   def consume(resource, amount)
-    decrement!(resource, amount) if send(:resource) >= amount
+    decrement!(resource, amount) if send(resource) >= amount
   end
 
   def step
@@ -15,10 +15,6 @@ class Bay < ApplicationRecord
   def status
     sys_status = systems.map { |s| { s.type => s.status }}
     { integrity: integrity, sys_status: sys_status }
-  end
-
-  def max_pressure
-    150
   end
 
   private

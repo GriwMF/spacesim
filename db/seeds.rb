@@ -17,7 +17,7 @@ Facilities::System.delete_all
 Bay.delete_all
 Ship.delete_all
 
-WorldDatum.create!(key: :step)
+WorldDatum.create!(key: :step, value: 0)
 
 fuel = Material.create!(name: 'fuel', weigth: 1, base_price: 31)
 titan = Material.create!(name: 'titan', weigth: 100, base_price: 500)
@@ -55,7 +55,7 @@ ship = Ship.create!
 ship.stocks.create!(material: credit, amount: 200)
 ship.stocks.create!(material: fuel, amount: 5)
 
-ship.bays.create!(name: 'control', max_power: 2, control: true)
+ship.bays.create!(name: 'control', max_power: 2, max_oxygen: 5, control: true)
 engine_bay = ship.bays.create!(name: 'engine', max_power: 20)
 tech_bay = ship.bays.create!(name: 'tech', max_power: 20)
 

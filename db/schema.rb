@@ -15,26 +15,19 @@ ActiveRecord::Schema.define(version: 2018_12_11_155907) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "bay_states", force: :cascade do |t|
-    t.integer "temp"
-    t.integer "pressure"
-    t.integer "integrity"
-    t.integer "humidity"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "bays", force: :cascade do |t|
-    t.integer "temp"
-    t.integer "pressure"
-    t.integer "integrity"
-    t.integer "humidity"
     t.bigint "ship_id"
+    t.integer "power", default: 0
+    t.integer "max_power", default: 0
+    t.integer "oxygen", default: 0
+    t.integer "max_oxygen", default: 0
+    t.integer "temp", default: 20
+    t.integer "integrity", default: 100
+    t.integer "humidity", default: 60
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "bay_state_id"
     t.boolean "control"
-    t.index ["bay_state_id"], name: "index_bays_on_bay_state_id"
     t.index ["ship_id"], name: "index_bays_on_ship_id"
   end
 
@@ -138,6 +131,7 @@ ActiveRecord::Schema.define(version: 2018_12_11_155907) do
     t.bigint "solar_system_id"
     t.bigint "celestial_object_id"
     t.bigint "production_id"
+    t.string "target_type"
     t.bigint "target_id"
     t.integer "action", limit: 2
     t.integer "progress", limit: 2, default: 0, null: false
@@ -149,12 +143,10 @@ ActiveRecord::Schema.define(version: 2018_12_11_155907) do
     t.boolean "fly"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "bay_state_id"
-    t.index ["bay_state_id"], name: "index_ships_on_bay_state_id"
     t.index ["celestial_object_id"], name: "index_ships_on_celestial_object_id"
     t.index ["production_id"], name: "index_ships_on_production_id"
     t.index ["solar_system_id"], name: "index_ships_on_solar_system_id"
-    t.index ["target_id"], name: "index_ships_on_target_id"
+    t.index ["target_type", "target_id"], name: "index_ships_on_target_type_and_target_id"
   end
 
   create_table "skills", force: :cascade do |t|
@@ -204,14 +196,12 @@ ActiveRecord::Schema.define(version: 2018_12_11_155907) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "bays", "bay_states"
   add_foreign_key "bays", "ships"
   add_foreign_key "celestial_objects", "celestial_objects", column: "parent_object_id"
   add_foreign_key "facilities_systems", "bays"
   add_foreign_key "factories", "celestial_objects"
   add_foreign_key "productions", "factories"
   add_foreign_key "productions", "materials"
-  add_foreign_key "ships", "bay_states"
   add_foreign_key "ships", "celestial_objects"
   add_foreign_key "ships", "productions"
   add_foreign_key "ships", "solar_systems"

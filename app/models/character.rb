@@ -13,8 +13,15 @@ class Character < ApplicationRecord
   accepts_nested_attributes_for :skills
 
   def step
-    # TODO: here should go oxygen check as temporary stub for atmospheric
+    ability_to_move = move # temp save this for history
 
+    History.create!(object: self, action: :step, params: {
+      ability_to_move: ability_to_move,
+      base_action: base.action,
+      base_arrived: base.arrived?
+    })
+
+    # TODO: here should go oxygen check as temporary stub for atmospheric
     return unless ability_to_move
 
     return base.set_target unless base.action
@@ -30,13 +37,13 @@ class Character < ApplicationRecord
   end
 
   def self.generate_character
-    obj = create!(name: Faker.name, skills: { skill: role.values.sample, value: Random.rand(10) })
+    obj = create!(name: Faker.name, skills: { skill: Character.roles.values.sample, value: Random.rand(10) })
     History.create!(object: obj, action: :generate_character)
   end
 
   private
 
-  def ability_to_move
+  def move
     return suicide if hunger == 100
 
     continuing = true
@@ -57,7 +64,7 @@ class Character < ApplicationRecord
       continuing = false
     end
 
-    continuing = false unless base.control_bay.consume(:o2, 1) # TODO: add more logic on no oxygen and base handling
+    continuing = false unless base.control_bay.consume(:oxygen, 1) # TODO: add more logic on no oxygen and base handling
 
     save!
     continuing
