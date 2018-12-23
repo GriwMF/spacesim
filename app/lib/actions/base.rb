@@ -23,18 +23,18 @@ module Actions
       # food = %w(капусту суп борщ салат пиццу шаверму бургер)
       sustenance = Random.rand(1..20)
 
-      @character.update!(hunger: @character.hunger - sustenance)
+      @character.update!(hunger: @character.hunger - sustenance, skip: 5)
       History.create!(object: @character, action: :eat, params: { sustenance: sustenance, hunger: @character.hunger })
     end
 
-    # TODO: continuous aciton
     def sleep
-      @character.update!(fatigue: @character.fatigue - 5)
+      @character.update!(fatigue: @character.fatigue - 5, skip: 5)
       History.create!(object: @character, action: :sleep, params: { fatigue: @character.fatigue })
     end
 
     def steer
       @character.base.increment!(:bonus_speed, 5)
+      @character.update!(skip: 2)
       History.create!(object: @character, action: :steer)
     end
 

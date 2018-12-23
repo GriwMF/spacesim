@@ -4,11 +4,16 @@ class HomepageController < ApplicationController
   end
 
   def history
-
+    @histories = History.all
   end
 
   def bc
-    ActionCable.server.broadcast("history", {id: 1, object: 'test'})
+    ActiveRecord::Base.transaction do
+      WorldDatum.step.update!(value: WorldDatum.step_number + 1)
+      Factory.find_each(&:step)
+      Ship.find_each(&:step)
+      Character.find_each(&:step)
+    end
     head :ok
   end
 end

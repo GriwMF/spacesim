@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 import History from '../src/js/components/history'
 
 const Hello = props => (
-  <div>Hello {props.name}!</div>
+  <div>Hello {props.name}! <a href="#" onClick={()=>{fetch("http://localhost:3000/bc")}}>Go!</a></div>
 )
 
 let cable = ActionCable.createConsumer('ws://localhost:3000/cable');
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <Fragment>
       <Hello name="React" />
-      <History cable={cable} />
+      <History cable={cable} initialState={INITIAL_STATE}/>
     </Fragment>,
     document.body.appendChild(document.createElement('div'))
   )

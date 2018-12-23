@@ -1,16 +1,14 @@
-import React from 'react'
+import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 
-class History extends React.Component {
+class History extends Component {
   state = {
-    history: [],
+    histories: this.props.initialState,
   };
 
-  handleReceivedHistory = response => {
-    console.log(response);
-    const { history } = response;
+  handleReceivedHistory = history => {
     this.setState({
-      history: [...this.state.history, response]
+      histories: [...this.state.histories, JSON.parse(history)]
     });
   };
 
@@ -18,17 +16,14 @@ class History extends React.Component {
     this.props.cable.subscriptions.create('HistoryChannel', {
       received: this.handleReceivedHistory
     });
-    // fetch(`${API_ROOT}/conversations`)
-    //   .then(res => res.json())
-    //   .then(conversations => this.setState({ conversations }));
   };
 
   render() {
-    const { history } = this.state;
+    const { histories } = this.state;
 
     return (
       <ul>
-        {mapHistory(history, ()=> {})}
+        {mapHistory(histories, ()=> {})}
       </ul>
     )
   }
@@ -36,12 +31,11 @@ class History extends React.Component {
 
 export default History;
 
-const mapHistory = (history, handleClick) => {
-  console.log(history)
-  return history.map(h => {
+const mapHistory = (histories, handleClick) => {
+  return histories.slice(0).reverse().map(history => {
     return (
-      <li key={h.id} onClick={() => handleClick(h.id)}>
-        {h.object}
+      <li key={history.id} onClick={() => handleClick(history.id)}>
+        {JSON.stringify(history)}
       </li>
     );
   });

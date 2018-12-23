@@ -13,7 +13,7 @@ class Character < ApplicationRecord
   accepts_nested_attributes_for :skills
 
   def step
-    ability_to_move = move # temp save this for history
+    ability_to_move = move # temporary save this for history
 
     History.create!(object: self, action: :step, params: {
       ability_to_move: ability_to_move,
