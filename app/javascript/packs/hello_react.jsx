@@ -10,10 +10,10 @@ import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import { combineReducers } from 'redux'
 import filter from '../src/js/reducers/filter'
-import History from '../src/js/components/history'
+import HistoryContainer from '../src/js/containers/history_container'
 import MenuBar from '../src/js/components/menu_bar'
 
-let store = createStore(filter, {histories: INITIAL_STATE, currentFilter: 'all'}, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+let store = createStore(filter, {histories: INITIAL_STATE, currentFilter: 'All'}, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
 let cable = ActionCable.createConsumer('ws://localhost:3000/cable');
 
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <Provider store={store}>
       <MenuBar name="React" />
-      <History cable={cable} initialState={INITIAL_STATE}/>
+      <HistoryContainer/>
     </Provider>,
     document.body.appendChild(document.createElement('div'))
   )
