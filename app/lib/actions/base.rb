@@ -40,7 +40,8 @@ module Actions
 
     def check_bay
       bay = @character.base.bays.sample
-      History.create!(object: @character, target: bay, action: :check_bay, params: bay.status)
+      History.create!(object: @character, target: bay, action: :check_bay, params: { status: bay.status })
+      bay.increment!(:integrity) if bay.integrity < 100
     end
 
     def work

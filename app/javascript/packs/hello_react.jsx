@@ -6,28 +6,23 @@ import React, { Fragment } from 'react'
 import ReactDOM from 'react-dom'
 import ActionCable from 'actioncable'
 import PropTypes from 'prop-types'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import { combineReducers } from 'redux'
+import filter from '../src/js/reducers/filter'
 import History from '../src/js/components/history'
+import MenuBar from '../src/js/components/menu_bar'
 
-const Hello = props => (
-  <div>Hello {props.name}! <a href="#" onClick={()=>{fetch("http://localhost:3000/bc")}}>Go!</a></div>
-)
+let store = createStore(filter, {histories: INITIAL_STATE, currentFilter: 'all'}, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
 let cable = ActionCable.createConsumer('ws://localhost:3000/cable');
 
-Hello.defaultProps = {
-  name: 'David'
-}
-
-Hello.propTypes = {
-  name: PropTypes.string
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <Fragment>
-      <Hello name="React" />
+    <Provider store={store}>
+      <MenuBar name="React" />
       <History cable={cable} initialState={INITIAL_STATE}/>
-    </Fragment>,
+    </Provider>,
     document.body.appendChild(document.createElement('div'))
   )
 })

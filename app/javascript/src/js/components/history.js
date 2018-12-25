@@ -31,11 +31,19 @@ class History extends Component {
 
 export default History;
 
+function replacer(key, value) {
+  // Фільтрація властивостей
+  if (key === 'updated_at' || key === 'created_at') {
+    return undefined;
+  }
+  return value;
+}
+
 const mapHistory = (histories, handleClick) => {
   return histories.slice(0).reverse().map(history => {
     return (
       <li key={history.id} onClick={() => handleClick(history.id)}>
-        {JSON.stringify(history)}
+        {JSON.stringify(history, replacer)}
       </li>
     );
   });
