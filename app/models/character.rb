@@ -36,8 +36,10 @@ class Character < ApplicationRecord
     end
   end
 
-  def self.generate_character
-    obj = create!(name: Faker.name, skills: { skill: Character.roles.keys.sample, value: Random.rand(10) })
+  def self.generate_character(base)
+    obj = create!(name: Faker.name, base: base, skills_attributes: [
+      { skill: Character.roles.keys.sample, value: Random.rand(10) }
+    ])
     History.create!(object: obj, action: :generate_character)
   end
 

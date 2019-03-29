@@ -6,7 +6,7 @@ class Factory < ApplicationRecord
   has_many :characters, as: :base
 
   def step
-    characters.generate_character if Random.rand(100).zero?
+    characters.generate_character(self) if Random.rand(100).zero?
 
     transaction do
       take_materials_or_rollback

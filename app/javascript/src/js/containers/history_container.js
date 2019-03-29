@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-
+import { handleReceivedHistory } from '../actions'
 import History from '../components/history'
 
 const getVisibleHistories = (histories, filter) => {
@@ -18,14 +18,17 @@ const getVisibleHistories = (histories, filter) => {
 
 const mapStateToProps = (state) => {
   return {
-    histories: getVisibleHistories(state.histories, state.currentFilter),
+    histories: getVisibleHistories(state.history.histories, state.history.currentFilter),
   }
 }
 
+const mapDispatchToProps = dispatch => ({
+  handleReceivedHistory: history => dispatch(handleReceivedHistory(history))
+})
 
 const HistoryContainer = connect(
   mapStateToProps,
-  // mapDispatchToProps
+  mapDispatchToProps
 )(History)
 
 export default HistoryContainer

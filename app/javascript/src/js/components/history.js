@@ -8,11 +8,11 @@ class History extends Component {
   //   });
   // };
   //
-  // componentDidMount = () => {
-  //   this.props.cable.subscriptions.create('HistoryChannel', {
-  //     received: this.handleReceivedHistory
-  //   });
-  // };
+  componentDidMount = () => {
+    this.props.cable.subscriptions.create('HistoryChannel', {
+      received: this.props.handleReceivedHistory
+    })
+  };
 
   render() {
     const { histories } = this.props;

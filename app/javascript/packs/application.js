@@ -9,3 +9,4 @@
 
 import '../src/js/main'
 import '../src/js/subscription'
+import './styles.scss'
