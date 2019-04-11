@@ -84,6 +84,8 @@ class Character < ApplicationRecord
   end
 
   def hire(characters)
-    characters.sample&.update!(base: base)
+    char = characters.sample
+    char&.update!(base: base)
+    History.create!(object: self, action: :hire, params: { character: char })
   end
 end
