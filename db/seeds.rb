@@ -63,4 +63,4 @@ Facilities::Engine.create!(bay: engine_bay, max_production: 5, consumption: 1)
 Facilities::O2Gen.create!(bay: tech_bay, max_production: 5, consumption: 1)
 Facilities::Generator.create!(bay: tech_bay, max_production: 5, consumption: 1)
 
-captain1 = Character.create!(name: Faker.name, base: ship)
+captain1 = Character.create!(name: Faker.name, base: ship, location: ship.control_bay)

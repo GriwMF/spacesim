@@ -4,7 +4,7 @@ class CreateCharacters < ActiveRecord::Migration[5.2]
       t.string :name
       t.integer :role, limit: 1
       t.references :base, polymorphic: true
-      t.integer :action_time, null: false, default: 0
+      t.references :location, polymorphic: true
       t.integer :hp, null: false, default: 100
       t.integer :hunger, null: false, default: 0
       t.integer :fatigue, null: false, default: 0

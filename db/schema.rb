@@ -45,7 +45,8 @@ ActiveRecord::Schema.define(version: 2018_12_11_155907) do
     t.integer "role", limit: 2
     t.string "base_type"
     t.bigint "base_id"
-    t.integer "action_time", default: 0, null: false
+    t.string "location_type"
+    t.bigint "location_id"
     t.integer "hp", default: 100, null: false
     t.integer "hunger", default: 0, null: false
     t.integer "fatigue", default: 0, null: false
@@ -55,6 +56,7 @@ ActiveRecord::Schema.define(version: 2018_12_11_155907) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["base_type", "base_id"], name: "index_characters_on_base_type_and_base_id"
+    t.index ["location_type", "location_id"], name: "index_characters_on_location_type_and_location_id"
   end
 
   create_table "facilities_systems", force: :cascade do |t|

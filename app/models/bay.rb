@@ -1,9 +1,10 @@
 class Bay < ApplicationRecord
   belongs_to :ship
+  has_many :characters, as: :location
   has_many :systems, class_name: "Facilities::System"
 
   def consume(resource, amount)
-    History.create!(object: self, action: :consume, params: { resource: resource, amount: amount, result: send(resource) >= amount})
+    History.create!(object: self, action: :consume, params: { name: name, resource: resource, amount: amount, result: send(resource) >= amount})
     decrement!(resource, amount) if send(resource) >= amount
   end
 
