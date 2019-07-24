@@ -56,11 +56,11 @@ ship.stocks.create!(material: credit, amount: 200)
 ship.stocks.create!(material: fuel, amount: 5)
 
 ship.bays.create!(name: 'control', max_power: 2, max_oxygen: 5, control: true)
-engine_bay = ship.bays.create!(name: 'engine', max_power: 20)
-tech_bay = ship.bays.create!(name: 'tech', max_power: 20)
+engine_bay = ship.bays.create!(name: 'engine', max_power: 20, max_oxygen: 5)
+tech_bay = ship.bays.create!(name: 'tech', max_power: 20, max_oxygen: 5)
 
 Facilities::Engine.create!(bay: engine_bay, max_production: 5, consumption: 1)
 Facilities::O2Gen.create!(bay: tech_bay, max_production: 5, consumption: 1)
 Facilities::Generator.create!(bay: tech_bay, max_production: 5, consumption: 1)
 
-captain1 = Character.create!(name: Faker.name, base: ship)
+captain1 = Character.create!(name: Faker.name, base: ship, location: ship.control_bay)

@@ -5,7 +5,7 @@ class Stock < ApplicationRecord
   def sell_all_to(target, price)
     return if amount.zero?
 
-    requested_amount = [amount, (target.credits.amount / (price * amount)).round].min
+    requested_amount = [amount, (target.credits.amount / price).round].min
     sell(target, requested_amount, price)
   end
 

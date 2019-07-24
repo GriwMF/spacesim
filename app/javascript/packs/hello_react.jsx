@@ -12,7 +12,7 @@ import Reducer from '../src/js/reducers'
 import HistoryContainer from '../src/js/containers/history_container'
 import MenuBar from '../src/js/components/menu_bar'
 
-let store = createStore(Reducer, {history: { histories: INITIAL_STATE, currentFilter: 'All'}}, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+let store = createStore(Reducer, {history: { histories: INITIAL_STATE, filteredHistories: INITIAL_STATE, currentFilter: 'All'}}, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
 let cable = ActionCable.createConsumer('ws://localhost:3000/cable');
 

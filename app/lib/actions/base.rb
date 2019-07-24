@@ -34,18 +34,20 @@ module Actions
 
     def steer
       @character.base.increment!(:bonus_speed, 5)
-      @character.update!(skip: 2)
+      @character.update!(skip: 2, location: @character.base.control_bay)
       History.create!(object: @character, action: :steer)
     end
 
     def check_bay
       bay = @character.base.bays.sample
-      History.create!(object: @character, target: bay, action: :check_bay, params: { status: bay.status })
+      @character.update!(location: bay)
       bay.increment!(:integrity) if bay.integrity < 100
+      History.create!(object: @character, target: bay, action: :check_bay, params: { status: bay.status })
     end
 
     def work
       bay = @character.base.bays.sample
+      @character.update!(location: bay)
       system = bay.systems.sample
       system&.work
       History.create!(object: @character, target: system, action: :work, params: { bay: bay })

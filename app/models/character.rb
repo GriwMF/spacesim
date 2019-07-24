@@ -1,4 +1,5 @@
 class Character < ApplicationRecord
+  belongs_to :location, polymorphic: true
   belongs_to :base, polymorphic: true
   has_many :skills
 
@@ -17,6 +18,7 @@ class Character < ApplicationRecord
 
     History.create!(object: self, action: :step, params: {
       ability_to_move: ability_to_move,
+      location: location,
       base_action: base.action,
       base_arrived: base.arrived?
     })
@@ -24,11 +26,12 @@ class Character < ApplicationRecord
     # TODO: here should go oxygen check as temporary stub for atmospheric
     return unless ability_to_move
 
-    return base.set_target unless base.action
+    return base.set_target unless base.action # TODO: should work only in control bay
 
     # should be moved to ship so responsible personel like trader/scientists can process job
     if base.arrived?
-      base.process_action
+      base.process_action # move to acions?
+      History.create!(object: self, action: :process_action, params: { base: base })
       hire(target.characters.where.not(role: 'captain')) if rand(2).zero? && target.is_a?(Factory)
     else
       # casual events
@@ -66,7 +69,7 @@ class Character < ApplicationRecord
       continuing = false
     end
 
-    continuing = false unless base.control_bay.consume(:oxygen, 1) # TODO: add more logic on no oxygen and base handling
+    continuing = false unless location.consume(:oxygen, 1) # TODO: add more logic on no oxygen and base handling
 
     save!
     continuing
@@ -84,6 +87,8 @@ class Character < ApplicationRecord
   end
 
   def hire(characters)
-    characters.sample&.update!(base: base)
+    char = characters.sample
+    char&.update!(base: base) # should arrive to special bay?
+    History.create!(object: self, action: :hire, params: { character: char })
   end
 end
