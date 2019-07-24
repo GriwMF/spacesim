@@ -7,11 +7,10 @@ import {
 const history = (state = [], action) => {
   switch (action.type) {
     case SELECT_FILTER:
-      let object = action.filter === 'All' ? null : state.currentObject
       return {
         ...state,
+        currentObject: null,
         currentFilter: action.filter,
-        currentObject: object,
         filteredHistories: filteredHistories(state.histories, action.filter)
       }
     case SELECT_OBJECT:

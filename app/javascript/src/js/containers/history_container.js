@@ -2,9 +2,17 @@ import { connect } from 'react-redux'
 import { handleReceivedHistory } from '../actions'
 import History from '../components/history'
 
+const filterByObjectId = (histories, objectId) => {
+  if (objectId) {
+    histories = histories.filter(h => h.object_id === objectId);
+  }
+
+  return histories;
+}
+
 const mapStateToProps = (state) => {
   return {
-    histories: state.history.filteredHistories,
+    histories: filterByObjectId(state.history.filteredHistories, state.history.currentObject)
   }
 }
 

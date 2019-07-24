@@ -31,7 +31,7 @@ class Character < ApplicationRecord
     # should be moved to ship so responsible personel like trader/scientists can process job
     if base.arrived?
       base.process_action # move to acions?
-      History.create!(object: @character, action: :process_action, params: { base: base })
+      History.create!(object: self, action: :process_action, params: { base: base })
       hire(target.characters.where.not(role: 'captain')) if rand(2).zero? && target.is_a?(Factory)
     else
       # casual events
