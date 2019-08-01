@@ -20,6 +20,7 @@ class Ship < ApplicationRecord
 
   def step # fly
     bays.find_each(&:step)
+    return set_target unless action # set ship action. Temporary here
     return unless fly
 
     if progress < 100
@@ -29,6 +30,9 @@ class Ship < ApplicationRecord
     else
       update!(fly: false)
       History.create!(object: self, action: :arrived, params: { target: target })
+
+      # most likely personell should do it, but for now it's automatically
+      process_action
     end
   end
 
@@ -56,7 +60,6 @@ class Ship < ApplicationRecord
       raise 'Unknown target'
     end
 
-    update!(action: nil, production: nil)
   end
 
   def arrived?
@@ -79,19 +82,5 @@ class Ship < ApplicationRecord
 
     mat = Material.find_by(name: 'fuel')
     Production.includes(:factory).where(material: mat, is_output: true).min_by(&:price)
-  end
-
-  def explore
-    amount = credits.amount + 10
-    credits.update!(amount: amount)
-    History.create!(object: self, action: :explore, params: { credits: amount })
-  end
-
-  def trade_deal
-    if production.is_output?
-      production.factory_stock.sell_all_to(self, production.price)
-    else
-      stocks.find_by(material: production.material).sell_all_to(production.factory, production.price)
-    end
   end
 end

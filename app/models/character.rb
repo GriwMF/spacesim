@@ -26,17 +26,14 @@ class Character < ApplicationRecord
     # TODO: here should go oxygen check as temporary stub for atmospheric
     return unless ability_to_move
 
-    return base.set_target unless base.action # TODO: should work only in control bay
+    # hire new personel on base
+    # if base.arrived?
+    #   History.create!(object: self, action: :process_action_idle, params: { base: base })
+    #   hire(target.characters.where.not(role: 'captain')) if rand(2).zero? && target.is_a?(Factory)
+    # end
 
-    # should be moved to ship so responsible personel like trader/scientists can process job
-    if base.arrived?
-      base.process_action # move to acions?
-      History.create!(object: self, action: :process_action, params: { base: base })
-      hire(target.characters.where.not(role: 'captain')) if rand(2).zero? && target.is_a?(Factory)
-    else
-      # casual events
-      Actions::Base.new(self).do_action
-    end
+    # casual events
+    Actions::Base.new(self).do_action
   end
 
   def self.generate_character(base)

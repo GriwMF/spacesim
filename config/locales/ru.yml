@@ -31,7 +31,7 @@
 
 ru:
   header:
-    title: мультиплеерная космическая zpg игра-симулятор
+    title: Мультиплеерная космическая zpg игра-симулятор
   activerecord:
     errors:
       models:
