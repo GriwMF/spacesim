@@ -32,12 +32,12 @@ ActiveRecord::Schema.define(version: 2018_12_11_155907) do
   end
 
   create_table "celestial_objects", force: :cascade do |t|
-    t.bigint "parent_object_id"
     t.string "name"
-    t.integer "altitude"
+    t.decimal "position_x"
+    t.decimal "position_y"
+    t.decimal "position_z"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["parent_object_id"], name: "index_celestial_objects_on_parent_object_id"
   end
 
   create_table "characters", force: :cascade do |t|
@@ -130,8 +130,9 @@ ActiveRecord::Schema.define(version: 2018_12_11_155907) do
   create_table "ships", force: :cascade do |t|
     t.integer "hp"
     t.string "name"
-    t.bigint "solar_system_id"
-    t.bigint "celestial_object_id"
+    t.decimal "position_x"
+    t.decimal "position_y"
+    t.decimal "position_z"
     t.bigint "production_id"
     t.string "target_type"
     t.bigint "target_id"
@@ -145,9 +146,7 @@ ActiveRecord::Schema.define(version: 2018_12_11_155907) do
     t.boolean "fly"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["celestial_object_id"], name: "index_ships_on_celestial_object_id"
     t.index ["production_id"], name: "index_ships_on_production_id"
-    t.index ["solar_system_id"], name: "index_ships_on_solar_system_id"
     t.index ["target_type", "target_id"], name: "index_ships_on_target_type_and_target_id"
   end
 
@@ -159,17 +158,6 @@ ActiveRecord::Schema.define(version: 2018_12_11_155907) do
     t.datetime "updated_at", null: false
     t.index ["character_id"], name: "index_skills_on_character_id"
     t.index ["skill", "character_id"], name: "index_skills_on_skill_and_character_id", unique: true
-  end
-
-  create_table "solar_systems", force: :cascade do |t|
-    t.string "name"
-    t.integer "x"
-    t.integer "y"
-    t.integer "z"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "celestial_object_id"
-    t.index ["celestial_object_id"], name: "index_solar_systems_on_celestial_object_id"
   end
 
   create_table "stocks", force: :cascade do |t|
@@ -199,15 +187,11 @@ ActiveRecord::Schema.define(version: 2018_12_11_155907) do
   end
 
   add_foreign_key "bays", "ships"
-  add_foreign_key "celestial_objects", "celestial_objects", column: "parent_object_id"
   add_foreign_key "facilities_systems", "bays"
   add_foreign_key "factories", "celestial_objects"
   add_foreign_key "productions", "factories"
   add_foreign_key "productions", "materials"
-  add_foreign_key "ships", "celestial_objects"
   add_foreign_key "ships", "productions"
-  add_foreign_key "ships", "solar_systems"
   add_foreign_key "skills", "characters"
-  add_foreign_key "solar_systems", "celestial_objects"
   add_foreign_key "stocks", "materials"
 end

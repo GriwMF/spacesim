@@ -3,8 +3,9 @@ class CreateShips < ActiveRecord::Migration[5.2]
     create_table :ships do |t|
       t.integer :hp
       t.string :name
-      t.belongs_to :solar_system, foreign_key: true
-      t.belongs_to :celestial_object, foreign_key: true
+      t.decimal :position_x
+      t.decimal :position_y
+      t.decimal :position_z
       t.belongs_to :production, foreign_key: true
       t.belongs_to :target, polymorphic: true
       t.integer :action, limit: 1

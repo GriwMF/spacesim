@@ -1,5 +1,6 @@
 class Ship < ApplicationRecord
   include HasGoods
+  include HasPositionVector
   include ResourceDistributor
 
   belongs_to :solar_system, optional: true
@@ -23,16 +24,14 @@ class Ship < ApplicationRecord
     return set_target unless action # set ship action. Temporary here
     return unless fly
 
-    if progress < 100
-      self.speed *= 2 if fuel.consume(1)
-      update!(progress: progress + speed, speed: 0)
-      History.create!(object: self, action: :flying, params: { progress: progress })
-    else
+    if arrived?
       update!(fly: false)
       History.create!(object: self, action: :arrived, params: { target: target })
 
       # most likely personell should do it, but for now it's automatically
       process_action
+    else
+      fly_to_target
     end
   end
 
@@ -63,7 +62,7 @@ class Ship < ApplicationRecord
   end
 
   def arrived?
-    progress >= 100
+    distance_to(target) <= WorldDatum::ARRIVED_DISTANCE
   end
 
   private
@@ -75,6 +74,15 @@ class Ship < ApplicationRecord
     end
 
     nil
+  end
+
+  def fly_to_target
+    current_speed = speed
+    current_speed *= 2 if fuel.consume(1)
+    move_towards(target, current_speed)
+    save!
+
+    History.create!(object: self, action: :fly_to_target, params: { speed: current_speed, target: target })
   end
 
   def find_material_to_buy
