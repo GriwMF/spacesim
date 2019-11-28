@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_11_155907) do
+ActiveRecord::Schema.define(version: 2019_11_28_141158) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,16 @@ ActiveRecord::Schema.define(version: 2018_12_11_155907) do
     t.datetime "updated_at", null: false
     t.boolean "control"
     t.index ["ship_id"], name: "index_bays_on_ship_id"
+  end
+
+  create_table "blogs", force: :cascade do |t|
+    t.string "title"
+    t.string "locale"
+    t.text "text"
+    t.boolean "published"
+    t.datetime "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "celestial_objects", force: :cascade do |t|

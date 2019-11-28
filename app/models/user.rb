@@ -3,4 +3,5 @@ class User < ApplicationRecord
                     presence: true,
                     uniqueness: true
   mailkick_user
+  has_secure_password
 end
