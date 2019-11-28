@@ -13,7 +13,7 @@ class Ship < ApplicationRecord
   has_many :characters, as: :base
   has_many :bays, dependent: :destroy
 
-  enum action: [:trade, :explore]
+  enum action: [:trade, :exploration]
 
   def control_bay
     bays.find_by!(name: 'control')
@@ -29,7 +29,7 @@ class Ship < ApplicationRecord
       History.create!(object: self, action: :arrived, params: { target: target })
 
       # most likely personell should do it, but for now it's automatically
-      process_action
+      send "process_#{action}"
     else
       fly_to_target
     end
@@ -45,20 +45,9 @@ class Ship < ApplicationRecord
     else
       self.target = CelestialObject.sample
     end
+
     save!
     History.create!(object: self, action: :set_target, params: { production: production, target: target, action: action, by: characters.take })
-  end
-
-  def process_action
-    case
-    when trade?
-      trade_deal
-    when explore?
-      explore
-    else
-      raise 'Unknown target'
-    end
-
   end
 
   def arrived?
@@ -66,6 +55,20 @@ class Ship < ApplicationRecord
   end
 
   private
+
+  def process_exploration
+    amount = credits.amount + 10
+    credits.update!(amount: amount)
+    History.create!(object: self, action: :exploration, params: { credits: amount })
+  end
+
+  def process_trade
+    if target.is_output?
+      target.factory_stock.sell_all_to(self, target.price)
+    else
+      ship.stocks.find_by(material: target.material).sell_all_to(target.factory, target.price)
+    end
+  end
 
   def check_stocks
     stocks.where.not(id: credits.id).each do |mat|
