@@ -56,6 +56,8 @@ en:
     n6:
       text: Open world
       description: Entire solar systems without prohibitions and restrictions. Someone bargains, others like piracy, and lazy people sit in the bar. And only zero balance can make them work.
+  news:
+    title: News
   subscribe:
     text: Stay in the know
     description: Subscribe and keep up to date with development and updates. Also, by signing up, you are guaranteed to get early access.

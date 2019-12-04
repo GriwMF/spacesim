@@ -184,6 +184,7 @@ ActiveRecord::Schema.define(version: 2019_11_28_141158) do
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "locale", default: "en", null: false
+    t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true

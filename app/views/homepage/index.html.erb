@@ -323,10 +323,10 @@
       <div class="container-sm">
         <div class="media-inner section-inner">
           <div class="media-header text-center">
-            <h2 class="section-title mt-24">Новости</h2>
+            <h2 class="section-title mt-24"><%= t('news.title') %></h2>
             <% Blog.in_current_locale.each do |blog_post| %>
               <div class="section-paragraph text-left">
-                <p class="feature-title mb-0"><%= blog_post.title %> - <%= blog_post.date.to_date %></p>
+                <p class="feature-title mb-0"><b><%= blog_post.title %> - <%= blog_post.date.to_date %></b></p>
                 <p class="text-sm"><%= blog_post.text %></p>
               </div>
             <% end %>

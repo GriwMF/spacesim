@@ -18,8 +18,8 @@ RailsAdmin.config do |config|
   # config.audit_with :paper_trail, 'User', 'PaperTrail::Version' # PaperTrail >= 3.0.0
 
   config.authenticate_with do
-    authenticate_or_request_with_http_basic('Login required') do |username, password|
-      user = User.where(name: username).first
+    authenticate_or_request_with_http_basic('Login required') do |email, password|
+      user = User.where(email: email).first
       user.authenticate(password) if user
     end
   end
