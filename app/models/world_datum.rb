@@ -1,4 +1,6 @@
 class WorldDatum < ApplicationRecord
+  ARRIVED_DISTANCE = 25
+
   before_save :limit_step, if: :value
 
   def limit_step

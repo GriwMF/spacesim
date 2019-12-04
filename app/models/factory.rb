@@ -5,6 +5,8 @@ class Factory < ApplicationRecord
   has_many :productions
   has_many :characters, as: :base
 
+  delegate :position_vector, to: :celestial_object
+
   def step
     characters.generate_character(self) if Random.rand(100).zero?
 
