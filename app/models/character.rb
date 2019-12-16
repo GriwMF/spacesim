@@ -33,7 +33,7 @@ class Character < ApplicationRecord
     # end
 
     # casual events
-    Actions::Base.new(self).do_action
+    CharacterActions::Base.new(self).do
   end
 
   def self.generate_character(base)

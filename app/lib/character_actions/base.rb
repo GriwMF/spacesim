@@ -1,4 +1,4 @@
-module Actions
+module CharacterActions
   class Base
     def initialize(character)
       @character = character
@@ -10,7 +10,7 @@ module Actions
       actions
     end
 
-    def do_action
+    def do
       case Random.rand(10)
       when (0..5)
         send(available_actions.sample)
