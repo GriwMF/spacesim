@@ -35,21 +35,6 @@ class Ship < ApplicationRecord
     end
   end
 
-  def set_target
-    self.action = Random.rand(2)
-    self.fly = true
-    self.progress = 0
-    if trade?
-      self.production = check_stocks || find_material_to_buy
-      self.target = production.factory
-    else
-      self.target = CelestialObject.sample
-    end
-
-    save!
-    History.create!(object: self, action: :set_target, params: { production: production, target: target, action: action, by: characters.take })
-  end
-
   def arrived?
     distance_to(target) <= WorldDatum::ARRIVED_DISTANCE
   end
