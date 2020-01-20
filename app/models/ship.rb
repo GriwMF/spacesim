@@ -7,13 +7,9 @@ class Ship < ApplicationRecord
   belongs_to :celestial_object, optional: true
   belongs_to :production, optional: true # target for commerce
 
-  # TODO: use to calculate distance, etc
-  belongs_to :target, optional: true, polymorphic: true
-
   has_many :characters, as: :base
   has_many :bays, dependent: :destroy
-
-  enum action: [:trade, :exploration]
+  has_many :action_tables, dependent: :destroy
 
   def control_bay
     bays.find_by!(name: 'control')
@@ -21,18 +17,19 @@ class Ship < ApplicationRecord
 
   def step # fly
     bays.find_each(&:step)
-    return set_target unless action # set ship action. Temporary here
-    return unless fly
-
-    if arrived?
-      update!(fly: false)
-      History.create!(object: self, action: :arrived, params: { target: target })
-
-      # most likely personell should do it, but for now it's automatically
-      send "process_#{action}"
-    else
-      fly_to_target
-    end
+    # return set_target unless action # set ship action. Temporary here
+    # return unless fly
+    #
+    # if arrived?
+    #   update!(fly: false)
+    #   History.create!(object: self, action: :arrived, params: { target: target })
+    #
+    #   # most likely personell should do it, but for now it's automatically
+    #   send "process_#{action}"
+    # else
+    #   fly_to_target
+    # end
+    process_action_table
   end
 
   def arrived?
@@ -41,18 +38,14 @@ class Ship < ApplicationRecord
 
   private
 
+  def process_action_table
+    action_tables.last&.step || ShipActions::Base.pick_action(self)
+  end
+
   def process_exploration
     amount = credits.amount + 10
     credits.update!(amount: amount)
     History.create!(object: self, action: :exploration, params: { credits: amount })
-  end
-
-  def process_trade
-    if target.is_output?
-      target.factory_stock.sell_all_to(self, target.price)
-    else
-      ship.stocks.find_by(material: target.material).sell_all_to(target.factory, target.price)
-    end
   end
 
   def check_stocks
@@ -64,13 +57,8 @@ class Ship < ApplicationRecord
     nil
   end
 
-  def fly_to_target
-    current_speed = speed
-    current_speed *= 2 if fuel.consume(1)
-    move_towards(target, current_speed)
-    save!
-
-    History.create!(object: self, action: :fly_to_target, params: { speed: current_speed, target: target })
+  def calculate_speed
+    if fuel.consume(1) ? speed * 2 : speed
   end
 
   def find_material_to_buy

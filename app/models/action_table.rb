@@ -3,15 +3,19 @@ class ActionTable < ApplicationRecord
 
   belongs_to :ship
 
+  default_scope { order(:priority) }
+
   before_create do
     self.priority = ActionTable.where(ship: ship).maximum(:priority) || 0
     self.priority += 1
   end
 
-  def self.pick_base_action
-    trade_action = ShipActions::Trade.new(ship, target_production: ship.check_stocks || ship.find_material_to_buy)
+  def step
 
-    create!(params: trade_action.dump, action_type: trade_action.class)
+  end
+
+  def self.pick_base_action
+
     # @ship.action = Random.rand(2)
     # @ship.fly = true
     # @ship.progress = 0
