@@ -33,7 +33,12 @@ class Ship < ApplicationRecord
   end
 
   def arrived?
-    distance_to(target) <= WorldDatum::ARRIVED_DISTANCE
+    #distance_to(target) <= WorldDatum::ARRIVED_DISTANCE
+    action_tables.empty?
+  end
+
+  def trade_target
+    check_stocks || find_material_to_buy
   end
 
   private
@@ -58,7 +63,7 @@ class Ship < ApplicationRecord
   end
 
   def calculate_speed
-    if fuel.consume(1) ? speed * 2 : speed
+    fuel.consume(1) ? speed * 2 : speed
   end
 
   def find_material_to_buy

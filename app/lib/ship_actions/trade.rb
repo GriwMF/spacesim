@@ -2,7 +2,7 @@ module ShipActions
   class Trade < Base
 
     def self.append_action(ship, **attrs)
-      attrs = { target: ship.check_stocks || ship.find_material_to_buy }
+      attrs = { target: ship.trade_target }
 
       super(ship, attrs)
     end

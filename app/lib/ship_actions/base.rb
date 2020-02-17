@@ -4,9 +4,10 @@ module ShipActions
       action = new(ship, attrs)
 
       ActionTable.create!(params: action.dump, action_type: self, ship: ship)
+      History.create!(object: ship, action: :append_action, params: { action_type: self.to_s })
     end
 
-    # attrs = { a: 2, b: 3}
+    # attrs = { a: 2, b: 3 }
     # => @a = 2; @b = 3
     def initialize(ship, **attrs)
       attrs = attrs.transform_keys { |k| "@#{k}" }
@@ -16,14 +17,16 @@ module ShipActions
 
       @ship = ship
 
-      History.create!(object: ship, action: :init, params: { class: self.class, attrs: attrs })
+      History.create!(object: ship, action: :init, params: { class: self.class.to_s, attrs: attrs })
     end
 
     def dump
-      @attrs.each(&method(:instance_variable_get))
+      @attrs.map do |attr|
+        [attr[1..-1], instance_variable_get(attr)]
+      end.to_h
     end
 
-    def pick_action(ship)
+    def self.pick_action(ship)
       ShipActions::Trade.append_action(ship)
 
       # @ship.action = Random.rand(2)

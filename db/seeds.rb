@@ -14,7 +14,9 @@ CelestialObject.delete_all
 Character.delete_all
 Facilities::System.delete_all
 Bay.delete_all
+ActionTable.delete_all
 Ship.delete_all
+History.delete_all
 
 WorldDatum.create!(key: :step, value: 0)
 
