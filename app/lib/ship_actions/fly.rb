@@ -10,11 +10,5 @@ module ShipActions
         History.create!(object: @ship, action: :fly_to_target, params: { speed: speed, target: @target })
       end
     end
-
-    private
-
-    def arrived?
-      @ship.distance_to(@target) <= WorldDatum::ARRIVED_DISTANCE
-    end
   end
 end

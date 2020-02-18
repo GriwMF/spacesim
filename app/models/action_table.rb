@@ -11,10 +11,13 @@ class ActionTable < ApplicationRecord
   end
 
   def step
-
+    action_result = action_type.constantize.new(ship, parsed_params).step
+    destroy unless action_result
+    true
   end
 
-  def self.pick_base_action
+  def self.create_new_basic_action
+    #should set up random action
 
     # @ship.action = Random.rand(2)
     # @ship.fly = true
@@ -29,6 +32,4 @@ class ActionTable < ApplicationRecord
     # @ship.save!
     # History.create!(object: @ship, action: :set_target, params: { production: @ship.production, target: @ship.target, action: @ship.action })
   end
-
-
 end

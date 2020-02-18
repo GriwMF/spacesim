@@ -29,7 +29,7 @@ class Ship < ApplicationRecord
     # else
     #   fly_to_target
     # end
-    process_action_table
+    process_action || create_new_action
   end
 
   def arrived?
@@ -41,16 +41,20 @@ class Ship < ApplicationRecord
     check_stocks || find_material_to_buy
   end
 
-  private
-
-  def process_action_table
-    action_tables.last&.step || ShipActions::Base.pick_action(self)
+  def add_credits(amount)
+    amount += credits.amount
+    credits.update!(amount: amount)
+    History.create!(object: self, action: :add_credits, params: { credits: amount })
   end
 
-  def process_exploration
-    amount = credits.amount + 10
-    credits.update!(amount: amount)
-    History.create!(object: self, action: :exploration, params: { credits: amount })
+  private
+
+  def process_action
+    action_tables.last&.step
+  end
+
+  def create_new_action
+    ('ShipActions::' + %w[Trade Explore].sample).constantize.append_to(self)
   end
 
   def check_stocks

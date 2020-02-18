@@ -1,7 +1,7 @@
 module ShipActions
   class Trade < Base
 
-    def self.append_action(ship, **attrs)
+    def self.append_to(ship, **attrs)
       attrs = { target: ship.trade_target }
 
       super(ship, attrs)
@@ -11,7 +11,7 @@ module ShipActions
       if arrived?
         perform_deal
       else
-        ShipActions::Fly.append_action(@ship, target: @target.factory)
+        ShipActions::Fly.append_to(@ship, target: @target.factory)
       end
     end
 
