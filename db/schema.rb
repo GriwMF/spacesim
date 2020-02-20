@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
   create_table "action_tables", force: :cascade do |t|
     t.string "action_type"
     t.bigint "ship_id"
-    t.json "params"
+    t.json "parsed_params"
     t.integer "priority"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -153,10 +153,6 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
     t.decimal "position_x"
     t.decimal "position_y"
     t.decimal "position_z"
-    t.bigint "production_id"
-    t.string "target_type"
-    t.bigint "target_id"
-    t.integer "action", limit: 2
     t.integer "progress", limit: 2, default: 0, null: false
     t.integer "bonus_speed", default: 0, null: false
     t.integer "speed"
@@ -166,8 +162,6 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
     t.boolean "fly"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["production_id"], name: "index_ships_on_production_id"
-    t.index ["target_type", "target_id"], name: "index_ships_on_target_type_and_target_id"
   end
 
   create_table "skills", force: :cascade do |t|
@@ -213,7 +207,6 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
   add_foreign_key "factories", "celestial_objects"
   add_foreign_key "productions", "factories"
   add_foreign_key "productions", "materials"
-  add_foreign_key "ships", "productions"
   add_foreign_key "skills", "characters"
   add_foreign_key "stocks", "materials"
 end

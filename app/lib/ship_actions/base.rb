@@ -3,7 +3,7 @@ module ShipActions
     def self.append_to(ship, **attrs)
       action = new(ship, attrs)
 
-      ActionTable.create!(parsed_params: action.dump, action_type: self, ship: ship)
+      ActionTable.create!(params: action.dump, action_type: self, ship: ship)
       History.create!(object: ship, action: :append_action, params: { action_type: self.to_s })
     end
 

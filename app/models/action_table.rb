@@ -11,7 +11,7 @@ class ActionTable < ApplicationRecord
   end
 
   def step
-    action_result = action_type.constantize.new(ship, parsed_params).step
+    action_result = action_type.constantize.new(ship, params).step
     destroy unless action_result
     true
   end

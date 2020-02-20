@@ -2,7 +2,7 @@ module ParamsSerialization
   extend ActiveSupport::Concern
 
   included do
-    attr_accessor :parsed_params
+    attr_accessor :params
 
     before_save :dump
     after_save :load
@@ -11,7 +11,7 @@ module ParamsSerialization
 
   # convert AR objects to string
   def dump
-    self.params = parsed_params.transform_values do |value|
+    self.parsed_params = params.transform_values do |value|
       if value.is_a?(ActiveRecord::Base)
         value = "parsed:#{value.class}:#{value.id}"
       end
@@ -21,7 +21,7 @@ module ParamsSerialization
 
   # load AR objects from string
   def load
-    self.parsed_params = params.transform_values do |value|
+    self.params = parsed_params.transform_values do |value|
       if value.is_a?(String) && value.start_with?('parsed:')
         value = value.split(':')
         value = value[1].constantize.find(value[2])
