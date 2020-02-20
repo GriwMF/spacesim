@@ -30,11 +30,11 @@ module ShipActions
     def step
       raise 'Not implemented'
     end
-  end
 
-  private
+    private
 
-  def arrived?
-    @ship.distance_to(@target) <= WorldDatum::ARRIVED_DISTANCE
+    def arrived?
+      @ship.distance_to(@target) <= WorldDatum::ARRIVED_DISTANCE
+    end
   end
 end

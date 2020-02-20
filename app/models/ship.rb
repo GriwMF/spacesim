@@ -47,6 +47,11 @@ class Ship < ApplicationRecord
     History.create!(object: self, action: :add_credits, params: { credits: amount })
   end
 
+  def fly_to(target)
+    move_towards(target, calculate_speed)
+    save!
+  end
+
   private
 
   def process_action

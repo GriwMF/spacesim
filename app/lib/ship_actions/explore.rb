@@ -27,6 +27,8 @@ module ShipActions
       if @explored >= 100
         @ship.add_credits(100)
         false
+      else
+        true
       end
     end
   end

@@ -4,10 +4,8 @@ module ShipActions
       if arrived?
         false
       else
-        speed = @ship.calculate_speed
-        @ship.move_towards(@target, speed)
-        @ship.save!
-        History.create!(object: @ship, action: :fly_to_target, params: { speed: speed, target: @target })
+        @ship.fly_to(@target)
+        History.create!(object: @ship, action: :fly_to_target, params: { target: @target })
       end
     end
   end

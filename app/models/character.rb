@@ -19,8 +19,8 @@ class Character < ApplicationRecord
     History.create!(object: self, action: :step, params: {
                       ability_to_move: ability_to_move,
                       location: location,
-                      base_action: base.action,
-                      base_arrived: base.arrived?
+                      # base_action: base.action,
+                      # base_arrived: base.arrived?
                     })
 
     # TODO: here should go oxygen check as temporary stub for atmospheric
