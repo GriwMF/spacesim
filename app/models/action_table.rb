@@ -11,9 +11,13 @@ class ActionTable < ApplicationRecord
   end
 
   def step
-    action_result = action_type.constantize.new(ship, params).step
-    destroy unless action_result
-    true
+    action = action_type.constantize.new(ship, params)
+
+    if action.step
+      update!(params: action.dump)
+    else
+      destroy!
+    end
   end
 
   def self.create_new_basic_action
