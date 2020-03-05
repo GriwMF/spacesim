@@ -15,26 +15,10 @@ class Ship < ApplicationRecord
     bays.find_by!(name: 'control')
   end
 
-  def step # fly
+  def step
     bays.find_each(&:step)
-    # return set_target unless action # set ship action. Temporary here
-    # return unless fly
-    #
-    # if arrived?
-    #   update!(fly: false)
-    #   History.create!(object: self, action: :arrived, params: { target: target })
-    #
-    #   # most likely personell should do it, but for now it's automatically
-    #   send "process_#{action}"
-    # else
-    #   fly_to_target
-    # end
-    process_action || create_new_action
-  end
 
-  def arrived?
-    #distance_to(target) <= WorldDatum::ARRIVED_DISTANCE
-    action_tables.empty?
+    process_action || create_new_action
   end
 
   def trade_target
@@ -42,9 +26,8 @@ class Ship < ApplicationRecord
   end
 
   def add_credits(amount)
-    amount += credits.amount
-    credits.update!(amount: amount)
-    History.create!(object: self, action: :add_credits, params: { credits: amount })
+    credits.update!(amount: amount + credits.amount)
+    History.create!(object: self, action: :add_credits, params: { credits: amount, total: amount + credits.amount })
   end
 
   def fly_to(target)

@@ -42,7 +42,7 @@ module CharacterActions
       bay = @character.base.bays.sample
       @character.update!(location: bay)
       bay.increment!(:integrity) if bay.integrity < 100
-      History.create!(object: @character, target: bay, action: :check_bay, params: { status: bay.status })
+      History.create!(object: @character, action: :check_bay, params: { status: bay.status, target: bay })
     end
 
     def work
@@ -50,7 +50,7 @@ module CharacterActions
       @character.update!(location: bay)
       system = bay.systems.sample
       system&.work
-      History.create!(object: @character, target: system, action: :work, params: { bay: bay })
+      History.create!(object: @character, action: :work, params: { bay: bay, system: system })
     end
   end
 end

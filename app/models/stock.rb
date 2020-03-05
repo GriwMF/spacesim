@@ -47,9 +47,8 @@ class Stock < ApplicationRecord
   def log_sell(buyer, requested_amount, price)
     History.create!(
       object: object,
-      target: buyer,
       action: 'sell',
-      params: { price: price, amount: requested_amount, material: material }
+      params: { buyer: buyer, price: price, amount: requested_amount, material: material }
     )
   end
 end
