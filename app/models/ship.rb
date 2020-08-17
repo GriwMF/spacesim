@@ -11,12 +11,18 @@ class Ship < ApplicationRecord
   has_many :systems, dependent: :destroy, class_name: "Facilities::System"
   has_many :action_tables, dependent: :destroy
 
-  def control_bay
-    bays.find_by!(name: 'control')
+  def take_damage(damage)
+    History.create!(object: self, action: :damage, params: { integrity: integrity, damage: damage })
+    if integrity > damage
+      decrement!(integrity, damage)
+    else
+      History.create!(object: self, action: :system_destroy)
+      destroy!
+    end
   end
 
   def step
-    bays.find_each(&:step)
+    systems.find_each(&:step)
 
     # no new action for debug
     process_action # || create_new_action

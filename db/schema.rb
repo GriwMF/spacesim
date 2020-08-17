@@ -25,23 +25,6 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
     t.index ["ship_id"], name: "index_action_tables_on_ship_id"
   end
 
-  create_table "bays", force: :cascade do |t|
-    t.bigint "ship_id"
-    t.integer "power", default: 0
-    t.integer "max_power", default: 0
-    t.integer "oxygen", default: 0
-    t.integer "max_oxygen", default: 0
-    t.integer "temp", default: 20
-    t.integer "integrity", default: 100
-    t.integer "humidity", default: 60
-    t.json "params"
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "control"
-    t.index ["ship_id"], name: "index_bays_on_ship_id"
-  end
-
   create_table "blogs", force: :cascade do |t|
     t.string "title"
     t.string "locale"
@@ -81,15 +64,21 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
   end
 
   create_table "facilities_systems", force: :cascade do |t|
-    t.bigint "bay_id"
+    t.bigint "ship_id"
     t.string "type"
+    t.integer "power", default: 0
+    t.integer "max_power", default: 0
+    t.integer "oxygen", default: 0
+    t.integer "max_oxygen", default: 0
+    t.integer "temp", default: 20
     t.integer "integrity", default: 100
+    t.integer "humidity", default: 60
     t.integer "max_production"
     t.integer "consumption"
     t.json "params"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["bay_id"], name: "index_facilities_systems_on_bay_id"
+    t.index ["ship_id"], name: "index_facilities_systems_on_ship_id"
   end
 
   create_table "factories", force: :cascade do |t|
@@ -201,8 +190,7 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
   end
 
   add_foreign_key "action_tables", "ships"
-  add_foreign_key "bays", "ships"
-  add_foreign_key "facilities_systems", "bays"
+  add_foreign_key "facilities_systems", "ships"
   add_foreign_key "factories", "celestial_objects"
   add_foreign_key "productions", "factories"
   add_foreign_key "productions", "materials"
