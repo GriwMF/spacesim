@@ -9,6 +9,7 @@ class CreateBays < ActiveRecord::Migration[5.2]
       t.integer :temp, default: 20
       t.integer :integrity, default: 100
       t.integer :humidity, default: 60
+      t.json :params
       t.string :name
 
       t.timestamps

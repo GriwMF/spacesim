@@ -1,6 +1,5 @@
 module ShipActions
   class Explore < Base
-
     def self.append_to(ship, **attrs)
       attrs[:target] = CelestialObject.sample
       #   OpenStruct.new(

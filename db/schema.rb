@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
     t.integer "temp", default: 20
     t.integer "integrity", default: 100
     t.integer "humidity", default: 60
+    t.json "params"
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -80,11 +81,12 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
   end
 
   create_table "facilities_systems", force: :cascade do |t|
+    t.bigint "bay_id"
     t.string "type"
-    t.integer "durability"
+    t.integer "integrity", default: 100
     t.integer "max_production"
     t.integer "consumption"
-    t.bigint "bay_id"
+    t.json "params"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["bay_id"], name: "index_facilities_systems_on_bay_id"
@@ -105,14 +107,11 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
   create_table "histories", force: :cascade do |t|
     t.string "object_type"
     t.bigint "object_id"
-    t.string "target_type"
-    t.bigint "target_id"
     t.text "action"
     t.json "params"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["object_type", "object_id"], name: "index_histories_on_object_type_and_object_id"
-    t.index ["target_type", "target_id"], name: "index_histories_on_target_type_and_target_id"
   end
 
   create_table "mailkick_opt_outs", force: :cascade do |t|

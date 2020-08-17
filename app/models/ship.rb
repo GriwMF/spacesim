@@ -8,7 +8,7 @@ class Ship < ApplicationRecord
   belongs_to :production, optional: true # target for commerce
 
   has_many :characters, as: :base
-  has_many :bays, dependent: :destroy
+  has_many :systems, dependent: :destroy, class_name: "Facilities::System"
   has_many :action_tables, dependent: :destroy
 
   def control_bay
@@ -18,7 +18,8 @@ class Ship < ApplicationRecord
   def step
     bays.find_each(&:step)
 
-    process_action || create_new_action
+    # no new action for debug
+    process_action # || create_new_action
   end
 
   def trade_target

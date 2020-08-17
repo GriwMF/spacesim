@@ -1,7 +1,7 @@
 module Facilities
   class O2Gen < System
     def step
-      bay.ship.generate_oxygen(max_production) if bay.consume(:power, consumption)
+      ship.generate_oxygen(max_production) if consume(:power)
     end
   end
 end
