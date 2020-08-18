@@ -22,6 +22,10 @@ class Factory < ApplicationRecord
     end
   end
 
+  def consume(*_attrs)
+    true
+  end
+
   def price(production)
     material = production.material
     in_stock = stocks.find_by(material: material)&.amount || 0
@@ -57,7 +61,7 @@ class Factory < ApplicationRecord
       stock = stocks.where(material_id: production.material_id).first_or_initialize.lock!
       stock.amount = stock.amount + 1
       stock.save!
-      History.create!(object: self, target: production, action: :produced_material, params: { amount: stock.amount })
+      History.create!(object: self, action: :produced_material, params: { target: production, amount: stock.amount })
     end
   end
 end

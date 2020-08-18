@@ -13,7 +13,12 @@ module HasPositionVector
 
   def move_towards(target, speed)
     direction = (target.position_vector - position_vector).normalize
-    position_vector + (direction * speed)
+
+    self.position_vector = if distance_to(target) < speed
+                             target.position_vector
+                           else
+                             position_vector + direction * speed
+                           end
   end
 
   def distance_to(target)

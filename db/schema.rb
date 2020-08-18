@@ -10,25 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_28_141158) do
+ActiveRecord::Schema.define(version: 2020_01_16_175626) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "bays", force: :cascade do |t|
+  create_table "action_tables", force: :cascade do |t|
+    t.string "action_type"
     t.bigint "ship_id"
-    t.integer "power", default: 0
-    t.integer "max_power", default: 0
-    t.integer "oxygen", default: 0
-    t.integer "max_oxygen", default: 0
-    t.integer "temp", default: 20
-    t.integer "integrity", default: 100
-    t.integer "humidity", default: 60
-    t.string "name"
+    t.json "parsed_params"
+    t.integer "priority"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "control"
-    t.index ["ship_id"], name: "index_bays_on_ship_id"
+    t.index ["ship_id"], name: "index_action_tables_on_ship_id"
   end
 
   create_table "blogs", force: :cascade do |t|
@@ -70,14 +64,21 @@ ActiveRecord::Schema.define(version: 2019_11_28_141158) do
   end
 
   create_table "facilities_systems", force: :cascade do |t|
+    t.bigint "ship_id"
     t.string "type"
-    t.integer "durability"
+    t.integer "power", default: 0
+    t.integer "max_power", default: 0
+    t.integer "oxygen", default: 0
+    t.integer "max_oxygen", default: 0
+    t.integer "temp", default: 20
+    t.integer "integrity", default: 10
+    t.integer "humidity", default: 60
     t.integer "max_production"
     t.integer "consumption"
-    t.bigint "bay_id"
+    t.json "params"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["bay_id"], name: "index_facilities_systems_on_bay_id"
+    t.index ["ship_id"], name: "index_facilities_systems_on_ship_id"
   end
 
   create_table "factories", force: :cascade do |t|
@@ -95,14 +96,11 @@ ActiveRecord::Schema.define(version: 2019_11_28_141158) do
   create_table "histories", force: :cascade do |t|
     t.string "object_type"
     t.bigint "object_id"
-    t.string "target_type"
-    t.bigint "target_id"
     t.text "action"
     t.json "params"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["object_type", "object_id"], name: "index_histories_on_object_type_and_object_id"
-    t.index ["target_type", "target_id"], name: "index_histories_on_target_type_and_target_id"
   end
 
   create_table "mailkick_opt_outs", force: :cascade do |t|
@@ -138,26 +136,18 @@ ActiveRecord::Schema.define(version: 2019_11_28_141158) do
   end
 
   create_table "ships", force: :cascade do |t|
-    t.integer "hp"
     t.string "name"
     t.decimal "position_x"
     t.decimal "position_y"
     t.decimal "position_z"
-    t.bigint "production_id"
-    t.string "target_type"
-    t.bigint "target_id"
-    t.integer "action", limit: 2
     t.integer "progress", limit: 2, default: 0, null: false
     t.integer "bonus_speed", default: 0, null: false
+    t.integer "integrity", default: 100
     t.integer "speed"
     t.integer "storage"
-    t.integer "energy"
-    t.integer "o2"
     t.boolean "fly"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["production_id"], name: "index_ships_on_production_id"
-    t.index ["target_type", "target_id"], name: "index_ships_on_target_type_and_target_id"
   end
 
   create_table "skills", force: :cascade do |t|
@@ -197,12 +187,11 @@ ActiveRecord::Schema.define(version: 2019_11_28_141158) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "bays", "ships"
-  add_foreign_key "facilities_systems", "bays"
+  add_foreign_key "action_tables", "ships"
+  add_foreign_key "facilities_systems", "ships"
   add_foreign_key "factories", "celestial_objects"
   add_foreign_key "productions", "factories"
   add_foreign_key "productions", "materials"
-  add_foreign_key "ships", "productions"
   add_foreign_key "skills", "characters"
   add_foreign_key "stocks", "materials"
 end

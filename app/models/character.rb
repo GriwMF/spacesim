@@ -14,13 +14,14 @@ class Character < ApplicationRecord
   accepts_nested_attributes_for :skills
 
   def step
+    return
     ability_to_move = move # temporary save this for history
 
     History.create!(object: self, action: :step, params: {
                       ability_to_move: ability_to_move,
                       location: location,
-                      base_action: base.action,
-                      base_arrived: base.arrived?
+                      # base_action: base.action,
+                      # base_arrived: base.arrived?
                     })
 
     # TODO: here should go oxygen check as temporary stub for atmospheric
@@ -33,11 +34,11 @@ class Character < ApplicationRecord
     # end
 
     # casual events
-    Actions::Base.new(self).do_action
+    CharacterActions::Base.new(self).do
   end
 
   def self.generate_character(base)
-    obj = create!(name: Faker.name, base: base, skills_attributes: [
+    obj = create!(name: Faker.name, base: base, location: base, skills_attributes: [
                     { skill: Character.roles.keys.sample, value: Random.rand(10) }
                   ])
     History.create!(object: obj, action: :generate_character)

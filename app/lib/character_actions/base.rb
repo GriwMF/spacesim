@@ -1,4 +1,4 @@
-module Actions
+module CharacterActions
   class Base
     def initialize(character)
       @character = character
@@ -10,7 +10,7 @@ module Actions
       actions
     end
 
-    def do_action
+    def do
       case Random.rand(10)
       when (0..5)
         send(available_actions.sample)
@@ -42,7 +42,7 @@ module Actions
       bay = @character.base.bays.sample
       @character.update!(location: bay)
       bay.increment!(:integrity) if bay.integrity < 100
-      History.create!(object: @character, target: bay, action: :check_bay, params: { status: bay.status })
+      History.create!(object: @character, action: :check_bay, params: { status: bay.status, target: bay })
     end
 
     def work
@@ -50,7 +50,7 @@ module Actions
       @character.update!(location: bay)
       system = bay.systems.sample
       system&.work
-      History.create!(object: @character, target: system, action: :work, params: { bay: bay })
+      History.create!(object: @character, action: :work, params: { bay: bay, system: system })
     end
   end
 end

@@ -7,67 +7,49 @@ class Ship < ApplicationRecord
   belongs_to :celestial_object, optional: true
   belongs_to :production, optional: true # target for commerce
 
-  # TODO: use to calculate distance, etc
-  belongs_to :target, optional: true, polymorphic: true
-
   has_many :characters, as: :base
-  has_many :bays, dependent: :destroy
+  has_many :systems, dependent: :destroy, class_name: "Facilities::System"
+  has_many :action_tables, dependent: :destroy
 
-  enum action: [:trade, :exploration]
-
-  def control_bay
-    bays.find_by!(name: 'control')
-  end
-
-  def step # fly
-    bays.find_each(&:step)
-    return set_target unless action # set ship action. Temporary here
-    return unless fly
-
-    if arrived?
-      update!(fly: false)
-      History.create!(object: self, action: :arrived, params: { target: target })
-
-      # most likely personell should do it, but for now it's automatically
-      send "process_#{action}"
+  def take_damage(damage)
+    History.create!(object: self, action: :damage, params: { integrity: integrity, damage: damage })
+    if integrity > damage
+      decrement!(:integrity, damage)
     else
-      fly_to_target
+      History.create!(object: self, action: :system_destroy)
+      destroy!
     end
   end
 
-  def set_target
-    self.action = Random.rand(2)
-    self.fly = true
-    self.progress = 0
-    if trade?
-      self.production = check_stocks || find_material_to_buy
-      self.target = production.factory
-    else
-      self.target = CelestialObject.sample
-    end
+  def step
+    systems.find_each(&:step)
 
+    # no new action for debug
+    process_action # || create_new_action
+  end
+
+  def trade_target
+    check_stocks || find_material_to_buy
+  end
+
+  def add_credits(amount)
+    credits.update!(amount: amount + credits.amount)
+    History.create!(object: self, action: :add_credits, params: { credits: amount, total: amount + credits.amount })
+  end
+
+  def fly_to(target)
+    move_towards(target, calculate_speed)
     save!
-    History.create!(object: self, action: :set_target, params: { production: production, target: target, action: action, by: characters.take })
-  end
-
-  def arrived?
-    distance_to(target) <= WorldDatum::ARRIVED_DISTANCE
   end
 
   private
 
-  def process_exploration
-    amount = credits.amount + 10
-    credits.update!(amount: amount)
-    History.create!(object: self, action: :exploration, params: { credits: amount })
+  def process_action
+    action_tables.last&.step
   end
 
-  def process_trade
-    if target.is_output?
-      target.factory_stock.sell_all_to(self, target.price)
-    else
-      ship.stocks.find_by(material: target.material).sell_all_to(target.factory, target.price)
-    end
+  def create_new_action
+    ('ShipActions::' + %w[Trade Explore].sample).constantize.append_to(self)
   end
 
   def check_stocks
@@ -79,13 +61,8 @@ class Ship < ApplicationRecord
     nil
   end
 
-  def fly_to_target
-    current_speed = speed
-    current_speed *= 2 if fuel.consume(1)
-    move_towards(target, current_speed)
-    save!
-
-    History.create!(object: self, action: :fly_to_target, params: { speed: current_speed, target: target })
+  def calculate_speed
+    fuel.consume(1) ? speed * 2 : speed
   end
 
   def find_material_to_buy

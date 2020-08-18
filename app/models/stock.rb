@@ -5,7 +5,7 @@ class Stock < ApplicationRecord
   def sell_all_to(target, price)
     return if amount.zero?
 
-    requested_amount = [amount, (target.credits.amount / price).round].min
+    requested_amount = [amount, (target.credits.amount / price).truncate].min
     sell(target, requested_amount, price)
   end
 
@@ -47,9 +47,8 @@ class Stock < ApplicationRecord
   def log_sell(buyer, requested_amount, price)
     History.create!(
       object: object,
-      target: buyer,
       action: 'sell',
-      params: { price: price, amount: requested_amount, material: material }
+      params: { buyer: buyer, price: price, amount: requested_amount, material: material }
     )
   end
 end

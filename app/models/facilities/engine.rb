@@ -1,7 +1,7 @@
 module Facilities
   class Engine < System
     def step
-      bay.ship.generate_speed(max_production) if bay.consume(:power, consumption)
+      ship.generate_speed(max_production) if consume(:power)
     end
   end
 end
