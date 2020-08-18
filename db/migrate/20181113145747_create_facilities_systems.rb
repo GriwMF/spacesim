@@ -8,7 +8,7 @@ class CreateFacilitiesSystems < ActiveRecord::Migration[5.2]
       t.integer :oxygen, default: 0
       t.integer :max_oxygen, default: 0
       t.integer :temp, default: 20
-      t.integer :integrity, default: 100
+      t.decimal :integrity, default: 10
       t.integer :humidity, default: 60
       t.integer :max_production
       t.integer :consumption

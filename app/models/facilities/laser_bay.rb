@@ -7,6 +7,10 @@ module Facilities
   # - scatter
   # - shot_range?
   class LaserBay < System
+    def step
+      # recharge, aiming, etc
+    end
+
     def fire(target)
       if consume(:power)
         shot_damage = 20
@@ -24,6 +28,8 @@ module Facilities
 
         target.take_damage(armor_damage)
 
+        return if target.destroyed?
+
         systems = target.systems.sample(max_systems_girth)
 
         loop do
@@ -34,6 +40,8 @@ module Facilities
           damage_left = [damage_left - system_damage, 0].max
           systems.pop.take_damage(system_damage)
         end
+
+        systems.pop.take_damage(damage_left)
       end
     end
   end

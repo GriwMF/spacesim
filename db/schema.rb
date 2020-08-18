@@ -71,7 +71,7 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
     t.integer "oxygen", default: 0
     t.integer "max_oxygen", default: 0
     t.integer "temp", default: 20
-    t.integer "integrity", default: 100
+    t.integer "integrity", default: 10
     t.integer "humidity", default: 60
     t.integer "max_production"
     t.integer "consumption"
@@ -136,17 +136,15 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
   end
 
   create_table "ships", force: :cascade do |t|
-    t.integer "hp"
     t.string "name"
     t.decimal "position_x"
     t.decimal "position_y"
     t.decimal "position_z"
     t.integer "progress", limit: 2, default: 0, null: false
     t.integer "bonus_speed", default: 0, null: false
+    t.integer "integrity", default: 100
     t.integer "speed"
     t.integer "storage"
-    t.integer "energy"
-    t.integer "o2"
     t.boolean "fly"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -1,4 +1,4 @@
-def ship1
+def create_ship
   ship = Ship.create!(position_x: 0, position_y: 0, position_z: 0)
 
   ship.stocks.create!(material: @fuel, amount: 5)
@@ -15,11 +15,11 @@ def ship1
   Facilities::LaserBay.create!(ship: ship, consumption: 3, params: { shot_damage: 20 }, max_power: 20, max_oxygen: 5)
   Facilities::LaserBay.create!(ship: ship, consumption: 3, params: { shot_damage: 20 }, max_power: 20, max_oxygen: 5)
 
-  captain1 = Character.create!(name: Faker.name, base: ship, location: ship)
+  captain = Character.create!(name: Faker.name, base: ship, location: ship)
 end
 
 def create_fight_objects
-  2.times { ship1 }
+  2.times { create_ship }
 end
 
 def create_defaults
