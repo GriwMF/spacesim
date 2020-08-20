@@ -66,6 +66,20 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "spacesim_#{Rails.env}"
 
   config.action_mailer.perform_caching = false
+  config.action_mailer.default_url_options = { host: 'spacycrew.com' }
+
+  ActionMailer::Base.delivery_method = :smtp
+  ActionMailer::Base.smtp_settings = {
+      address: 'smtp.zoho.com',
+      port: 465,
+      user_name: 'no-reply@spacycrew.com',
+      domain: 'spacycrew.com',
+      password: Rails.application.credentials.zoho_mailer[:password],
+      authentication: 'plain',
+      ssl: true,
+      tls: true,
+      enable_starttls_auto: true
+  }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.

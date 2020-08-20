@@ -39,6 +39,20 @@ RailsAdmin.config do |config|
     edit
     delete
     show_in_app
+    member :send_email do
+      only [Blog]
+      pjax { false }
+      controller do
+        proc do
+          User.not_opted_out.where(locale: @object.locale).each do |user|
+            UserMailer.with(user: user, blog_post: @object).blog_email.deliver
+          end
+          flash[:notice] = "Mails have been sent for blog: #{@object.title}."
+
+          redirect_to back_or_index
+        end
+      end
+    end
 
     ## With an audit adapter, you can add:
     # history_index

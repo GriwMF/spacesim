@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1><%= @blog_post.title %></h1>
+    <p>
+      <%= @blog_post.text %>
+      <br>
+    </p>
+
+    <p>Thanks for the subscription and have a great day!</p>
+
+    <h6>
+      If you no longer wish to receive these emails, <%= link_to "unsubscribe", mailkick_unsubscribe_url %>
+    </h6>
+  </body>
+</html>
+
