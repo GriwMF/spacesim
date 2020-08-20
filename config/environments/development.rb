@@ -33,9 +33,22 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
-
+  config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_caching = false
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
+
+  ActionMailer::Base.delivery_method = :smtp
+  ActionMailer::Base.smtp_settings = {
+      address: 'smtp.zoho.com',
+      port: 465,
+      user_name: 'no-reply@spacycrew.com',
+      domain: 'spacycrew.com',
+      password: Rails.application.credentials.zoho_mailer[:password],
+      authentication: 'plain',
+      ssl: true,
+      tls: true,
+      enable_starttls_auto: true
+  }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
