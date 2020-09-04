@@ -7,7 +7,7 @@
     "actioncable": "^5.2.2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "jquery": "^3.4.0",
-    "node-sass": "^4.10.0",
+    "node-sass": "^4.13.1",
     "popper.js": "^1.14.6",
     "postcss-cssnext": "^3.1.0",
     "prop-types": "^15.7.2",
