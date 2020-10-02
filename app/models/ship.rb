@@ -24,8 +24,10 @@ class Ship < ApplicationRecord
   def step
     systems.find_each(&:step)
 
+    characters.find_each(&:step)
+    # process_action should be done by character in control room
     # no new action for debug
-    process_action # || create_new_action
+    # process_action # || create_new_action
   end
 
   def trade_target

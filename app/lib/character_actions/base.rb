@@ -6,7 +6,7 @@ module CharacterActions
 
     def available_actions
       actions = [:eat, :sleep]
-      actions += [:check_bay, :work, :steer] if @character.base_type == 'Ship'
+      actions += [:move, :work] if @character.base_type == 'Ship'
       actions
     end
 
@@ -32,25 +32,17 @@ module CharacterActions
       History.create!(object: @character, action: :sleep, params: { fatigue: @character.fatigue })
     end
 
-    def steer
-      @character.base.increment!(:bonus_speed, 5)
-      @character.update!(skip: 2, location: @character.base.control_bay)
-      History.create!(object: @character, action: :steer)
-    end
-
-    def check_bay
-      bay = @character.base.bays.sample
-      @character.update!(location: bay)
-      bay.increment!(:integrity) if bay.integrity < 100
-      History.create!(object: @character, action: :check_bay, params: { status: bay.status, target: bay })
+    def move
+      system = @character.base.systems.sample
+      @character.update!(location: system)
+      History.create!(object: @character, action: :move, params: { target: system })
     end
 
     def work
-      bay = @character.base.bays.sample
-      @character.update!(location: bay)
-      system = bay.systems.sample
-      system&.work
-      History.create!(object: @character, action: :work, params: { bay: bay, system: system })
+      if @character.location.type == 'control_room'
+        @character.location.ship.action_tables.last&.step
+      end
+      History.create!(object: @character, action: :work, params: { target: @character.location })
     end
   end
 end

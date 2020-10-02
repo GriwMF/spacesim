@@ -5,7 +5,7 @@ module Facilities
     belongs_to :ship
     has_many :characters, as: :location
 
-    def consume(resource)
+    def consume(resource, consumption = self.consumption)
       History.create!(object: self, action: :consume, params: {
           type: type,
           ship_id: ship.id,
