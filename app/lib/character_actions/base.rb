@@ -8,6 +8,7 @@ module CharacterActions
       actions = [:eat, :sleep]
       actions += [:move, :work] if @character.base_type == 'Ship'
       actions
+      [:work]
     end
 
     def do
@@ -39,10 +40,12 @@ module CharacterActions
     end
 
     def work
-      if @character.location.type == 'control_room'
-        @character.location.ship.action_tables.last&.step
+      if @character.location.type == 'Facilities::ControlRoom'
+        History.create!(object: @character, action: :work, params: { target: @character.location.ship.action_tables.last})
+        @character.location.ship.action_tables.last&.step(@character)
+      else
+        History.create!(object: @character, action: :try_to_work)
       end
-      History.create!(object: @character, action: :work, params: { target: @character.location })
     end
   end
 end

@@ -8,19 +8,21 @@ def create_ship
   # tech_bay = ship.bays.create!(name: 'tech', max_power: 20, max_oxygen: 5)
   # weapon_bay = ship.bays.create!(name: 'weapon', max_power: 40, max_oxygen: 5)
 
-  control_bay = Facilities::ControlRoom.create!(ship: ship, max_production: 5, consumption: 1, max_power: 20, max_oxygen: 5)
-  Facilities::Engine.create!(ship: ship, max_production: 5, consumption: 1, max_power: 20, max_oxygen: 5)
-  Facilities::O2Gen.create!(ship: ship, max_production: 5, consumption: 1, max_power: 20, max_oxygen: 5)
-  Facilities::Generator.create!(ship: ship, max_production: 5, consumption: 1, max_power: 20, max_oxygen: 5)
+  control_bay = Facilities::ControlRoom.create!(ship: ship, max_production: 5, consumption: 1, max_power: 20, max_oxygen: 5, power: 10)
+  Facilities::Engine.create!(ship: ship, max_production: 5, consumption: 1, max_power: 20, max_oxygen: 5, power: 10)
+  Facilities::O2Gen.create!(ship: ship, max_production: 5, consumption: 1, max_power: 20, max_oxygen: 5, power: 10)
+  Facilities::Generator.create!(ship: ship, max_production: 5, consumption: 1, max_power: 20, max_oxygen: 5, power: 10)
 
-  Facilities::LaserBay.create!(ship: ship, consumption: 3, params: { shot_damage: 20 }, max_power: 20, max_oxygen: 5)
-  Facilities::LaserBay.create!(ship: ship, consumption: 3, params: { shot_damage: 20 }, max_power: 20, max_oxygen: 5)
+  Facilities::LaserBay.create!(ship: ship, consumption: 3, params: { shot_damage: 20 }, max_power: 20, max_oxygen: 5, power: 10)
+  Facilities::LaserBay.create!(ship: ship, consumption: 3, params: { shot_damage: 20 }, max_power: 20, max_oxygen: 5, power: 10)
 
   captain = Character.create!(name: Faker.name, base: ship, location: control_bay)
 end
 
 def create_fight_objects
   2.times { create_ship }
+  ShipActions::Fight.append_to(Ship.first)
+  ShipActions::Fight.append_to(Ship.last)
 end
 
 def create_defaults

@@ -12,7 +12,7 @@ class Ship < ApplicationRecord
   has_many :action_tables, dependent: :destroy
 
   def take_damage(damage)
-    History.create!(object: self, action: :damage, params: { integrity: integrity, damage: damage })
+    History.create!(object: self, action: :take_damage, params: { integrity: integrity, damage: damage })
     if integrity > damage
       decrement!(:integrity, damage)
     else

@@ -7,10 +7,13 @@ module ShipActions
       super(ship, **attrs)
     end
 
-    def step
-      @ship.systems.where(type: 'Facilities::LaserBay').each do |system|
+    def step(character)
+      systems = @ship.systems.where(type: 'Facilities::LaserBay')
+      total_damage = systems.sum do |system|
         system.fire(@enemy)
       end
+
+      History.create!(object: character, action: :fired, params: { damage: total_damage, systems: systems })
 
       @enemy.persisted?
     end

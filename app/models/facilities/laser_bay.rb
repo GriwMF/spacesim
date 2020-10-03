@@ -24,7 +24,7 @@ module Facilities
         armor_damage = shot_damage * armor_absorption
         armor_damage += armor_damage * scatter_amount
 
-        damage_left = [shot_damage - armor_damage, 0].max
+        active_damage = damage_left = [shot_damage - armor_damage, 0].max
 
         target.take_damage(armor_damage)
 
@@ -42,6 +42,9 @@ module Facilities
         end
 
         systems.pop.take_damage(damage_left)
+
+        # Return total damage for char's report
+        active_damage + armor_damage
       end
     end
   end
