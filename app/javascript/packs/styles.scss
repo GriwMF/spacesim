@@ -1,0 +1,23 @@
+//@import 'src/styles/business-casual.scss';
+//@import "~bootstrap/scss/bootstrap";
+
+@import '../src/scss/style.scss';
+@import '../src/scss/history.scss';
+
+html {
+  scroll-behavior: smooth;
+}
+
+.site-header-inner {
+  justify-content: left;
+}
+
+.errors {
+  color: red;
+}
+
+#locale {
+  float: left;
+  margin-left: 30px;
+  font-size: 18px;
+}

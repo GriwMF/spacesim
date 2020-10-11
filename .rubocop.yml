@@ -1,0 +1,44 @@
+#AllCops:
+#  TargetRubyVersion: 2.5
+#  DisplayCopNames: true
+#  Exclude:
+#  - 'bin/**/*'
+#  - 'vendor/**/*'
+#  - 'node_modules/**/*'
+#  Include:
+#  - '**/*.rake'
+#  - '**/*.gemspec'
+#  - '**/Gemfile'
+#
+#Metrics/MethodLength:
+#  Max: 16
+#
+#Layout/AlignParameters:
+#  EnforcedStyle: with_fixed_indentation
+#
+#Style/Documentation:
+#  Enabled: false
+#
+#Naming/FileName:
+#  Exclude:
+#  - '**/Rakefile'
+#
+#Style/HashSyntax:
+#  Exclude:
+#  - '**/Rakefile'
+#  - '**/*.rake'
+#
+#Style/FrozenStringLiteralComment:
+#  Enabled: false
+
+Metrics/LineLength:
+  Max: 150
+
+#Style/TrailingCommaInArguments:
+#  EnforcedStyleForMultiline: comma
+#
+#Style/TrailingCommaInArrayLiteral:
+#  EnforcedStyleForMultiline: comma
+#
+#Naming/VariableNumber:
+#  EnforcedStyle: snake_case

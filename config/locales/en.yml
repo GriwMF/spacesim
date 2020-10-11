@@ -1,0 +1,69 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   'true': 'foo'
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+en:
+  header:
+    title: Multiplayer space simulation game
+  title: Space lives simulation
+  description: Your character decides to become a technician on a merchant cruiser, and, laboring without sparing himself, earns his first ship. After going a long way to the captain of a starship, he was killed by an explosion, the most reasonable reason of which was that the cleaner did not like the dinner. Or will it be otherwise?
+  learn_more:
+  early_access:
+  bold_features:
+  feature:
+    n1:
+      text: Multiplayer
+      description: To lead a starship you need a lot of people. Real characters, like yours. Everyone has their own ambitions, skills and mood. Try to build a dream team.
+    n2:
+      text: Ship simulation
+      description: Oxygen, energy, crew bedrooms, control room. Each bay performs its function, requires maintenance and can be damaged.
+    n3:
+      text: Real time economy
+      description: All goods are produced by factories and transported by players' ships. Trade and elevate the empire or pirate, caring only about yourself.
+    n4:
+      text: Text-based gameplay
+      description: Do not worry - it just sounds boring. We do not want to sacrifice depth for the shell. Besides, there is no better graphics than the one that our imagination can draw.
+    n5:
+      text: ZPG (zero player game)
+      description: Hard no cheating, griefering, killing novices. Although you can influence the character, he makes the decisions himself. While you are still enjoying an unexpected chain of events.
+    n6:
+      text: Open world
+      description: Entire solar systems without prohibitions and restrictions. Someone bargains, others like piracy, and lazy people sit in the bar. And only zero balance can make them work.
+  news:
+    title: News
+  subscribe:
+    text: Stay in the know
+    description: Subscribe and keep up to date with development and updates. Also, by signing up, you are guaranteed to get early access.
+    placeholder: Your best email...
+    button: Subscribe
+    success: Thank You For Subscribing!
+  support:
+    title: Support
+    language: Русский

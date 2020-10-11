@@ -1,0 +1,11 @@
+.menu-bar {
+  display: flex;
+  list-style: none;
+  justify-content: space-between;
+  width: 50%;
+
+  .selected {
+    background: blueviolet;
+    color: wheat;
+  }
+}
