@@ -42,7 +42,7 @@ Rails.application.configure do
       port: 465,
       user_name: 'no-reply@spacycrew.com',
       domain: 'spacycrew.com',
-      password: Rails.application.credentials.zoho_mailer[:password],
+      # password: Rails.application.credentials.zoho_mailer[:password],
       authentication: 'plain',
       ssl: true,
       tls: true,
