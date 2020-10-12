@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
-  <%= favicon_link_tag %>
+  <head>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= favicon_link_tag %>
 
-  <%= javascript_pack_tag 'application' %>
-  <%= stylesheet_pack_tag 'styles' %>
+    <%= javascript_pack_tag 'application' %>
+    <%= stylesheet_pack_tag 'styles' %>
 
-  <%= render 'partials/google_analytics' if Rails.env.production? %>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="google-site-verification" content="ZB0duh6-XNjRpiJshlL_JGKZvjR6CVDqCbgYFUin-oY">
-  <title>Spacy Crew - <%= t('header.title') %></title>
-  <link rel="alternate" hreflang="x-default" href="http://www.spacycrew.com">
-  <link rel="alternate" hreflang="en" href="http://www.spacycrew.com">
-  <link rel="alternate" hreflang="ru" href="http://www.spacycrew.com/ru">
-  <link rel="canonical" href="<%= "http://www.spacycrew.com#{request.path}" %>">
-  <link href="https://fonts.googleapis.com/css?family=Heebo:400,500,700|Playfair+Display:700" rel="stylesheet">
-  <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
-</head>
+    <%= render 'partials/google_analytics' if Rails.env.production? %>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="ZB0duh6-XNjRpiJshlL_JGKZvjR6CVDqCbgYFUin-oY">
+    <title>Spacy Crew - <%= t('header.title') %></title>
+    <link rel="alternate" hreflang="x-default" href="http://www.spacycrew.com">
+    <link rel="alternate" hreflang="en" href="http://www.spacycrew.com">
+    <link rel="alternate" hreflang="ru" href="http://www.spacycrew.com/ru">
+    <link rel="canonical" href="<%= "http://www.spacycrew.com#{request.path}" %>">
+    <link href="https://fonts.googleapis.com/css?family=Heebo:400,500,700|Playfair+Display:700" rel="stylesheet">
+    <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+  </head>
 
-<body class="is-boxed has-animations">
-  <%= yield %>
-</body>
+  <body class="is-boxed has-animations">
+    <%= yield %>
+  </body>
 </html>
