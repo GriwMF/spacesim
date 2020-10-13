@@ -1,16 +1,7 @@
 <template>
   <div class="grid">
-    <ul>
-      <li v-for="ship in ships" :class="{ active: ship == currentShip }" @click="selectShip(ship)">
-        {{ship.name}}
-      </li>
-    </ul>
-
-    <ul>
-      <li v-for="system in systems">
-        {{system.name}}
-      </li>
-    </ul>
+    <selectable-ship-element :elems="ships" :current-elem="currentShip" :select-elem="selectShip" />
+    <selectable-ship-element :elems="systems" :current-elem="currentSystem" :select-elem="selectSystem" />
 
     <div>
       {{ships}}
@@ -20,18 +11,20 @@
 
 <script>
   import { mapActions, mapMutations, mapState } from 'vuex'
+  import SelectableShipElement from './selectableShipElement'
 
   export default {
     name: 'ships',
+    components: {SelectableShipElement},
     created() {
       this.populateShips();
     },
     methods: {
       ...mapActions(['populateShips']),
-      ...mapMutations(['selectShip'])
+      ...mapMutations(['selectShip', 'selectSystem']),
     },
     computed: {
-      ...mapState(['ships', 'currentShip']),
+      ...mapState(['ships', 'currentShip', 'currentSystem']),
       systems() {
         return this.currentShip ? this.currentShip['systems'] : [];
       }
@@ -45,11 +38,8 @@
     grid-template-columns: 1fr 1fr 3fr;
   }
 
-  li {
-    list-style-type: none;
-  }
 
   .active {
-    background-color: #273C5A;
+    background: linear-gradient(90deg, #FFC0CB 50%, #00FFFF 50%);
   }
 </style>

@@ -12,6 +12,7 @@ export default new Vuex.Store({
     currentFilter: 'All',
     ships: [],
     currentShip: null,
+    currentSystem: null,
   },
   getters: {
     filteredHistories: state => {
@@ -31,10 +32,15 @@ export default new Vuex.Store({
     },
     selectShip (state, ship) {
       state.currentShip = ship;
+      state.currentSystem = state.currentShip['systems'][0];
+    },
+    selectSystem (state, system) {
+      state.currentSystem = system;
     },
     setShips (state, ships) {
       state.ships = ships;
       state.currentShip || (state.currentShip = ships[0]);
+      state.currentSystem || (state.currentSystem = state.currentShip['systems'][0]);
     }
   },
   actions: {
