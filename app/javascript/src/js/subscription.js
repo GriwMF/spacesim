@@ -1,7 +1,7 @@
 import $ from 'jquery'
 
 $(document).ready(function () {
-  $('#subscribe-button').click(function (e) {
+  $('#sub-button').click(function (e) {
     e.preventDefault();
     let email = $('input[name=email]').val();
     let token = $('input[name=authenticity_token]').val();

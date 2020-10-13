@@ -15,4 +15,8 @@ class HomepageController < ApplicationController
     end
     head :ok
   end
+
+  def ship_data
+    render json: Ship.all
+  end
 end

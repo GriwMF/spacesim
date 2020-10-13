@@ -12,5 +12,6 @@ Rails.application.routes.draw do
 
   get '/history', to: 'homepage#history' if Rails.env.development?
   get '/bc', to: 'homepage#bc' if Rails.env.development?
+  get '/ship_data', to: 'homepage#ship_data' if Rails.env.development?
   get '/:locale', to: 'homepage#index', as: :root_with_locale
 end

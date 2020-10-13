@@ -1,5 +1,5 @@
 def create_ship
-  ship = Ship.create!(position_x: 0, position_y: 0, position_z: 0)
+  ship = Ship.create!(name: Faker::Games::ElderScrolls.name, position_x: 0, position_y: 0, position_z: 0)
 
   ship.stocks.create!(material: @fuel, amount: 5)
 

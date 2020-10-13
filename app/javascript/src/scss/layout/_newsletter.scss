@@ -1,18 +1,17 @@
-.newsletter {
-
+.newssub {
     .section-paragraph {
         margin-bottom: 32px;
     }
 }
 
-.newsletter-form {
+.newssub-form {
     max-width: 440px;
     margin: 0 auto;
 }
 
 @include media( '>medium' ) {
 
-    .newsletter {
+    .newssub {
 
         .section-paragraph {
             margin-bottom: 40px;

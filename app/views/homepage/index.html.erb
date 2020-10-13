@@ -337,22 +337,21 @@
       </div>
     </section>
 
-    <section class="newsletter section">
+    <section class="newssub section">
       <div class="container-sm">
-        <div class="newsletter-inner section-inner text-center" id="subscribe">
-          <div class="newsletter-header">
-            <a name="subscribe"></a>
+        <div class="newssub-inner section-inner text-center" id="subscribe">
+          <div class="newssub-header">
             <h2 class="section-title mt-0"><%= t('subscribe.text') %></h2>
             <p class="section-paragraph"><%= t('subscribe.description') %></p>
           </div>
           <div class="errors"></div>
-          <div class="footer-form newsletter-form field field-grouped text-center">
+          <div class="footer-form newssub-form field field-grouped text-center">
             <div class="control control-expanded">
               <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
               <input class="input" type="email" name="email" placeholder="<%= t('subscribe.placeholder') %>">
             </div>
             <div class="control">
-              <a id="subscribe-button" class="button button-primary button-block button-shadow" href="#"><%= t('subscribe.button') %></a>
+              <a id="sub-button" class="button button-primary button-block button-shadow" href="#"><%= t('subscribe.button') %></a>
             </div>
           </div>
         </div>
