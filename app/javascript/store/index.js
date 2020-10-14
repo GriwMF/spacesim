@@ -32,15 +32,23 @@ export default new Vuex.Store({
     },
     selectShip (state, ship) {
       state.currentShip = ship;
-      state.currentSystem = state.currentShip['systems'][0];
+      state.currentSystem = state.currentShip.systems[0];
     },
     selectSystem (state, system) {
       state.currentSystem = system;
     },
     setShips (state, ships) {
       state.ships = ships;
-      state.currentShip || (state.currentShip = ships[0]);
-      state.currentSystem || (state.currentSystem = state.currentShip['systems'][0]);
+
+      // if (!state.ships.find(x => x.id === state.currentShip.id)) state.currentShip = ships[0];
+      // if (!(state.currentShip.systems || []).find(x => x.id === state.currentSystem.id)) state.currentSystem =  state.currentShip.systems[0];
+      if (state.currentShip) {
+        state.currentShip = state.ships.find(x => x.id === state.currentShip.id)
+        state.currentSystem = state.currentShip.systems.find(x => x.id === state.currentSystem.id)
+      } else {
+        state.currentShip = state.ships[0]
+        state.currentSystem = state.currentShip.systems[0]
+      }
     }
   },
   actions: {

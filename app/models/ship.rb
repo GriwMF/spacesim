@@ -11,6 +11,10 @@ class Ship < ApplicationRecord
   has_many :systems, dependent: :destroy, class_name: "Facilities::System"
   has_many :action_tables, dependent: :destroy
 
+  def self.broadcast_ships_info
+    ActionCable.server.broadcast("ship", ActiveModelSerializers::SerializableResource.new(Ship.all).as_json)
+  end
+
   def take_damage(damage)
     History.create!(object: self, action: :take_damage, params: { integrity: integrity, damage: damage })
     if integrity > damage

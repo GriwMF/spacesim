@@ -12,7 +12,10 @@ class HomepageController < ApplicationController
       WorldDatum.step.update!(value: WorldDatum.step_number + 1)
       Factory.find_each(&:step)
       Ship.find_each(&:step)
+
     end
+
+    Ship.broadcast_ships_info
     head :ok
   end
 

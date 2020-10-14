@@ -10,6 +10,7 @@ module Facilities
           type: type,
           ship_id: ship.id,
           resource: resource, amount: consumption, result: send(resource) >= consumption })
+      return ship.consume_power(consumption) if resource == :power
       decrement!(resource, consumption) if send(resource) >= consumption
     end
 

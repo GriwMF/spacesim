@@ -1,6 +1,5 @@
 <template>
   <div>
-    <a href="#" @click.prevent="pingServerGo()">Go!</a>
     <history-filter/>
     <ul>
       <li v-for="history in filteredHistories" :key="history.id">
@@ -43,10 +42,6 @@
       formattedHistory: function (history) {
         return JSON.stringify(history, this.replacer)
       },
-
-      pingServerGo: function () {
-        fetch('http://localhost:3000/bc');
-      }
     }
   }
 </script>

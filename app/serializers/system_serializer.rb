@@ -1,5 +1,5 @@
 class SystemSerializer < ActiveModel::Serializer
-  attributes :id, :name, :integrity
+  attributes :id, :name, :integrity, :power, :max_power, :oxygen, :max_oxygen, :consumption
 
   def name
     object.type.split('::').last

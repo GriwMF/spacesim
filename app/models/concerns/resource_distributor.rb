@@ -6,12 +6,29 @@ module ResourceDistributor
     distribute(amount, :max_oxygen, :oxygen)
   end
 
-  def generate_power(amount)
-    distribute(amount, :max_power, :power)
-  end
-
   def generate_speed(amount)
     increment!(:speed, amount)
+  end
+
+  def consume_power(amount)
+    power_systems = systems.where(type: ['Facilities::Generator', 'Facilities::Accumulator'])
+    power = power_systems.sum(:power)
+    amount_left = amount
+    if amount <= power
+      power_systems.each do |system|
+        consume = [amount_left, system.power].min
+        system.decrement(:power, consume)
+        amount_left -= consume
+      end
+    end
+  end
+
+  def gen_consume_power_upto(amount)
+    not_consumed = amount
+    systems.where(type: 'Facilities::Generator').each do |gen|
+      not_consumed -= gen.consume_upto(not_consumed)
+    end
+    amount - not_consumed
   end
 
   private

@@ -71,7 +71,7 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
     t.integer "oxygen", default: 0
     t.integer "max_oxygen", default: 0
     t.integer "temp", default: 20
-    t.decimal "integrity", default: "10.0"
+    t.decimal "integrity", default: "100.0"
     t.integer "humidity", default: 60
     t.integer "max_production"
     t.integer "consumption"

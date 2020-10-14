@@ -17,8 +17,5 @@ module ShipActions
 
       @enemy.persisted?
     end
-
-    private
-
   end
 end
