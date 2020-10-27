@@ -4,6 +4,7 @@ class CreateFacilitiesSystems < ActiveRecord::Migration[5.2]
       t.references :ship, foreign_key: true
       t.string :type
       t.integer :power, default: 0
+      t.integer :priority, default: 0
       t.integer :max_power, default: 0
       t.integer :oxygen, default: 0
       t.integer :max_oxygen, default: 0
@@ -16,5 +17,7 @@ class CreateFacilitiesSystems < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
+
+    add_index :facilities_systems, %i[priority ship_id type]
   end
 end

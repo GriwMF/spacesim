@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
     t.bigint "ship_id"
     t.string "type"
     t.integer "power", default: 0
+    t.integer "priority", default: 0
     t.integer "max_power", default: 0
     t.integer "oxygen", default: 0
     t.integer "max_oxygen", default: 0
@@ -78,6 +79,7 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
     t.json "params"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["priority", "ship_id", "type"], name: "index_facilities_systems_on_priority_and_ship_id_and_type"
     t.index ["ship_id"], name: "index_facilities_systems_on_ship_id"
   end
 

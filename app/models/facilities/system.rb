@@ -5,6 +5,8 @@ module Facilities
     belongs_to :ship
     has_many :characters, as: :location
 
+    default_scope { order(:priority) }
+
     def consume(resource, consumption = self.consumption)
       History.create!(object: self, action: :consume, params: {
           type: type,
