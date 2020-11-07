@@ -16,8 +16,8 @@
 #Layout/AlignParameters:
 #  EnforcedStyle: with_fixed_indentation
 #
-#Style/Documentation:
-#  Enabled: false
+Style/Documentation:
+  Enabled: false
 #
 #Naming/FileName:
 #  Exclude:

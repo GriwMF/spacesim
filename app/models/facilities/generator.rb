@@ -6,6 +6,7 @@ module Facilities
 
     def step
       update!(power: possible_generation)
+      History.create!(object: self, action: :possible_generation, params: { power: power })
     end
 
     def consume_upto(amount)

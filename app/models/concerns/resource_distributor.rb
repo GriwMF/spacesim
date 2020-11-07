@@ -17,7 +17,7 @@ module ResourceDistributor
     if amount <= power
       power_systems.each do |system|
         consume = [amount_left, system.power].min
-        system.decrement(:power, consume)
+        system.decrement!(:power, consume)
         amount_left -= consume
       end
     end

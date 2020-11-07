@@ -12,6 +12,7 @@ def create_ship
   Facilities::Engine.create!(ship: ship, max_production: 5, consumption: 1, max_power: 20, max_oxygen: 5, power: 10)
   Facilities::O2Gen.create!(ship: ship, max_production: 5, consumption: 1, max_power: 20, max_oxygen: 5, power: 10)
   Facilities::Generator.create!(ship: ship, max_production: 5, consumption: 1, max_power: 20, max_oxygen: 5, power: 10)
+  Facilities::Accumulator.create!(ship: ship, max_power: 20)
 
   Facilities::LaserBay.create!(ship: ship, consumption: 3, params: { shot_damage: 20 }, max_power: 20, max_oxygen: 5, power: 10)
   Facilities::LaserBay.create!(ship: ship, consumption: 3, params: { shot_damage: 20 }, max_power: 20, max_oxygen: 5, power: 10)
@@ -30,8 +31,6 @@ def create_defaults
   sun_p2 = CelestialObject.create!(name: 'Mercury', position_x: -1000, position_y: 100, position_z: 100)
   sun_p3 = CelestialObject.create!(name: 'Venus', position_x: 0, position_y: -100, position_z: -1000)
   castor_p1 = CelestialObject.create!(name: 'Calibre', position_x: -1000, position_y: -1000, position_z: -1000)
-
-
 
   fuel_factory = Factory.create!(name: 'Gas alpha', altitude: 5, celestial_object: sun_p3, speed: 51)
   matery_factory = Factory.create!(name: 'Einstein', altitude: 5, celestial_object: sun_p2, speed: 10)

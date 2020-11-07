@@ -5,7 +5,8 @@ module Facilities
     belongs_to :ship
     has_many :characters, as: :location
 
-    default_scope { order(:priority) }
+    # uncomment to use ordered systems steps
+    # default_scope { order(:priority) }
 
     def consume(resource, consumption = self.consumption)
       History.create!(object: self, action: :consume, params: {
@@ -13,6 +14,7 @@ module Facilities
           ship_id: ship.id,
           resource: resource, amount: consumption, result: send(resource) >= consumption })
       return ship.consume_power(consumption) if resource == :power
+
       decrement!(resource, consumption) if send(resource) >= consumption
     end
 
