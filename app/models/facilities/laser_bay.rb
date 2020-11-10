@@ -11,6 +11,8 @@ module Facilities
       # recharge, aiming, etc
     end
 
+    # temporary here - all shot logic
+    # probably should be moved to ship
     def fire(target)
       return 0 unless consume(:power)
 
@@ -21,6 +23,8 @@ module Facilities
       scatter = 0.25
 
       scatter_amount = Random.rand(scatter * 2) - scatter
+
+      scatter_amount = target.shield.reduce_damage(scatter_amount)
 
       armor_damage = shot_damage * armor_absorption
       armor_damage += armor_damage * scatter_amount

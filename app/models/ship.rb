@@ -15,6 +15,10 @@ class Ship < ApplicationRecord
     ActionCable.server.broadcast("ship", ActiveModelSerializers::SerializableResource.new(Ship.all).as_json)
   end
 
+  def shield
+    systems.find_by(type: :shield)
+  end
+
   def take_damage(damage)
     History.create!(object: self, action: :take_damage, params: { integrity: integrity, damage: damage })
     if integrity > damage

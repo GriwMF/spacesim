@@ -18,6 +18,12 @@ module Facilities
       decrement!(resource, consumption) if send(resource) >= consumption
     end
 
+    def consume_upto(amount, resource = :power)
+      consumed = [amount, power].min
+      decrement!(resource, consumed)
+      consumed
+    end
+
     def take_damage(damage)
       History.create!(object: self, action: :damage, params: {
           type: type,

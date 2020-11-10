@@ -23,8 +23,12 @@ module ResourceDistributor
     end
   end
 
-  def gen_consume_power_upto(amount)
+  def consume_power_upto(amount, accum_included = false)
     not_consumed = amount
+
+    type = 'Facilities::Generator'
+    type = [type, 'Facilities::Accumulator'] if accum_included
+
     systems.where(type: 'Facilities::Generator').each do |gen|
       not_consumed -= gen.consume_upto(not_consumed)
     end
