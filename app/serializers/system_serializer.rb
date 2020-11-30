@@ -5,5 +5,9 @@ class SystemSerializer < ActiveModel::Serializer
     object.type.split('::').last
   end
 
+  def integrity
+    object.integrity * 10
+  end
+
   belongs_to :ship
 end

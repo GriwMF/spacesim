@@ -33,7 +33,7 @@ module Facilities
 
       target.take_damage(armor_damage)
 
-      return if target.destroyed?
+      return 9999 if target.destroyed?
 
       systems = target.systems.sample(max_systems_girth)
 

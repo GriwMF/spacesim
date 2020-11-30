@@ -1,7 +1,7 @@
 module Facilities
   class Generator < System
     def possible_generation
-      max_production * integrity / 100
+      max_production * integrity / 10
     end
 
     def step

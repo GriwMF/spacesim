@@ -16,7 +16,7 @@ class Ship < ApplicationRecord
   end
 
   def shield
-    systems.find_by(type: :shield)
+    systems.find_by(type: 'Facilities::Shield')
   end
 
   def take_damage(damage)
