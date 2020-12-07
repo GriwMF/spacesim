@@ -7,7 +7,7 @@ module Facilities
     def step; end
 
     def reduce_damage(damage)
-      max_possible_reduction = damage * absorption
+      max_possible_reduction = damage * absorption / 100
       reduced = ship.consume_power_upto(max_possible_reduction, true)
       damage - reduced
     end

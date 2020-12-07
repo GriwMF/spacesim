@@ -14,6 +14,7 @@ def create_ship
   Facilities::Generator.create!(ship: ship, max_production: 5, consumption: 1, max_power: 20, max_oxygen: 5, power: 10)
   Facilities::Accumulator.create!(ship: ship, max_power: 20)
   Facilities::Shield.create!(ship: ship, absorption: 100, efficiency: 100)
+  Facilities::Dormitory.create!(ship: ship, max_production: 5, consumption: 1, max_power: 20, max_oxygen: 5, power: 10)
 
   Facilities::LaserBay.create!(ship: ship, consumption: 3, params: { shot_damage: 20 }, max_power: 20, max_oxygen: 5, power: 10)
   Facilities::LaserBay.create!(ship: ship, consumption: 3, params: { shot_damage: 20 }, max_power: 20, max_oxygen: 5, power: 10)
