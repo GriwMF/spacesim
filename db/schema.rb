@@ -99,6 +99,7 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
     t.string "object_type"
     t.bigint "object_id"
     t.text "action"
+    t.boolean "notify"
     t.json "params"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

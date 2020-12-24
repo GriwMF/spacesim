@@ -3,6 +3,7 @@ class CreateHistories < ActiveRecord::Migration[5.2]
     create_table :histories do |t|
       t.references :object, polymorphic: true
       t.text :action
+      t.boolean :notify
       t.json :params
 
       t.timestamps
