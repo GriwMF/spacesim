@@ -7,6 +7,7 @@ class History < ApplicationRecord
   end
 
   def notify_host_user
-    ActionCable.server.broadcast("history", self.action)
+    CharacterChannel.broadcast_to(object, action)
+    # ActionCable.server.broadcast("history", self.action)
   end
 end
