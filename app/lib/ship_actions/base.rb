@@ -1,6 +1,6 @@
 module ShipActions
   class Base
-    def self.append_to(ship, **attrs)
+    def self.append_to(ship, attrs = {})
       action = new(ship, attrs)
 
       ActionTable.create!(params: action.dump, action_type: self, ship: ship)
@@ -10,11 +10,11 @@ module ShipActions
 
     # attrs = { a: 2, b: 3 }
     # => @a = 2; @b = 3
-    def initialize(ship, **attrs)
+    def initialize(ship, attrs = {})
       attrs = attrs.transform_keys { |k| "@#{k}" }
 
       @attrs = attrs.keys
-      attrs.each(&method(:instance_variable_set))
+      attrs.each { |k, v| instance_variable_set(k, v) }
 
       @ship = ship
 

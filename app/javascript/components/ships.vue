@@ -8,8 +8,8 @@
       </div>
     </div>
     <ul class="thoughts">
-      <li v-for="think in thoughts" :key="thoughts.id">
-        {{ think }}
+      <li v-for="event in events" :key="event.id">
+        {{ event }}
       </li>
     </ul>
   </div>
@@ -32,21 +32,23 @@
         received: this.setShips
       })
 
-      cable.subscriptions.create({ channel: 'CharacterChannel', id: 2 }, {
-        received: this.appendThoughts
+      cable.subscriptions.create({ channel: 'JournalChannel', id: 11 }, {
+        received: this.appendEvents
       })
     },
     methods: {
       ...mapActions(['populateShips']),
-      ...mapMutations(['selectShip', 'selectSystem', 'setShips', 'appendThoughts']),
+      ...mapMutations(['selectShip', 'selectSystem', 'setShips', 'appendEvents']),
     },
     computed: {
-      ...mapState(['ships', 'currentShip', 'currentSystem', 'thoughts']),
+      ...mapState(['ships', 'currentShip', 'currentSystem', 'events']),
       systems() {
         return this.currentShip ? this.currentShip['systems'] : [];
       },
       shipInfo() {
-        return Object.keys(this.currentSystem).map((s) => `${s}: ${this.currentSystem[s]}`).join('<br/>')
+        if (this.currentSystem) {
+          return Object.keys(this.currentSystem).map((s) => `${s}: ${this.currentSystem[s]}`).join('<br/>')
+        }
       }
     }
   }

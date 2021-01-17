@@ -11,9 +11,11 @@ module Facilities
       # recharge, aiming, etc
     end
 
+    private
+
     # temporary here - all shot logic
-    # probably should be moved to ship
-    def fire(target)
+    # probably should be moved to taking damage ship
+    def shot(target)
       return 0 unless consume(:power)
 
       shot_damage = 20

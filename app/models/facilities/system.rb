@@ -38,6 +38,14 @@ module Facilities
       end
     end
 
+    def fire(target)
+      raise 'Not a weapon (shot is not implemented)' unless respond_to?(:shot, true)
+
+      name = self.class.to_s.split('::').last
+      damage = shot(target)
+      { name: name, damage: damage }
+    end
+
     def step
       raise 'Not Implemented'
     end
