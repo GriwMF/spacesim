@@ -9,7 +9,7 @@ const debug = process.env.NODE_ENV !== 'production'
 export default new Vuex.Store({
   state: {
     histories: INITIAL_STATE,
-    events: [],
+    events: SHIP_NOTIFICATIONS,
     currentFilter: 'All',
     ships: [],
     currentShip: null,

@@ -98,12 +98,14 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
   create_table "histories", force: :cascade do |t|
     t.string "object_type"
     t.bigint "object_id"
+    t.bigint "ship_id"
     t.text "action"
     t.boolean "notify"
     t.json "params"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["object_type", "object_id"], name: "index_histories_on_object_type_and_object_id"
+    t.index ["ship_id"], name: "index_histories_on_ship_id"
   end
 
   create_table "mailkick_opt_outs", force: :cascade do |t|

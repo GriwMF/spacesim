@@ -1,5 +1,6 @@
 class History < ApplicationRecord
   belongs_to :object, polymorphic: true
+  belongs_to :ship, optional: true
 
   after_save do
     ActionCable.server.broadcast("history", self.to_json)
@@ -7,8 +8,7 @@ class History < ApplicationRecord
   end
 
   def notify_host_ship
-    o = object.respond_to?(:ship) ? object.ship : object
-    JournalChannel.broadcast_to(o, action)
+    JournalChannel.broadcast_to(ship, action)
     # ActionCable.server.broadcast("history", self.action)
   end
 end

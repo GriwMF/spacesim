@@ -32,7 +32,7 @@
         received: this.setShips
       })
 
-      cable.subscriptions.create({ channel: 'JournalChannel', id: 11 }, {
+      cable.subscriptions.create({ channel: 'JournalChannel', id: CURRENT_SHIP_ID }, {
         received: this.appendEvents
       })
     },

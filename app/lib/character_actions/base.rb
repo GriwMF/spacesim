@@ -5,7 +5,7 @@ module CharacterActions
     end
 
     def available_actions
-      actions = [:move, :work] # if @character.base_type == 'Ship'
+      actions = [:move, :work, :repair] # if @character.base_type == 'Ship'
     end
 
     def do
@@ -24,13 +24,13 @@ module CharacterActions
     end
 
     def work
-      case true#@character.location.type
-      when true #'Facilities::ControlRoom'
+      case @character.location.type
+      when 'Facilities::ControlRoom'
         @character.location.ship.action_tables.last&.step(@character)
         History.create!(object: @character, action: :control, params: { target: @character.location.ship.action_tables.last})
       when 'Facilities::Dormitory'
         @character.update!(fatigue: [@character.fatigue - 5, 0].max, skip: 5)
-        History.create!(object: @character, action: :sleep,params: { fatigue: @character.fatigue })
+        History.create!(object: @character, action: :sleep, params: { fatigue: @character.fatigue })
       when 'Facilities::FoodSynthesizer'
         # food = %w(капусту суп борщ салат пиццу шаверму бургер)
         sustenance = Random.rand(1..20)
@@ -38,6 +38,16 @@ module CharacterActions
         History.create!(object: @character, action: :eat, params: { sustenance: sustenance, hunger: @character.hunger })
       else
         History.create!(object: @character, action: :try_to_work, params: { target: @character.location.type, id: @character.location.id })
+      end
+    end
+
+    def repair
+      if @character.location.integrity < 10 && rand < 0.7
+        @character.location.repair
+        History.create!(ship: @character.ship, object: @character, action: :repair, notify: true, params: { location: @character.location.system_name })
+      else
+        History.create!(ship: @character.ship, object: @character, action: :checked, notify: true,
+                        params: { location: @character.location.system_name, integrity: @character.location.integrity })
       end
     end
   end

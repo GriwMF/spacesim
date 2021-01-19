@@ -2,6 +2,7 @@ class CreateHistories < ActiveRecord::Migration[5.2]
   def change
     create_table :histories do |t|
       t.references :object, polymorphic: true
+      t.references :ship
       t.text :action
       t.boolean :notify
       t.json :params

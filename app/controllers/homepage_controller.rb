@@ -8,15 +8,15 @@ class HomepageController < ApplicationController
   end
 
   def bc
-    # ActiveRecord::Base.transaction do
-    #   WorldDatum.step.update!(value: WorldDatum.step_number + 1)
-    #   Factory.find_each(&:step)
-    #   Ship.find_each(&:step)
-    #
-    # end
-    #
-    # Ship.broadcast_ships_info
-    History.find(493).notify_host_ship
+    ActiveRecord::Base.transaction do
+      WorldDatum.step.update!(value: WorldDatum.step_number + 1)
+      Factory.find_each(&:step)
+      Ship.find_each(&:step)
+
+    end
+
+    Ship.broadcast_ships_info
+    # History.find(493).notify_host_ship
     head :ok
   end
 
