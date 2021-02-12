@@ -4,6 +4,7 @@ module Facilities
 
     belongs_to :ship
     has_many :characters, as: :location
+    has_many :facility_todos
 
     # uncomment to use ordered systems steps
     # default_scope { order(:priority) }

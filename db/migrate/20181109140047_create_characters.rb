@@ -1,6 +1,7 @@
 class CreateCharacters < ActiveRecord::Migration[5.2]
   def change
     create_table :characters do |t|
+      t.references :facility_todos, foreign_key: true
       t.string :name
       t.integer :role, limit: 1
       t.references :base, polymorphic: true

@@ -8,7 +8,7 @@ class History < ApplicationRecord
   end
 
   def notify_host_ship
-    JournalChannel.broadcast_to(ship, action)
+    JournalChannel.broadcast_to(object, action)
     # ActionCable.server.broadcast("history", self.action)
   end
 end

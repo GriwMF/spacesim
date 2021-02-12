@@ -24,8 +24,8 @@ end
 
 def create_fight_objects
   2.times { create_ship }
-  ShipActions::Fight.append_to(Ship.first)
-  ShipActions::Fight.append_to(Ship.last)
+  ShipActions::Fight.append_to(Ship.first, enemy: Ship.last)
+  ShipActions::Fight.append_to(Ship.last, enemy: Ship.first)
 end
 
 def create_defaults

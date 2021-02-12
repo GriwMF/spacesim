@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_16_175626) do
+ActiveRecord::Schema.define(version: 2021_02_11_093135) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,15 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
     t.datetime "updated_at", null: false
     t.index ["priority", "ship_id", "type"], name: "index_facilities_systems_on_priority_and_ship_id_and_type"
     t.index ["ship_id"], name: "index_facilities_systems_on_ship_id"
+  end
+
+  create_table "facility_todos", force: :cascade do |t|
+    t.bigint "facilities_systems_id", null: false
+    t.integer "work", limit: 2
+    t.integer "required_personell_count"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["facilities_systems_id"], name: "index_facility_todos_on_facilities_systems_id"
   end
 
   create_table "factories", force: :cascade do |t|
@@ -194,6 +203,7 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
 
   add_foreign_key "action_tables", "ships"
   add_foreign_key "facilities_systems", "ships"
+  add_foreign_key "facility_todos", "facilities_systems", column: "facilities_systems_id"
   add_foreign_key "factories", "celestial_objects"
   add_foreign_key "productions", "factories"
   add_foreign_key "productions", "materials"
