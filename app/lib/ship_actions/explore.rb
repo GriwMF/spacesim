@@ -10,7 +10,7 @@ module ShipActions
       super(ship, attrs)
     end
 
-    def step(character)
+    def step
       if arrived?
         perform_exploration
       else

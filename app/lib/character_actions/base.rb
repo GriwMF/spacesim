@@ -7,7 +7,9 @@ module CharacterActions
     def available_actions
       actions = [:move, :work, :repair] # if @character.base_type == 'Ship'
       # for first demo lets suggest that alarm is on
-      if @character.facility_todo.nil? && (@move_to = FacilityTodo.find_by(character: nil, role: @character.role))
+      #
+      #  TODO: check move to is correct due to hard join request
+      if @character.facility_todo.nil? && (@move_to = FacilityTodo.joins(:characters).find_by(characters: nil, role: @character.role))
         [:move]
       else
         [:work]

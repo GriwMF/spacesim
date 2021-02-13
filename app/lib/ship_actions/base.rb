@@ -28,7 +28,7 @@ module ShipActions
       end
     end
 
-    def step(character = nil)
+    def step
       raise 'Not implemented'
     end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_11_093135) do
+ActiveRecord::Schema.define(version: 2020_01_16_175626) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 2021_02_11_093135) do
   end
 
   create_table "characters", force: :cascade do |t|
+    t.bigint "facility_todos_id"
     t.string "name"
     t.integer "role", limit: 2
     t.string "base_type"
@@ -60,6 +61,7 @@ ActiveRecord::Schema.define(version: 2021_02_11_093135) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["base_type", "base_id"], name: "index_characters_on_base_type_and_base_id"
+    t.index ["facility_todos_id"], name: "index_characters_on_facility_todos_id"
     t.index ["location_type", "location_id"], name: "index_characters_on_location_type_and_location_id"
   end
 
@@ -85,7 +87,7 @@ ActiveRecord::Schema.define(version: 2021_02_11_093135) do
 
   create_table "facility_todos", force: :cascade do |t|
     t.bigint "facilities_systems_id", null: false
-    t.integer "work", limit: 2
+    t.integer "role", limit: 2
     t.integer "required_personell_count"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -107,14 +109,12 @@ ActiveRecord::Schema.define(version: 2021_02_11_093135) do
   create_table "histories", force: :cascade do |t|
     t.string "object_type"
     t.bigint "object_id"
-    t.bigint "ship_id"
     t.text "action"
     t.boolean "notify"
     t.json "params"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["object_type", "object_id"], name: "index_histories_on_object_type_and_object_id"
-    t.index ["ship_id"], name: "index_histories_on_ship_id"
   end
 
   create_table "mailkick_opt_outs", force: :cascade do |t|
@@ -154,12 +154,13 @@ ActiveRecord::Schema.define(version: 2021_02_11_093135) do
     t.decimal "position_x"
     t.decimal "position_y"
     t.decimal "position_z"
+    t.decimal "integrity", default: "100.0"
     t.integer "progress", limit: 2, default: 0, null: false
     t.integer "bonus_speed", default: 0, null: false
-    t.decimal "integrity", default: "100.0"
     t.integer "speed"
     t.integer "storage"
     t.boolean "fly"
+    t.boolean "alarm"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -202,6 +203,7 @@ ActiveRecord::Schema.define(version: 2021_02_11_093135) do
   end
 
   add_foreign_key "action_tables", "ships"
+  add_foreign_key "characters", "facility_todos", column: "facility_todos_id"
   add_foreign_key "facilities_systems", "ships"
   add_foreign_key "facility_todos", "facilities_systems", column: "facilities_systems_id"
   add_foreign_key "factories", "celestial_objects"

@@ -1,7 +1,7 @@
 class Character < ApplicationRecord
   belongs_to :location, polymorphic: true
   belongs_to :base, polymorphic: true
-  belongs_to :facility_todo
+  belongs_to :facility_todo, optional: true
   has_many :skills
 
   # has corresponding skills with same names

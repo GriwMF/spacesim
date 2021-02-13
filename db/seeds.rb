@@ -17,6 +17,7 @@ Facilities::System.delete_all
 ActionTable.delete_all
 Ship.delete_all
 History.delete_all
+FacilityTodo.delete_all
 
 WorldDatum.create!(key: :step, value: 0)
 

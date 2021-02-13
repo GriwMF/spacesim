@@ -1,7 +1,7 @@
 <script>
   const INITIAL_STATE = <%= @histories.to_json.html_safe %>;
   const CURRENT_SHIP_ID = 4
-  const SHIP_NOTIFICATIONS = <%= History.where(ship_id: 4, notify: true).map(&:action).to_json.html_safe %>;
+  const SHIP_NOTIFICATIONS = <%= History.where(object_id: 19, notify: true).map(&:action).to_json.html_safe %>;
 </script>
 
 <%= javascript_pack_tag 'hello_vue' %>

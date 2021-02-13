@@ -10,10 +10,10 @@ class ActionTable < ApplicationRecord
     self.priority += 1
   end
 
-  def step(character)
+  def step
     action = action_type.constantize.new(ship, params)
 
-    if action.step(character)
+    if action.step
       update!(params: action.dump)
     else
       destroy!
