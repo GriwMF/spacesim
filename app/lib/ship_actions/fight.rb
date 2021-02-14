@@ -6,6 +6,7 @@ module ShipActions
       # no need - it's setted in seeds
       # in real life shuold be set in control room
 
+      attrs[:initialized] ||= false
       super(ship, **attrs)
     end
 
