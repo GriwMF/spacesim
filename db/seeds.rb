@@ -13,11 +13,11 @@ Material.delete_all
 Factory.delete_all
 CelestialObject.delete_all
 Character.delete_all
+FacilityTodo.delete_all
 Facilities::System.delete_all
 ActionTable.delete_all
 Ship.delete_all
 History.delete_all
-FacilityTodo.delete_all
 
 WorldDatum.create!(key: :step, value: 0)
 

@@ -31,16 +31,16 @@ module ShipActions
 
     def make_preparations
       @ship.systems.where(type: 'Facilities::LaserBay').each do |system|
-        system.facility_todos.where(role: :gunner).first_or_create
+        system.facility_todos.where(role: :gunner).first_or_create!
       end
 
       @ship.systems.where(type: 'Facilities::ControlBay').each do |system|
-        system.facility_todos.where(role: :captain).first_or_create
-        system.facility_todos.where(role: :pilot).first_or_create
+        system.facility_todos.where(role: :captain).first_or_create!
+        system.facility_todos.where(role: :pilot).first_or_create!
       end
 
       @ship.systems.where(type: 'Facilities::Engine').each do |system|
-        system.facility_todos.where(role: :mechanic).first_or_create
+        system.facility_todos.where(role: :mechanic).first_or_create!
       end
 
       @initialized = true

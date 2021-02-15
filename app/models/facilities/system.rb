@@ -4,7 +4,7 @@ module Facilities
 
     belongs_to :ship
     has_many :characters, as: :location
-    has_many :facility_todos, foreign_key: :facilities_systems_id
+    has_many :facility_todos, foreign_key: :facilities_system_id, dependent: :destroy
 
     # uncomment to use ordered systems steps
     # default_scope { order(:priority) }
