@@ -9,7 +9,7 @@ module CharacterActions
       # for first demo lets suggest that alarm is on
       #
       #  TODO: check move to is correct due to hard join request
-      if @character.facility_todo.nil? && (@move_to = FacilityTodo.joins(:characters).find_by(characters: nil, role: @character.role))
+      if @character.facility_todo.nil? && (@move_to = FacilityTodo.looking_for(@character.role))
         [:move]
       else
         [:work]

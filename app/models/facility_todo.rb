@@ -5,4 +5,8 @@ class FacilityTodo < ApplicationRecord
   has_many :characters
 
   enum role: [:captain, :pilot, :mechanic, :gunner, :soldier]
+
+  def self.looking_for(role)
+    joins(:characters).find_by(characters: nil, role: role)
+  end
 end
