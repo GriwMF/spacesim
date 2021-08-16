@@ -16,6 +16,7 @@ class HomepageController < ApplicationController
     end
 
     Ship.broadcast_ships_info
+    # History.find(493).notify_host_ship
     head :ok
   end
 

@@ -1,10 +1,17 @@
 <template>
-  <div class="grid">
-    <selectable-ship-element :elems="ships" :current-elem="currentShip" :select-elem="selectShip" />
-    <selectable-ship-element :elems="systems" :current-elem="currentSystem" :select-elem="selectSystem" />
+  <div>
+    <div class="grid">
+      <selectable-ship-element :elems="ships" :current-elem="currentShip" :select-elem="selectShip" />
+      <selectable-ship-element :elems="systems" :current-elem="currentSystem" :select-elem="selectSystem" />
 
-    <div v-html="shipInfo" class="info">
+      <div v-html="shipInfo" class="info">
+      </div>
     </div>
+    <ul class="thoughts">
+      <li v-for="event in events" :key="event.id">
+        {{ event }}
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -21,21 +28,27 @@
 
       let cable = createConsumer('ws://localhost:3000/cable');
 
-      cable.subscriptions.create('ShipChannel', {
+      cable.subscriptions.create({channel: 'ShipChannel'}, {
         received: this.setShips
+      })
+
+      cable.subscriptions.create({ channel: 'JournalChannel', id: CURRENT_SHIP_ID }, {
+        received: this.appendEvents
       })
     },
     methods: {
       ...mapActions(['populateShips']),
-      ...mapMutations(['selectShip', 'selectSystem', 'setShips']),
+      ...mapMutations(['selectShip', 'selectSystem', 'setShips', 'appendEvents']),
     },
     computed: {
-      ...mapState(['ships', 'currentShip', 'currentSystem']),
+      ...mapState(['ships', 'currentShip', 'currentSystem', 'events']),
       systems() {
         return this.currentShip ? this.currentShip['systems'] : [];
       },
       shipInfo() {
-        return Object.keys(this.currentSystem).map((s) => `${s}: ${this.currentSystem[s]}`).join('<br/>')
+        if (this.currentSystem) {
+          return Object.keys(this.currentSystem).map((s) => `${s}: ${this.currentSystem[s]}`).join('<br/>')
+        }
       }
     }
   }

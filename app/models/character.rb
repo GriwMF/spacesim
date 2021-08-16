@@ -1,10 +1,11 @@
 class Character < ApplicationRecord
   belongs_to :location, polymorphic: true
   belongs_to :base, polymorphic: true
+  belongs_to :facility_todo, optional: true
   has_many :skills
 
   # has corresponding skills with same names
-  enum role: [:captain, :pilot, :mechanic, :soldier]
+  enum role: [:captain, :pilot, :mechanic, :gunner, :soldier]
   enum skip_reason: [:sleeping]
 
   before_save :clamp_attributes
@@ -34,6 +35,10 @@ class Character < ApplicationRecord
 
     # casual events
     CharacterActions::Base.new(self).do
+  end
+
+  def capable_jobs
+
   end
 
   def self.generate_character(base)

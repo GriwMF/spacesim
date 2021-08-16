@@ -9,6 +9,7 @@ const debug = process.env.NODE_ENV !== 'production'
 export default new Vuex.Store({
   state: {
     histories: INITIAL_STATE,
+    events: SHIP_NOTIFICATIONS,
     currentFilter: 'All',
     ships: [],
     currentShip: null,
@@ -26,6 +27,10 @@ export default new Vuex.Store({
   mutations: {
     appendHistory (state, histories) {
       state.histories = [...state.histories, JSON.parse(histories)];
+    },
+    appendEvents (state, event) {
+      console.log(event)
+      state.events = [...state.events, event];
     },
     setFilter (state, filter) {
       state.currentFilter = filter;

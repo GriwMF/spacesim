@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
   end
 
   create_table "characters", force: :cascade do |t|
+    t.bigint "facility_todo_id"
     t.string "name"
     t.integer "role", limit: 2
     t.string "base_type"
@@ -60,6 +61,7 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["base_type", "base_id"], name: "index_characters_on_base_type_and_base_id"
+    t.index ["facility_todo_id"], name: "index_characters_on_facility_todo_id"
     t.index ["location_type", "location_id"], name: "index_characters_on_location_type_and_location_id"
   end
 
@@ -81,6 +83,15 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
     t.datetime "updated_at", null: false
     t.index ["priority", "ship_id", "type"], name: "index_facilities_systems_on_priority_and_ship_id_and_type"
     t.index ["ship_id"], name: "index_facilities_systems_on_ship_id"
+  end
+
+  create_table "facility_todos", force: :cascade do |t|
+    t.bigint "facilities_system_id"
+    t.integer "role", limit: 2
+    t.integer "required_personell_count"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["facilities_system_id"], name: "index_facility_todos_on_facilities_system_id"
   end
 
   create_table "factories", force: :cascade do |t|
@@ -143,12 +154,13 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
     t.decimal "position_x"
     t.decimal "position_y"
     t.decimal "position_z"
+    t.decimal "integrity", default: "100.0"
     t.integer "progress", limit: 2, default: 0, null: false
     t.integer "bonus_speed", default: 0, null: false
-    t.decimal "integrity", default: "100.0"
     t.integer "speed"
     t.integer "storage"
     t.boolean "fly"
+    t.boolean "alarm"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -191,7 +203,9 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
   end
 
   add_foreign_key "action_tables", "ships"
+  add_foreign_key "characters", "facility_todos"
   add_foreign_key "facilities_systems", "ships"
+  add_foreign_key "facility_todos", "facilities_systems"
   add_foreign_key "factories", "celestial_objects"
   add_foreign_key "productions", "factories"
   add_foreign_key "productions", "materials"

@@ -33,9 +33,7 @@ class Ship < ApplicationRecord
     systems.find_each(&:step)
 
     characters.find_each(&:step)
-    # process_action should be done by character in control room
-    # no new action for debug
-    # process_action # || create_new_action
+
   end
 
   def trade_target
@@ -53,14 +51,6 @@ class Ship < ApplicationRecord
   end
 
   private
-
-  def process_action
-    action_tables.last&.step
-  end
-
-  def create_new_action
-    ('ShipActions::' + %w[Trade Explore].sample).constantize.append_to(self)
-  end
 
   def check_stocks
     stocks.where.not(id: credits.id).each do |mat|

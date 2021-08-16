@@ -4,6 +4,7 @@ module Facilities
 
     belongs_to :ship
     has_many :characters, as: :location
+    has_many :facility_todos, foreign_key: :facilities_system_id, dependent: :destroy
 
     # uncomment to use ordered systems steps
     # default_scope { order(:priority) }
@@ -32,10 +33,23 @@ module Facilities
       if integrity > damage
         decrement!(:integrity, damage)
       else
-        History.create!(object: self, action: :system_destroy, params: {          type: type,
-                                                                                  ship_id: ship.id})
+        History.create!(object: self, action: :system_destroy, params: { type: type,
+                                                                         ship_id: ship.id })
         destroy!
       end
+    end
+
+    def repair
+      repaired = [0.1, 10 - integrity].min
+      update!(integrity: integrity + repaired)
+    end
+
+    def fire(target)
+      raise 'Not a weapon (shot is not implemented)' unless respond_to?(:shot, true)
+
+      name = system_name
+      damage = shot(target)
+      { name: name, damage: damage }
     end
 
     def step
@@ -51,6 +65,10 @@ module Facilities
         max_production: max_production,
         consumption: consumption
       }
+    end
+
+    def system_name
+      self.class.to_s.split('::').last
     end
   end
 end
