@@ -49,7 +49,7 @@ module Facilities
       end
 
       systems.pop.take_damage(damage_left)
-      p "111111111111111"
+      p "app/models/facilities/laser_bay.rb:"
       p active_damage + armor_damage
       # Return total damage for char's report
       active_damage + armor_damage
