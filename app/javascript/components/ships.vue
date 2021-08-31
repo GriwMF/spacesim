@@ -12,17 +12,21 @@
         {{ event }}
       </li>
     </ul>
+
+    <br/><br/><hr/>
+    <ship :ship-data="currentShip" />
   </div>
 </template>
 
 <script>
   import { mapActions, mapMutations, mapState } from 'vuex'
-  import SelectableShipElement from './selectableShipElement'
+  import selectableShipElement from './selectableShipElement'
+  import ship from './ship'
   import { createConsumer } from '@rails/actioncable'
 
   export default {
     name: 'ships',
-    components: {SelectableShipElement},
+    components: {selectableShipElement, ship},
     created() {
       this.populateShips();
 
