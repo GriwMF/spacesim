@@ -1,8 +1,8 @@
 <template>
   <div>
-<!--    {{systemData.name}}-->
-    <img src="https://i.pinimg.com/originals/ef/bb/5e/efbb5e3a929ed16d584e2bfb46614b70.jpg">
-    <div class="system-hp" :style="elemColors(90)"></div>
+<!--    {{systemData.name}}  -->
+    <img :src="`assets/ships/systems/${systemData.name}.png`" :alt="systemData.name">
+    <div class="system-hp" :style="elemColors(systemData.integrity)"></div>
   </div>
 </template>
 
@@ -33,6 +33,7 @@
   img {
     width: 25px;
     height: 20px;
+    background-color: white;
   }
 
   .system-hp {

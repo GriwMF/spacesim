@@ -2,25 +2,30 @@
   <div class="ship">
     <img src="assets/ships/a.png" :style="style" @click="imgClick">
     <div class="ship-systems">
-      <ship-system :system-data="shipData.systems[0]"></ship-system>
-      <ship-system :system-data="shipData.systems[0]"></ship-system>
-      <ship-system :system-data="shipData.systems[0]"></ship-system>
-      <ship-system :system-data="shipData.systems[0]"></ship-system>
-      <ship-system :system-data="shipData.systems[0]"></ship-system>
-      <ship-system :system-data="shipData.systems[0]"></ship-system>
-      <ship-system :system-data="shipData.systems[0]"></ship-system>
+
+      <ship-system v-for="systemData in systemsData" :system-data="systemData"></ship-system>
+<!--      <ship-system :system-data="shipData.systems[0]"></ship-system>-->
+<!--      <ship-system :system-data="shipData.systems[0]"></ship-system>-->
+<!--      <ship-system :system-data="shipData.systems[0]"></ship-system>-->
+<!--      <ship-system :system-data="shipData.systems[0]"></ship-system>-->
+<!--      <ship-system :system-data="shipData.systems[0]"></ship-system>-->
     </div>
   </div>
 </template>
 
 <script>
   import shipSystem from './shipSystem'
+  import _ from 'lodash'
+
   export default {
     name: "ship",
-    components: {shipSystem},
+    components: { shipSystem },
     computed: {
       elemList() {
         return _.orderBy(this.elems, 'id', 'desc');
+      },
+      systemsData () {
+        return this.shipData?.systems;
       },
       style() {
         return {
@@ -34,18 +39,18 @@
       }
     },
     methods: {
-      elemColors(elem) {
-        const hpColor = '#6E1E1E';
-        const bgColor = '#333';
-        const integrity = elem.integrity;
-        let color = "#7487A3";
-
-        if (elem == this.currentElem) color = "#d2d2d4";
-        return {
-          background: "linear-gradient(90deg, " + hpColor + " " + integrity + "%, " + bgColor + " " + integrity + "% " + (100 - integrity) + "%)",
-          color
-        }
-      },
+      // elemColors(elem) {
+      //   const hpColor = '#6E1E1E';
+      //   const bgColor = '#333';
+      //   const integrity = elem.integrity;
+      //   let color = "#7487A3";
+      //
+      //   if (elem == this.currentElem) color = "#d2d2d4";
+      //   return {
+      //     background: "linear-gradient(90deg, " + hpColor + " " + integrity + "%, " + bgColor + " " + integrity + "% " + (100 - integrity) + "%)",
+      //     color
+      //   }
+      // },
       imgClick() {
         this.deg += 10;
       }

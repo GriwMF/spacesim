@@ -22,7 +22,11 @@ export default new Vuex.Store({
 
     filters: state => {
       return ['All', ...new Set(state.histories.map(history => { return history.object_type }))]
-    }
+    },
+
+    shipsStatusHtml: state => {
+      return undefined;
+    },
   },
   mutations: {
     appendHistory (state, histories) {

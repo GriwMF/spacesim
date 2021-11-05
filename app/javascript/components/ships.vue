@@ -1,25 +1,34 @@
 <template>
   <div>
-    <div class="grid">
+    <div class="grid" style="display: none">
       <selectable-ship-element :elems="ships" :current-elem="currentShip" :select-elem="selectShip" />
       <selectable-ship-element :elems="systems" :current-elem="currentSystem" :select-elem="selectSystem" />
 
       <div v-html="shipInfo" class="info">
       </div>
     </div>
+
+    <br/><br/><hr/>
+    <div class="ships-battle-view">
+      <ship :ship-data="currentShip" />
+      <ship :ship-data="currentShip" />
+    </div>
+
+    <div class="ships-status-popup" v-html="shipsStatusHtml">
+      foozxx
+    </div>
+
     <ul class="thoughts">
       <li v-for="event in events" :key="event.id">
         {{ event }}
       </li>
     </ul>
 
-    <br/><br/><hr/>
-    <ship :ship-data="currentShip" />
   </div>
 </template>
 
 <script>
-  import { mapActions, mapMutations, mapState } from 'vuex'
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
   import selectableShipElement from './selectableShipElement'
   import ship from './ship'
   import { createConsumer } from '@rails/actioncable'
@@ -46,6 +55,10 @@
     },
     computed: {
       ...mapState(['ships', 'currentShip', 'currentSystem', 'events']),
+      ...mapGetters([
+        // проксирует в this.count доступ к store.state.count
+        'shipsStatusHtml'
+      ]),
       systems() {
         return this.currentShip ? this.currentShip['systems'] : [];
       },
@@ -66,5 +79,23 @@
 
   .info {
     padding: 0 10px;
+  }
+
+  .ships-battle-view {
+    margin: auto;
+    width: 80%;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .ships-status-popup {
+    margin: auto;
+    width: 200px;
+    /*display: flex;*/
+    /*justify-content: space-around;*/
+    position: relative;
+    top: -50px;
+    border: #F9425F 1px solid;
+    background-color: #adb5bd;
   }
 </style>
