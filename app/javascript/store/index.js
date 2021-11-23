@@ -11,6 +11,7 @@ export default new Vuex.Store({
     histories: INITIAL_STATE,
     events: SHIP_NOTIFICATIONS,
     currentFilter: 'All',
+    hoveredStatusHtml: null,
     ships: [],
     currentShip: null,
     currentSystem: null,
@@ -24,8 +25,8 @@ export default new Vuex.Store({
       return ['All', ...new Set(state.histories.map(history => { return history.object_type }))]
     },
 
-    shipsStatusHtml: state => {
-      return undefined;
+    hoveredStatusHtml: state => {
+      return state.hoveredStatusHtml;
     },
   },
   mutations: {

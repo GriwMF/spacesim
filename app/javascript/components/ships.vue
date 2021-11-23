@@ -14,9 +14,7 @@
       <ship :ship-data="currentShip" />
     </div>
 
-    <div class="ships-status-popup" v-html="shipsStatusHtml">
-      foozxx
-    </div>
+    <div class="ships-status-popup" v-html="hoveredStatusHtml"></div>
 
     <ul class="thoughts">
       <li v-for="event in events" :key="event.id">
@@ -57,7 +55,7 @@ import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
       ...mapState(['ships', 'currentShip', 'currentSystem', 'events']),
       ...mapGetters([
         // проксирует в this.count доступ к store.state.count
-        'shipsStatusHtml'
+        'hoveredStatusHtml'
       ]),
       systems() {
         return this.currentShip ? this.currentShip['systems'] : [];
