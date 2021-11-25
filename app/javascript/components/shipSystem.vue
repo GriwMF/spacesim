@@ -1,14 +1,18 @@
 <template>
-  <div>
-<!--    {{systemData.name}}  -->
+  <div @mouseover="this.setPopup" @mouseleave="this.clearPopup" :class="{active}" class="outer-div">
     <img :src="`assets/ships/systems/${systemData.name}.png`" :alt="systemData.name">
     <div class="system-hp" :style="elemColors(systemData.integrity)"></div>
   </div>
 </template>
 
 <script>
+  import { mapMutations } from 'vuex'
+
   export default {
     name: "shipSystem",
+    data() {
+      return { active: false };
+    },
     computed: {
 
     },
@@ -23,7 +27,16 @@
           background: "linear-gradient(90deg, " + hpColor + " " + integrity + "%, " + bgColor + " " + integrity + "% " + (100 - integrity) + "%)",
           color
         }
-      }
+      },
+      setPopup() {
+        this.active = true;
+        this.setHoveredStatusHtml(Object.keys(this.systemData).map((s) => `${s}: ${this.systemData[s]}`).join('<br/>'));
+      },
+      clearPopup() {
+        this.active = false;
+        this.setHoveredStatusHtml('');
+      },
+      ...mapMutations(['setHoveredStatusHtml']),
     },
     props: ['systemData'],
   }
@@ -33,7 +46,15 @@
   img {
     width: 25px;
     height: 20px;
-    background-color: white;
+    background-color: var(--system-bg-color);
+  }
+
+  .outer-div {
+    border: 1px solid transparent;
+  }
+
+  .outer-div.active {
+    border: 1px solid var(--system-active-color);
   }
 
   .system-hp {

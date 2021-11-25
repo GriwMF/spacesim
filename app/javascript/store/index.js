@@ -40,6 +40,9 @@ export default new Vuex.Store({
     setFilter (state, filter) {
       state.currentFilter = filter;
     },
+    setHoveredStatusHtml(state, html) {
+      state.hoveredStatusHtml = html;
+    },
     selectShip (state, ship) {
       state.currentShip = ship;
       state.currentSystem = state.currentShip.systems[0];

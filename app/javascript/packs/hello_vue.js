@@ -10,6 +10,7 @@ import store from '../store'
 import App from '../components/app.vue'
 import router from '../config/router'
 import lodash from 'lodash';
+import './variables.css'
 
 window._ = lodash;
 

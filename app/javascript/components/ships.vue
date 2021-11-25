@@ -9,12 +9,16 @@
     </div>
 
     <br/><br/><hr/>
+
+<!--    !!!!!!!!!!!!!!!!!!!-->
     <div class="ships-battle-view">
       <ship :ship-data="currentShip" />
       <ship :ship-data="currentShip" />
     </div>
 
-    <div class="ships-status-popup" v-html="hoveredStatusHtml"></div>
+    <div class="centered-wrapper">
+      <div class="ships-status-popup" :class="popupClass" v-html="this.hoveredStatusHtml"></div>
+    </div>
 
     <ul class="thoughts">
       <li v-for="event in events" :key="event.id">
@@ -57,6 +61,11 @@ import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
         // проксирует в this.count доступ к store.state.count
         'hoveredStatusHtml'
       ]),
+      popupClass() {
+        return {
+          'popup-active': this.hoveredStatusHtml?.length > 0,
+        }
+      },
       systems() {
         return this.currentShip ? this.currentShip['systems'] : [];
       },
@@ -86,14 +95,34 @@ import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
     justify-content: space-around;
   }
 
+  .centered-wrapper {
+    position: absolute;
+    /*justify-content: center;*/
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+  }
+
   .ships-status-popup {
     margin: auto;
-    width: 200px;
+    width: 220px;
+    height: 300px;
+    padding: 10px;
     /*display: flex;*/
     /*justify-content: space-around;*/
     position: relative;
-    top: -50px;
-    border: #F9425F 1px solid;
-    background-color: #adb5bd;
+    top: -300px;
+    border: var(--system-active-color) 1px solid;
+    /*background-color: #adb5bd;*/
+    background-color: var(--popup-bg-color);
+    /*visibility: hidden;*/
+    opacity: 0;
+    transition: opacity .3s;
+  }
+
+
+  .ships-status-popup.popup-active {
+    opacity: 1;
   }
 </style>
