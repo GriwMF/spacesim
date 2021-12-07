@@ -18,7 +18,7 @@ class History < ApplicationRecord
     when 'took_damage'
       "Ship #{object.name} took #{params['damage']} damage"
     when 'fired'
-      "Ship #{ship.name} hit #{object.name} for #{params['damage']} points with #{params['shots_done'].size} shot(s)"
+      "Ship #{object.name} hit #{params['ship']['name']} for #{params['damage']} points with #{params['shots_done'].size} shot(s)"
     else
       action
     end

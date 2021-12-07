@@ -162,6 +162,7 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
     t.integer "speed"
     t.integer "storage"
     t.boolean "fly"
+    t.boolean "killed", default: false, null: false
     t.boolean "alarm"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

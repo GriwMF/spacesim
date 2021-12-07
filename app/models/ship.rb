@@ -3,6 +3,8 @@ class Ship < ApplicationRecord
   include HasPositionVector
   include ResourceDistributor
 
+  default_scope { where(killed: false) }
+
   belongs_to :solar_system, optional: true
   belongs_to :celestial_object, optional: true
   belongs_to :production, optional: true # target for commerce
@@ -11,6 +13,7 @@ class Ship < ApplicationRecord
   has_many :systems, dependent: :destroy, class_name: "Facilities::System"
   has_many :action_tables, dependent: :destroy
 
+  # TODO: on killed nullify action table
   def self.broadcast_ships_info
     ActionCable.server.broadcast("ship", ActiveModelSerializers::SerializableResource.new(Ship.all).as_json)
   end
@@ -25,7 +28,7 @@ class Ship < ApplicationRecord
       decrement!(:integrity, damage)
     else
       History.create!(object: self, action: :system_destroy)
-      destroy!
+      update!(killed: true)
     end
   end
 
@@ -33,7 +36,6 @@ class Ship < ApplicationRecord
     systems.find_each(&:step)
 
     characters.find_each(&:step)
-
   end
 
   def trade_target

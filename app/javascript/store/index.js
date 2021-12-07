@@ -28,6 +28,13 @@ export default new Vuex.Store({
     hoveredStatusHtml: state => {
       return state.hoveredStatusHtml;
     },
+
+    enemyShip: state => {
+      if (state.currentShip) {
+        return state.ships?.find(e => e.id !== state.currentShip.id);
+      }
+      return null;
+    },
   },
   mutations: {
     appendHistory (state, histories) {

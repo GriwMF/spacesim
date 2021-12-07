@@ -11,6 +11,7 @@ class CreateShips < ActiveRecord::Migration[5.2]
       t.integer :speed
       t.integer :storage
       t.boolean :fly
+      t.boolean :killed, default: false, null: false
       t.boolean :alarm
 
       t.timestamps

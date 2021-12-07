@@ -21,10 +21,10 @@ module ShipActions
       total_damage = shots.sum { |s| s[:damage] }
       shots_done = shots.tally
 
-      History.create!(ship: @enemy, object: @ship, action: :fired, notify: true, params: { damage: total_damage, systems: systems, shots_done: shots_done })
-      History.create!(ship: @ship, object: @enemy, action: :took_damage, notify: true, params: { damage: total_damage, systems: systems, shots_done: shots_done })
+      History.create!(object: @ship, action: :fired, notify: true, params: { damage: total_damage, systems: systems, shots_done: shots_done, ship: @enemy })
+      History.create!(object: @enemy, action: :took_damage, notify: true, params: { damage: total_damage, systems: systems, shots_done: shots_done, ship: @ship })
 
-      @enemy.persisted?
+      !@enemy.killed?
     end
 
     private

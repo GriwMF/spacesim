@@ -1,8 +1,10 @@
 <template>
   <div class="ship">
+    <div v-if="shipData">
+      {{ shipData.name }}
+    </div>
     <img src="assets/ships/a.png" :style="style" @click="imgClick">
     <div class="ship-systems">
-
       <ship-system v-for="systemData in systemsData" :system-data="systemData" :key="systemData.id"></ship-system>
 <!--      <ship-system :system-data="shipData.systems[0]"></ship-system>-->
 <!--      <ship-system :system-data="shipData.systems[0]"></ship-system>-->

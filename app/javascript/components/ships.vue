@@ -13,14 +13,14 @@
 <!--    !!!!!!!!!!!!!!!!!!!-->
     <div class="ships-battle-view">
       <ship :ship-data="currentShip" />
-      <ship :ship-data="currentShip" />
+      <ship :ship-data="enemyShip" />
     </div>
 
     <div class="centered-wrapper">
       <div class="ships-status-popup" :class="popupClass" v-html="this.hoveredStatusHtml"></div>
     </div>
 
-    <ul class="thoughts">
+    <ul class="events">
       <li v-for="event in events" :key="event.id">
         {{ event }}
       </li>
@@ -34,7 +34,6 @@ import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
   import selectableShipElement from './selectableShipElement'
   import ship from './ship'
   import { createConsumer } from '@rails/actioncable'
-
   export default {
     name: 'ships',
     components: {selectableShipElement, ship},
@@ -43,7 +42,7 @@ import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 
       let cable = createConsumer('ws://localhost:3000/cable');
 
-      cable.subscriptions.create({channel: 'ShipChannel'}, {
+      cable.subscriptions.create({ channel: 'ShipChannel' }, {
         received: this.setShips
       })
 
@@ -59,7 +58,8 @@ import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
       ...mapState(['ships', 'currentShip', 'currentSystem', 'events']),
       ...mapGetters([
         // проксирует в this.count доступ к store.state.count
-        'hoveredStatusHtml'
+        'hoveredStatusHtml',
+        'enemyShip',
       ]),
       popupClass() {
         return {
@@ -97,6 +97,7 @@ import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 
   .centered-wrapper {
     position: absolute;
+    visibility: hidden;
     /*justify-content: center;*/
     margin-left: auto;
     margin-right: auto;
@@ -105,7 +106,9 @@ import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
   }
 
   .ships-status-popup {
+    visibility: visible;
     margin: auto;
+    z-index: -1;
     width: 220px;
     height: 300px;
     padding: 10px;
@@ -120,7 +123,6 @@ import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
     opacity: 0;
     transition: opacity .3s;
   }
-
 
   .ships-status-popup.popup-active {
     opacity: 1;
