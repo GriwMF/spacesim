@@ -13,7 +13,6 @@ class Ship < ApplicationRecord
   has_many :systems, dependent: :destroy, class_name: "Facilities::System"
   has_many :action_tables, dependent: :destroy
 
-  # TODO: on killed nullify action table
   def self.broadcast_ships_info
     ActionCable.server.broadcast("ship", ActiveModelSerializers::SerializableResource.new(Ship.all).as_json)
   end
@@ -22,12 +21,13 @@ class Ship < ApplicationRecord
     systems.find_by(type: 'Facilities::Shield')
   end
 
+  # TODO: on killed nullify action table
   def take_damage(damage)
     History.create!(object: self, action: :take_damage, params: { integrity: integrity, damage: damage })
     if integrity > damage
       decrement!(:integrity, damage)
     else
-      History.create!(object: self, action: :system_destroy)
+      History.create!(object: self, action: :system_destroy, notify: true)
       update!(killed: true)
     end
   end

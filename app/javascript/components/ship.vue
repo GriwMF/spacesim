@@ -2,6 +2,7 @@
   <div class="ship">
     <div v-if="shipData">
       {{ shipData.name }}
+      {{ shipData.current_action }}
     </div>
     <img src="assets/ships/a.png" :style="style" @click="imgClick">
     <div class="ship-systems">

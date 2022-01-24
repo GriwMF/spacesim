@@ -4,11 +4,12 @@ module ShipActions
     def self.append_to(ship, **attrs)
       attrs = { target: ship.trade_target }
 
-      super(ship, attrs)
+      super(ship, attrs) if attrs[:target]
     end
 
     def step
       if arrived?
+        History.create_notification(@ship, :perform_deal)
         perform_deal
       else
         ShipActions::Fly.append_to(@ship, target: @target.factory)

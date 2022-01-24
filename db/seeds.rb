@@ -26,4 +26,5 @@ WorldDatum.create!(key: :step, value: 0)
 Material.create!(name: 'weapon components', weigth: 80, base_price: 2000)
 @credit = Material.create!(name: 'credit', weigth: 0, base_price: 1)
 
-create_fight_objects
+# create_fight_objects
+2.times { create_ship }

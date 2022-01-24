@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="grid" style="display: none">
+    <div class="grid" >
       <selectable-ship-element :elems="ships" :current-elem="currentShip" :select-elem="selectShip" />
       <selectable-ship-element :elems="systems" :current-elem="currentSystem" :select-elem="selectSystem" />
 
@@ -9,11 +9,17 @@
     </div>
 
     <br/><br/><hr/>
-
+    <ul>
+      <li>{{ currentShip.name }}</li>
+      <li>{{ currentShip.integrity }}</li>
+      <li>{{ currentShip.credits }}</li>
+      <li>{{ currentShip.current_action }}</li>
+    </ul>
+    <br/><br/><hr/>
 <!--    !!!!!!!!!!!!!!!!!!!-->
     <div class="ships-battle-view">
       <ship :ship-data="currentShip" />
-      <ship :ship-data="enemyShip" />
+<!--      <ship :ship-data="enemyShip" />-->
     </div>
 
     <div class="centered-wrapper">

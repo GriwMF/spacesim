@@ -45,10 +45,20 @@ class Stock < ApplicationRecord
   end
 
   def log_sell(buyer, requested_amount, price)
-    History.create!(
-      object: object,
-      action: 'sell',
-      params: { buyer: buyer, price: price, amount: requested_amount, material: material }
-    )
+    if buyer.is_a?(Ship)
+      History.create_notification(
+        buyer,
+        'bought',
+        { price: price, amount: requested_amount, material: material, seller: object.name }
+      )
+    end
+    
+    if object.is_a?(Ship)
+      History.create_notification(
+        object,
+        'sold',
+        { price: price, amount: requested_amount, material: material, buyer: buyer.name }
+      )
+    end
   end
 end
