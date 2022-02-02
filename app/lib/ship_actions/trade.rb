@@ -4,7 +4,11 @@ module ShipActions
     def self.append_to(ship, **attrs)
       attrs = { target: ship.trade_target }
 
-      super(ship, attrs) if attrs[:target]
+      if attrs[:target]
+        super(ship, attrs)
+      else
+        History.create_notification(ship, :trading_fail_no_target)
+      end
     end
 
     def step

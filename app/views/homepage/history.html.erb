@@ -1,5 +1,6 @@
 <script>
   const INITIAL_STATE = <%= @histories.to_json.html_safe %>;
+  const FACTORIES = <%= ActiveModelSerializers::SerializableResource.new(Factory.all).to_json.html_safe %>;
   const CURRENT_SHIP_ID = <%= Ship.last.id %>;
   const SHIP_NOTIFICATIONS = <%= History.where(object_id: Ship.last.id, notify: true).map(&:action_description).to_json.html_safe %>;
 </script>

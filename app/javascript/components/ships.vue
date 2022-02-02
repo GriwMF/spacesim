@@ -9,11 +9,11 @@
     </div>
 
     <br/><br/><hr/>
-    <ul>
-      <li>{{ currentShip.name }}</li>
-      <li>{{ currentShip.integrity }}</li>
-      <li>{{ currentShip.credits }}</li>
-      <li>{{ currentShip.current_action }}</li>
+    <ul v-if="currentShip">
+      <li>name: {{ currentShip.name }}</li>
+      <li>integrity: {{ currentShip.integrity }}</li>
+      <li>credits: {{ currentShip.credits }}</li>
+      <li>current_action: {{ currentShip.current_action }}</li>
     </ul>
     <br/><br/><hr/>
 <!--    !!!!!!!!!!!!!!!!!!!-->
@@ -27,8 +27,10 @@
     </div>
 
     <ul class="events">
-      <li v-for="event in events" :key="event.id">
-        {{ event }}
+      <li v-for="event in currentShipHistory" :key="event.id">
+        {{ event.id }}
+        ->
+        {{ event.action_description }}
       </li>
     </ul>
 
@@ -45,6 +47,7 @@ import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
     components: {selectableShipElement, ship},
     created() {
       this.populateShips();
+      console.log(this.factories);
 
       let cable = createConsumer('ws://localhost:3000/cable');
 
@@ -52,20 +55,26 @@ import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
         received: this.setShips
       })
 
+      cable.subscriptions.create({ channel: 'HistoryChannel' }, {
+        received: this.appendHistory
+      })
+
+      // outdated, replaced with history ^
       cable.subscriptions.create({ channel: 'JournalChannel', id: CURRENT_SHIP_ID }, {
         received: this.appendEvents
       })
     },
     methods: {
       ...mapActions(['populateShips']),
-      ...mapMutations(['selectShip', 'selectSystem', 'setShips', 'appendEvents']),
+      ...mapMutations(['selectShip', 'selectSystem', 'setShips', 'appendEvents', 'appendHistory']),
     },
     computed: {
-      ...mapState(['ships', 'currentShip', 'currentSystem', 'events']),
+      ...mapState(['ships', 'currentShip', 'currentSystem', 'factories']),
       ...mapGetters([
         // проксирует в this.count доступ к store.state.count
         'hoveredStatusHtml',
         'enemyShip',
+        'currentShipHistory',
       ]),
       popupClass() {
         return {

@@ -96,14 +96,14 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
 
   create_table "factories", force: :cascade do |t|
     t.string "name"
+    t.decimal "position_x"
+    t.decimal "position_y"
+    t.decimal "position_z"
     t.integer "speed", limit: 2
-    t.integer "altitude"
     t.integer "progress", limit: 2, default: 0, null: false
     t.integer "storage"
-    t.bigint "celestial_object_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["celestial_object_id"], name: "index_factories_on_celestial_object_id"
   end
 
   create_table "histories", force: :cascade do |t|
@@ -209,7 +209,6 @@ ActiveRecord::Schema.define(version: 2020_01_16_175626) do
   add_foreign_key "characters", "facility_todos"
   add_foreign_key "facilities_systems", "ships"
   add_foreign_key "facility_todos", "facilities_systems"
-  add_foreign_key "factories", "celestial_objects"
   add_foreign_key "histories", "ships"
   add_foreign_key "productions", "factories"
   add_foreign_key "productions", "materials"

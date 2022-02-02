@@ -4,7 +4,7 @@ class HomepageController < ApplicationController
   end
 
   def history
-    @histories = History.all
+    @histories = ActiveModelSerializers::SerializableResource.new(History.all)
   end
 
   def bc

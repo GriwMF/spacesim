@@ -5,7 +5,7 @@ module ShipActions
 
       ActionTable.create!(params: action.dump, action_type: self, ship: ship)
 
-      History.create!(object: ship, action: :append_action, params: { action_type: self.to_s })
+      History.create!(object: ship, action: :append_action, notify: true, params: { action_type: self.to_s })
     end
 
     # attrs = { a: 2, b: 3 }

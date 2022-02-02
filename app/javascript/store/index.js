@@ -9,7 +9,8 @@ const debug = process.env.NODE_ENV !== 'production'
 export default new Vuex.Store({
   state: {
     histories: INITIAL_STATE,
-    events: SHIP_NOTIFICATIONS,
+    events: SHIP_NOTIFICATIONS, // outdated in favor of history
+    factories: FACTORIES,
     currentFilter: 'All',
     hoveredStatusHtml: null,
     ships: [],
@@ -34,6 +35,13 @@ export default new Vuex.Store({
         return state.ships?.find(e => e.id !== state.currentShip.id);
       }
       return null;
+    },
+
+    currentShipHistory: state => {
+      if (!state.currentShip) return [] ;
+
+      return state.histories.slice(0).reverse()
+        .filter(h => h.notify === true && h.object_type === 'Ship' && h.object_id === state.currentShip.id)
     },
   },
   mutations: {
